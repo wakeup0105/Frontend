@@ -27,9 +27,17 @@
 
 /*로그인 없이 접근할 때*/
 .nologinaccess {
-  margin-left:3%;
   text-decoration: underline;
   font-size: 15px;
+  cursor: pointer; /* 마우스 커서를 포인터로 변경 */
+  padding: 2px 4px; /* 박스 효과를 위해 약간의 패딩 추가 */
+}
+
+.nologinaccess:hover {
+  color: rgb(76, 139, 168); /* 마우스를 올렸을 때 글자 색을 변경 */
+  text-decoration: none; /* 밑줄 제거 */
+  background-color: lightblue; /* 배경색을 연한 파랑색으로 변경 */
+  border-radius: 4px; /* 모서리를 둥글게 */
 }
 
 /*같이 일오나 볼래요? 메인 타이틀*/
@@ -109,16 +117,44 @@
   margin-left:2%;
 }
 
-.find{
+.find {
   font-size: 14px;
   text-decoration: underline;
+  cursor: pointer; /* 마우스 커서를 포인터로 변경 */
+  padding: 2px 4px; /* 박스 효과를 위해 약간의 패딩 추가 */
 }
 
-.generate{
+.find:hover {
+  color: rgb(76, 139, 168); /* 마우스를 올렸을 때 글자 색을 변경 */
+  text-decoration: none; /* 밑줄 제거 */
+  background-color: lightblue; /* 배경색을 연한 파랑색으로 변경 */
+  border-radius: 4px; /* 모서리를 둥글게 */
+}
+
+.generate {
   font-size: 14px;
   text-decoration: underline;
+  cursor: pointer; /* 마우스 커서를 포인터로 변경 */
+  padding: 2px 4px; /* 박스 효과를 위해 약간의 패딩 추가 */
 }
+
+.generate:hover {
+  color: rgb(76, 139, 168); /* 마우스를 올렸을 때 글자 색을 변경 */
+  text-decoration: none; /* 밑줄 제거 */
+  background-color: lightblue; /* 배경색을 연한 파랑색으로 변경 */
+  border-radius: 4px; /* 모서리를 둥글게 */
+
+}
+
 
 .dummy-line {
   border-bottom: 1px solid #0f0e0e;
 }
+
+.rule{
+  margin-left:4%;
+  font-size: 15px;
+}
+
+
+

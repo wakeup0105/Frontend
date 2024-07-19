@@ -1,6 +1,21 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom';
 
-export default function Login(){
+export default function Login() {
+    const navigate = useNavigate();
+  
+    const handleFindAccount = () => {
+      navigate('/signfind');
+    };
+  
+    const handleCreateAccount = () => {
+      navigate('/signup');
+    };
+
+    const handleUnsignAccessAccount = () => {
+        navigate('/unsignup');
+    };
+
     return (
         <div className = "page">
             {/*title Wrap*/}
@@ -8,9 +23,10 @@ export default function Login(){
                 같이 일오나 볼래요?
             </div>
             <br/>
-            <div className = "nologinaccess">
-                로그인 없이 참여할래요
+            <div className = "account">
+                <span className = "nologinaccess"  onClick={handleUnsignAccessAccount}>로그인 없이 참여할래요</span>
             </div>
+            
             {/*content Wrap - 이메일 입력 */}
             <div className = "contentWrap">
                 <div className = "inputWrap">
@@ -26,11 +42,11 @@ export default function Login(){
             <br/>
 
             <div className = "account">
-                <span className="find">계정찾기</span>
+                <span className="generate" onClick={handleCreateAccount}>계정생성</span>                
                 <span>&nbsp;</span>
                 <span>&nbsp;</span>
                 <span>&nbsp;</span>
-                <span className="generate">계정생성</span>
+                <span className="find"  onClick={handleFindAccount}>계정찾기</span>
             </div>
 
             <br></br>
