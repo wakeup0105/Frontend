@@ -1,28 +1,176 @@
-/*페이지 전체*/
-.page { 
-  position : absolute ;
-  top:10%;
-  bottom : 10%;
-  width: 100% ;
-  max-width : 500px;
-  padding: 0 20px;
+/*profile page*/
+
+.profile-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between; /* 세로로 각 부분 간의 공간을 동일하게 분배 */
+  background: 
+  linear-gradient(to bottom, #96C720, #618F15),
+  url('./image/back.jpg') no-repeat center center; /* 이미지 경로와 반복 설정 */
+  background-size: cover; /* 이미지를 요소 크기에 맞게 조정 */  border-radius: 40px; /* 모서리를 둥글게 설정 */
+  padding: 20px; /* 내부 여백을 추가 */
+  color: white; /* 텍스트 색상 변경 */
+  margin-top: 20px; /* 위쪽에 20px의 마진 추가 */
+}
 
 
-  left:50%;
-  transform : translate(-50%,0);
+.top-section {
+  display:flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
 
-  background: linear-gradient(to bottom, #a8e6cf, #dee6de);
+.top-right{
+  margin-top: 100px;
+  margin-right: 100px;
+}
+
+.top-left{
+  margin-top: 50px;
+  margin-left:60px;
+  position: relative; /* 상대 위치 지정 */
+}
+
+.top-left img{
+  max-width: 600px; /* 원하는 최대 너비 */
+  max-height: 200px; /* 원하는 최대 높이 */
+  width: auto; /* 비율 유지하여 너비 조정 */
+  height: auto; /* 비율 유지하여 높이 조정 */
+}
+.icon-button img {
+  max-height: 70px; /* 원하는 최대 높이 */
+  height: auto; /* 비율 유지하여 높이 조정 */
+}
+
+
+.icons {
+  display: flex; 
+}
+.jam-button img {
+  max-width: 200px; /* jam 이미지의 최대 너비 */
+  max-height: 90px; /* jam 이미지의 최대 높이 */
+}
+.icon-button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  transition: transform 150ms ease, box-shadow 150ms ease;
+}
+.icon-button:active {
+  transform: scale(0.8);
+}
+
+.center-image {
+  max-width: 400px; 
+  max-height: 250px; 
+  width: auto; 
+  height: auto; 
+  margin: 40px 0;
+}
+
+.bottom-buttons {
+  display: flex;
+  gap: 70px;
+}
+
+
+.button {
+  border: none;
+  cursor: pointer;
+  background-color: transparent;
+  padding: 0; 
+  transition: transform 150ms ease, box-shadow 150ms ease;
+}
+
+.button:active {
+  transform: scale(0.8);
+}
+
+.button img {
+  width: 95%;
+  height: 95%;
+  display: block;
+}
+
+.button.small {
+  margin-top: 20px;
+  width: 150px; /* 원하는 크기로 설정 */
+  height: 100px; /* 원하는 크기로 설정 */
+}
+
+.button:hover {
+  background-color: transparent; /* 이미지가 있기 때문에 배경색 투명으로 설정 */
+}
+
+.nickname-container {
+  position: absolute; 
+  top: 45%; 
+  left: 17.5%; 
+  transform: translate(-50%, -50%); 
+  color: white; 
+  font-size: 24px; 
+  font-weight: bold; 
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); 
+  white-space: nowrap; 
+  overflow: hidden; 
+  text-overflow: ellipsis; 
+  max-width: 25%; 
+  box-sizing: border-box; 
+}
+
+.nickname-container:hover .nickname-tooltip {
+  visibility: visible;
+  opacity: 1;
+}
+
+.nickname-tooltip {
+  visibility: hidden;
+  opacity: 0;
+  position: absolute;
+  bottom: 10%; 
+  left: 50%; 
+  transform: translateX(-50%);
+  background-color: white;
+  color: white;
+  text-align: center;
+  padding: 5px 10px;
+  border-radius: 10px;
+  transition: opacity 0.3s;
+  font-size: 16px; 
+}
+
+
+
+/*main page*/
+.page {
+  position: absolute;
+  top: 10%;
+  bottom: 10%;
+  width: 100%;
+  max-width: 500px;
+  padding: 0 10px;
+
+  left: 50%;
+  transform: translate(-50%, 0);
+
+  background: 
+    linear-gradient(to bottom, #96C720, #618F15),
+    url('./image/back.jpg') no-repeat center center; /* 이미지 경로와 반복 설정 */
+  background-size: cover; /* 이미지를 요소 크기에 맞게 조정 */  border-radius: 40px; /* 모서리를 둥글게 설정 */
+
 
   border-radius: 20px;
-  border: 3px solid rgb(87, 84, 84);
+  border: 5px solid rgb(87, 84, 84);
 
-  overflow : hidden;
+  overflow: hidden;
 
   display: flex;
   flex-direction: column;
-  
-  box-shadow: 20px 20px 40px rgba(0, 0, 0, 0.2); 
-  
+  justify-content: space-between;
+
+  box-shadow: 20px 20px 40px rgba(0, 0, 0, 0.2);
 }
 
 /*로그인 없이 접근할 때*/
@@ -31,6 +179,7 @@
   font-size: 15px;
   cursor: pointer; /* 마우스 커서를 포인터로 변경 */
   padding: 2px 4px; /* 박스 효과를 위해 약간의 패딩 추가 */
+  transition: color 0.3s ease, background-color 0.3s ease, text-decoration 0.3s ease; /* 트랜지션 추가 */
 }
 
 .nologinaccess:hover {
@@ -44,7 +193,7 @@
 .titleWrap {
   margin-top: 10%;
   margin-left:3%;
-  font-size: 25px;
+  font-size: 30px;
   font-weight: 900;
   color: #262626;
 
@@ -54,7 +203,6 @@
 .contentWrap{
   margin-top : 26px;
   flex: 1;
-  
 }
 
 /*인풋 박스*/ 
@@ -69,12 +217,12 @@
 .inputWrap {
 
   display:flex;
-  border-radius: 10px;
+  border-radius: 15px;
   padding: 16px;
   margin-top:10px;
-  background-color: white;
-  border: 1px solid #e2e0c0;
-
+  background-color: #253b08;
+  border: 1px solid #253b08;
+  align-items: center; 
 }
 
 /*인풋 박스 클릭 시*/
@@ -90,38 +238,48 @@
   height: 17px;
   font-size: 14px;
   font-weight: 400;
+  background-color: #253b08;
+  color:white
+
 }
 
 .input::placeholder {
-  color: #999; /* 텍스트 색상 */
-  opacity: 0.9; /* 투명도 (0부터 1까지, 1이 완전 불투명) */
+  color: white; /* 텍스트 색상 */
+  opacity: 0.8; /* 투명도 (0부터 1까지, 1이 완전 불투명) */
 }
+
 
 
 .bottomButton{
-  width:100%;
+  position:absolute;
+  left:20%;
+  bottom:20px;
+  width:60%;
   height:48px;
   border:none;
-  font-weight: 700;
-  background-color: #14575c;
+  font-weight: bold;
+  background-color: #253b08;
   border-radius: 64px;
   color:white;
   cursor:pointer;
+  transition: transform 150ms ease, box-shadow 150ms ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.bottomButton:hover {
-  background-color: #0e3f43;
+.bottomButton:active {
+    transform: scale(0.95);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
 }
 
 .account{
   margin-left:2%;
 }
-
 .find {
   font-size: 14px;
   text-decoration: underline;
   cursor: pointer; /* 마우스 커서를 포인터로 변경 */
   padding: 2px 4px; /* 박스 효과를 위해 약간의 패딩 추가 */
+  transition: color 0.3s ease, background-color 0.3s ease, text-decoration 0.3s ease; /* 트랜지션 추가 */
 }
 
 .find:hover {
@@ -136,6 +294,7 @@
   text-decoration: underline;
   cursor: pointer; /* 마우스 커서를 포인터로 변경 */
   padding: 2px 4px; /* 박스 효과를 위해 약간의 패딩 추가 */
+  transition: color 0.3s ease, background-color 0.3s ease, text-decoration 0.3s ease; /* 트랜지션 추가 */
 }
 
 .generate:hover {
@@ -143,18 +302,175 @@
   text-decoration: none; /* 밑줄 제거 */
   background-color: lightblue; /* 배경색을 연한 파랑색으로 변경 */
   border-radius: 4px; /* 모서리를 둥글게 */
-
 }
 
-
-.dummy-line {
-  border-bottom: 1px solid #0f0e0e;
-}
 
 .rule{
   margin-left:4%;
   font-size: 15px;
 }
 
+.verify {
+  width: 25px;
+  height: 25px;
+  border-radius: 30px;
+  background: url('/src/image/verify.jpg') no-repeat center center;
+  background-size: cover;
+  cursor: pointer;
+  transition: transform 150ms ease;
+}
+
+.verify:active {
+  transform: scale(0.95);
+}
+
+
+/* 소셜로그인 css */
+
+@import url('//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css');
+* {
+  padding: 0px;
+  margin: 0px;
+}
+
+ ul {
+   margin: 40px 90px;
+   position: relative;
+   display: flex;
+   transform-style: preserve-3d;
+}
+ul li {
+  position: relative;
+  list-style: none;
+  width: 60px;
+  height: 60px;
+  margin: 0px 25px;
+}
+ul li:before{
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: -5px;
+  width: 100%;
+  height: 10px;
+  background: #245c2c;
+  transform-origin: top;
+  transform: skewX(-41deg);
+}
+
+ul li:after{
+  content: '';
+  position: absolute;
+  top:5px;
+  left: -9px;
+  width: 9px;
+  height: 100%;
+  background: #245c2c;
+  transform: skewY(-49deg);
+}
+ul li span{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex !important;
+  background: #245c2c;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  font-size: 30px !important;
+  transition: 1.5s ease-out;
+}
+ul li:hover span {
+  z-index: 1000;
+  transition: .3s;
+  color: #fff;
+  box-shadow: -1px 1px 1px rgba(0, 0, 0, .5);
+}
+ul li:hover span:nth-child(5){
+  transform: translate(40px, -40px);
+  opacity: 1;
+}
+ul li:hover span:nth-child(4){
+  transform: translate(30px, -30px);
+  opacity: .8;
+}
+ul li:hover span:nth-child(3){
+  transform: translate(20px, -20px);
+  opacity: .6;
+}
+ul li:hover span:nth-child(2){
+  transform: translate(10px, -10px);
+  opacity: .4;
+}ul li:hover span:nth-child(1){
+  transform: translate(0px, 0px);
+  opacity: .2;
+}
+ul li:nth-child(1):hover span{
+  background: #52E19F !important;
+}
+ul li:nth-child(2):hover span{
+  background: #1220b5 !important;
+}
+ul li:nth-child(3):hover span{
+  background :#56515c !important;
+}
+
+/* 화면전환 애니메이션 */
+.fade-enter {
+  opacity: 0;
+}
+.fade-enter-active {
+  opacity: 1;
+  transition: opacity 300ms ease-in-out;
+}
+.fade-exit {
+  opacity: 1;
+}
+.fade-exit-active {
+  opacity: 0;
+  transition: opacity 300ms ease-in-out;
+}
+
+
+/* 이용약관, 개인정보처리방침 modal창 구현 */
+
+.modal {
+  display: none;
+  position: fixed;
+  /*z-index값이 높을수록 앞에 표시됨.-> 모달 창이 다른 콘텐츠 위에 표시되도록*/
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  /*모달 창의 내용이 창을 초과할 경우 스크롤 바를 추가하여 스크롤할 수 있도록 합니다.*/
+  overflow: auto;
+  background-color: rgba(139, 132, 133, 0.9); /* Adjusting the background color transparency */
+  /*모달 창이 나타날 때 fadeIn 애니메이션을 0.5초 동안 적용합니다.*/
+  animation: fadeIn 0.5s;
+}
+
+.modal-content {
+  background-color: white;
+  margin: 5% auto; /* 페이지의 중앙에 배치 */
+  padding: 20px;
+  width: 90%;
+  max-width: 750px; /* 최대 너비 설정 */
+  max-height: 90%; /* 최대 높이 설정 */
+  overflow: auto;
+  border-radius: 10px;
+  animation: fadeIn 0.5s; 
+}
+
+@keyframes fadeIn {
+  from {
+      opacity: 0;
+  }
+  to {
+      opacity: 1;
+  }
+}
 
 

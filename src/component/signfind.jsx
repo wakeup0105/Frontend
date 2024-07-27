@@ -1,65 +1,41 @@
 import React from 'react'
-import { useNavigate } from 'react-router-dom';
 
-export default function Login() {
-    const navigate = useNavigate();
-  
-    const handleFindAccount = () => {
-      navigate('/signfind');
-    };
-  
-    const handleCreateAccount = () => {
-      navigate('/signup');
-    };
-
-    const handleUnsignAccessAccount = () => {
-        navigate('/unsignup');
-    };
-
+//계정찾기
+export default function Signfind()
+{
     return (
-        <div className = "page">
-            {/*title Wrap*/}
-            <div className = "titleWrap">
-                같이 일오나 볼래요?
+        <div className="page">
+            <div className='titleWrap'>
+                계정찾기
             </div>
-            <br/>
-            <div className = "account">
-                <span className = "nologinaccess"  onClick={handleUnsignAccessAccount}>로그인 없이 참여할래요</span>
+            <div style={{paddingLeft:15, paddingTop:10, fontSize:15}}>
+                잃어버린 계정을 찾습니다.
             </div>
-            
-            {/*content Wrap - 이메일 입력 */}
+
             <div className = "contentWrap">
-                <div className = "inputWrap">
-                    <input className="input" placeholder='이메일 혹은 전화번호'/>
-                </div>
-        
-            <div className = "contentWrap">
+                {/*content Wrap - 이메일 입력 */}
                 <div className="inputWrap">
-                    <input type="password" className="input" placeholder='비밀번호'/>
+                    <input className="input" placeholder="이메일 혹은 전화번호" />
+                    <button className="verify"></button>
                 </div>
+                {/*content Wrap - 인증 번호 입력 */}
+                <div className = "contentWrap">
+                    <div className = "inputWrap">
+                            <input className="input" placeholder='인증번호'/>
+                    </div>
+                </div>
+                
+                <div>
+                    <br/>
+                    <button className='bottomButton'>
+                        다음
+                    </button>
+                </div>
+
             </div>
 
-            <br/>
-
-            <div className = "account">
-                <span className="generate" onClick={handleCreateAccount}>계정생성</span>                <span>&nbsp;</span>
-                <span>&nbsp;</span>
-                <span>&nbsp;</span>
-                <span className="find"  onClick={handleFindAccount}>계정찾기</span>
-            </div>
-
-            <br></br>
-            <div class="dummy-line"></div>
-            
-            <div>
-                <br/>
-                <button className='bottomButton'>
-                    로그인
-                </button>
-            </div>
-            
-            </div>
         </div>
+        
     
     )
 }
