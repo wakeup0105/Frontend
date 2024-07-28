@@ -44,7 +44,7 @@ body {
   border-radius: 20px; /* 모서리를 둥글게 설정 */
   margin-left: 10%; /* 왼쪽 마진 */
   margin-right: 10%; /* 오른쪽 마진 */
-  margin-top: 3%;
+  margin-top: 1%;
 }
 
 .Left-Box, .Right-Box {
@@ -82,7 +82,7 @@ body {
 
 .icon {
   display: flex; /* 버튼들을 가로로 나란히 배치 */
-  gap: 10px; /* 버튼 사이의 간격 */
+  gap: 3px; /* 버튼 사이의 간격 */
 }
 
 .imagecenter{ /*이미지를 센터에 두게 함*/
@@ -90,6 +90,8 @@ body {
   margin-left: auto; 
   margin-right: auto;
 }
+
+
 
 /*========================================================= */
 

@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
 import '../index.css';
-import main from '../image/main.png';
 import health from '../image/health.png';
 import ring1 from '../image/ring1.png';
 import setting from '../image/setting.png';
@@ -9,16 +8,32 @@ import character1 from '../image/character1.png';
 import character2 from '../image/character2.png';
 import memark1 from '../image/15memark.png';
 import memark2 from '../image/15memark2.png';
-import activebutton from '../image/activebutton.png';
-import nonactivebutton from '../image/noactivebutton.png';
 import ilona from '../image/ilona.png';
 import enter from '../image/enter.png';
 import chat from '../image/chat.png';
 import store from '../image/cashstore.png';
 import userinformation from '../image/userinformation.png';
+import activeneckbutton from '../image/neckandhuributton/목컬러.png';
+import noactiveneckbutton from '../image/neckandhuributton/목흑백.png';
+import activehuributton from '../image/neckandhuributton/허리컬러.png';
+import noactivehuributton from '../image/neckandhuributton/허리흑백.png';
+
 
 
 export default function Profile() {
+  const [neckActive, setNeckActive] = useState(true); // 초기 상태: 목 활성화
+  const [huriActive, setHuriActive] = useState(false); // 초기 상태: 허리 비활성화
+
+  const handleButtonClick = (button) => {
+    if (button === 'neck') {
+      setNeckActive(true);
+      setHuriActive(false);
+    } else if (button === 'huri') {
+      setNeckActive(false);
+      setHuriActive(true);
+    }
+  };
+
   const LeftPanel = () => {
     return (
       <div className="left-panel">
@@ -110,14 +125,23 @@ export default function Profile() {
             <img src={character1} alt="character1" />
             <img src={character2} alt="character2" />
           </div>  
-        <div className="icon">
-          <button className="icon-button">
-            <img src={activebutton} alt="neck" />
-          </button>
-          <button className="icon-button">
-            <img src={nonactivebutton} alt="huri" />
-          </button>
-        </div>
+          <div className="icon">
+            <button 
+              className="icon-button" 
+              onClick={() => handleButtonClick('neck')}
+              disabled={neckActive}
+            >
+              <img src={neckActive ? activeneckbutton : noactiveneckbutton} alt="neck" />
+            </button>
+            <button 
+              className="icon-button" 
+              onClick={() => handleButtonClick('huri')}
+              disabled={huriActive}
+            >
+              <img src={huriActive ? activehuributton : noactivehuributton} alt="huri" />
+            </button>
+          </div>
+
           <img src={ilona} alt="ilona" className='imagecenter'/>
               <div className="icon">
                 <button className="icon-button">
@@ -134,8 +158,9 @@ export default function Profile() {
                 </button>
               </div>
         </div>
-        <div class="Right-Box">2</div>
+        <div class="Right-Box">233</div>
       </div>
     </div>
+
   );
 }
