@@ -11,6 +11,12 @@ import memark1 from '../image/15memark.png';
 import memark2 from '../image/15memark2.png';
 import activebutton from '../image/activebutton.png';
 import nonactivebutton from '../image/noactivebutton.png';
+import ilona from '../image/ilona.png';
+import enter from '../image/enter.png';
+import chat from '../image/chat.png';
+import store from '../image/cashstore.png';
+import userinformation from '../image/userinformation.png';
+
 
 export default function Profile() {
   const LeftPanel = () => {
@@ -112,6 +118,21 @@ export default function Profile() {
             <img src={nonactivebutton} alt="huri" />
           </button>
         </div>
+          <img src={ilona} alt="ilona" className='imagecenter'/>
+              <div className="icon">
+                <button className="icon-button">
+                  <img src={enter} alt="enter" />
+                </button>
+                <button className="icon-button">
+                  <img src={chat} alt="chat" />
+                </button>
+                <button className="icon-button">
+                  <img src={store} alt="store" />
+                </button>
+                <button className="icon-button">
+                  <img src={userinformation} alt="userinformation" className='icon-image'/>
+                </button>
+              </div>
         </div>
         <div class="Right-Box">2</div>
       </div>

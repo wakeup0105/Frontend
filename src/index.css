@@ -44,6 +44,7 @@ body {
   border-radius: 20px; /* 모서리를 둥글게 설정 */
   margin-left: 10%; /* 왼쪽 마진 */
   margin-right: 10%; /* 오른쪽 마진 */
+  margin-top: 3%;
 }
 
 .Left-Box, .Right-Box {
@@ -73,34 +74,23 @@ body {
   height: auto;
 }
 
-.image-button {
-  position: relative; /* 자식 요소의 위치를 기준으로 설정 */
-  display: inline-block; /* 컨테이너 크기를 이미지 크기에 맞추기 위해 */
-  border: none;
-  cursor: pointer;
-  transition: transform 150ms ease, box-shadow 150ms ease;
+
+.icon-image {
+  width: 245px;  /* 원하는 너비 */
+  height: 161px; /* 원하는 높이 */
 }
 
-.image-button img {
-  display: block; /* 이미지가 블록 요소로 작동하여 컨테이너를 채우도록 */
-  width: 100%; /* 이미지 크기 조정 */
-  height: auto; /* 이미지 가로세로 비율 유지 */
-  background-color: transparent;
-  
+.icon {
+  display: flex; /* 버튼들을 가로로 나란히 배치 */
+  gap: 10px; /* 버튼 사이의 간격 */
 }
 
-.image-button .button-text {
-  position: absolute; /* 절대 위치를 사용하여 이미지 위에 텍스트 배치 */
-  top: 35%; /* 수직 중앙에 배치 */
-  left: 50%; /* 수평 중앙에 배치 */
-  transform: translate(-50%, -50%); /* 텍스트를 정확히 중앙에 배치 */
-  color: white; /* 텍스트 색상 */
-  font-size: 24px; /* 텍스트 크기 */
-  font-weight: bold; /* 텍스트 굵기 */
-  text-shadow: 1px 1px 2px black; /* 텍스트 그림자 효과 */
-  pointer-events: none; /* 텍스트가 클릭을 차단하지 않도록 */
-  
+.imagecenter{ /*이미지를 센터에 두게 함*/
+  display: block; 
+  margin-left: auto; 
+  margin-right: auto;
 }
+
 /*========================================================= */
 
 .icon-button {
