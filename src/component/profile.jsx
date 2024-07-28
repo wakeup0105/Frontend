@@ -7,6 +7,10 @@ import setting from '../image/setting.png';
 import jam from '../image/jam.png';
 import character1 from '../image/character1.png';
 import character2 from '../image/character2.png';
+import memark1 from '../image/15memark.png';
+import memark2 from '../image/15memark2.png';
+import activebutton from '../image/activebutton.png';
+import nonactivebutton from '../image/noactivebutton.png';
 
 export default function Profile() {
   const LeftPanel = () => {
@@ -71,7 +75,7 @@ export default function Profile() {
   return (
     <div className="container">
       <div className="top">
-        <span>일오나</span>
+        <span><img src={memark2} alt="character1" /><img src={memark1} alt="character2" /></span>
         <a href="#">Log out</a>
       </div>
       <div className="second-top">
@@ -95,7 +99,21 @@ export default function Profile() {
         </div>
       </div>
       <div className="Main-Layout">
-        <img src={main} alt="main" />
+        <div class="Left-Box">
+          <div>
+            <img src={character1} alt="character1" />
+            <img src={character2} alt="character2" />
+          </div>  
+        <div className="icon">
+          <button className="icon-button">
+            <img src={activebutton} alt="neck" />
+          </button>
+          <button className="icon-button">
+            <img src={nonactivebutton} alt="huri" />
+          </button>
+        </div>
+        </div>
+        <div class="Right-Box">2</div>
       </div>
     </div>
   );

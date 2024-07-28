@@ -32,19 +32,76 @@ body {
   box-sizing: border-box;
 }
 
+/*========================================================= */
+
 .Main-Layout {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100%;
+  width: 80%; /* 마진을 고려한 너비 */
   flex-grow: 1;
+  background: linear-gradient(to bottom, #015E2F, #223C07); /* 그라데이션 설정, 위에서 아래로 진해짐 */
+  border-radius: 20px; /* 모서리를 둥글게 설정 */
+  margin-left: 10%; /* 왼쪽 마진 */
+  margin-right: 10%; /* 오른쪽 마진 */
 }
+
+.Left-Box, .Right-Box {
+  width: 45%; /* 박스 너비 설정 */
+  height: 100%; /* 부모의 높이를 채움 */
+  background-color: white; /* 배경을 흰색으로 설정 */
+  border-radius: 10px; /* 모서리를 둥글게 설정 */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 약간의 그림자 추가 */
+}
+
+/* 추가적인 여백 조정을 원할 경우 */
+.Left-Box {
+  margin-top: 2.5%;
+  margin-right: 2.5%;
+  margin-bottom: 2.5%;
+}
+
+.Right-Box {
+  margin-top: 2.5%;
+  margin-right: 2.5%;
+  margin-bottom: 2.5%;
+}
+
 
 .Main-Layout img {
   max-width: 100%;
   height: auto;
 }
 
+.image-button {
+  position: relative; /* 자식 요소의 위치를 기준으로 설정 */
+  display: inline-block; /* 컨테이너 크기를 이미지 크기에 맞추기 위해 */
+  border: none;
+  cursor: pointer;
+  transition: transform 150ms ease, box-shadow 150ms ease;
+}
+
+.image-button img {
+  display: block; /* 이미지가 블록 요소로 작동하여 컨테이너를 채우도록 */
+  width: 100%; /* 이미지 크기 조정 */
+  height: auto; /* 이미지 가로세로 비율 유지 */
+  background-color: transparent;
+  
+}
+
+.image-button .button-text {
+  position: absolute; /* 절대 위치를 사용하여 이미지 위에 텍스트 배치 */
+  top: 35%; /* 수직 중앙에 배치 */
+  left: 50%; /* 수평 중앙에 배치 */
+  transform: translate(-50%, -50%); /* 텍스트를 정확히 중앙에 배치 */
+  color: white; /* 텍스트 색상 */
+  font-size: 24px; /* 텍스트 크기 */
+  font-weight: bold; /* 텍스트 굵기 */
+  text-shadow: 1px 1px 2px black; /* 텍스트 그림자 효과 */
+  pointer-events: none; /* 텍스트가 클릭을 차단하지 않도록 */
+  
+}
+/*========================================================= */
 
 .icon-button {
   background-color: transparent;
