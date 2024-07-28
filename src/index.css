@@ -32,6 +32,25 @@ body {
   box-sizing: border-box;
 }
 
+.Right-Box {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px; /* 박스 간의 간격 */
+}
+
+.sub-box {
+  flex: 1 1 calc(50% - 10px); /* 각 박스는 너비가 50% */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 300px; /* 박스 높이 */
+  background-color: #f0f0f0; /* 박스 배경색 */
+  border: none; /* 박스 테두리 */
+  box-sizing: border-box; /* 테두리와 패딩을 포함한 박스 크기 계산 */
+  border-radius: 10px;
+}
+
+
 /*========================================================= */
 
 .Main-Layout {

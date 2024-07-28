@@ -120,7 +120,7 @@ export default function Profile() {
         </div>
       </div>
       <div className="Main-Layout">
-        <div class="Left-Box">
+        <div className="Left-Box">
           <div>
             <img src={character1} alt="character1" />
             <img src={character2} alt="character2" />
@@ -158,8 +158,14 @@ export default function Profile() {
                 </button>
               </div>
         </div>
-        <div class="Right-Box">233</div>
+        <div className="Right-Box">
+          <div className="sub-box">시계</div>
+          <div className="left-Box">이게되나?</div>
+          <div className="sub-box">한 줄 소개 작성하기</div>
+        </div>
+        
       </div>
+      
     </div>
 
   );
