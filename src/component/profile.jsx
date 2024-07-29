@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import '../index.css';
-import main from '../image/main.png';
 import health from '../image/health.png';
 import ring1 from '../image/ring1.png';
 import setting from '../image/setting.png';
@@ -9,16 +8,31 @@ import character1 from '../image/character1.png';
 import character2 from '../image/character2.png';
 import memark1 from '../image/15memark.png';
 import memark2 from '../image/15memark2.png';
-import activebutton from '../image/activebutton.png';
-import nonactivebutton from '../image/noactivebutton.png';
 import ilona from '../image/ilona.png';
 import enter from '../image/enter.png';
 import chat from '../image/chat.png';
 import store from '../image/cashstore.png';
 import userinformation from '../image/userinformation.png';
-
+import activeneckbutton from '../image/neckandhuributton/목컬러.png';
+import noactiveneckbutton from '../image/neckandhuributton/목흑백.png';
+import activehuributton from '../image/neckandhuributton/허리컬러.png';
+import noactivehuributton from '../image/neckandhuributton/허리흑백.png';
+import '../Timer.css'; // CSS 파일 임포트
 
 export default function Profile() {
+  const [neckActive, setNeckActive] = useState(true); // 초기 상태: 목 활성화
+  const [huriActive, setHuriActive] = useState(false); // 초기 상태: 허리 비활성화
+
+  const handleButtonClick = (button) => {
+    if (button === 'neck') {
+      setNeckActive(true);
+      setHuriActive(false);
+    } else if (button === 'huri') {
+      setNeckActive(false);
+      setHuriActive(true);
+    }
+  };
+
   const LeftPanel = () => {
     return (
       <div className="left-panel">
@@ -39,33 +53,124 @@ export default function Profile() {
     );
   };
 
-  const RightPanel = () => {
-    return (
-      <div className="right-panel">
-        <Timer />
-        <GoalProgress />
-      </div>
-    );
-  };
 
   const Timer = () => {
+    const [initialTime, setInitialTime] = useState(20 * 60); // 기본값 20분 (초 단위)
+    const [time, setTime] = useState(initialTime);
+    const [minutes, setMinutes] = useState(Math.floor(initialTime / 60));
+    const [seconds, setSeconds] = useState(initialTime % 60);
+    const [inputMinutes, setInputMinutes] = useState(0);
+    const [inputSeconds, setInputSeconds] = useState(0);
+  
+    useEffect(() => {
+      const timer = setInterval(() => {
+        setTime(prevTime => {
+          if (prevTime > 0) {
+            return prevTime - 1;
+          }
+          return initialTime;
+        });
+      }, 1000);
+  
+      return () => clearInterval(timer);
+    }, [initialTime]);
+  
+    useEffect(() => {
+      setMinutes(Math.floor(time / 60));
+      setSeconds(time % 60);
+    }, [time]);
+  
+    const handleInputMinutesChange = (e) => {
+      setInputMinutes(e.target.value);
+    };
+  
+    const handleInputSecondsChange = (e) => {
+      setInputSeconds(e.target.value);
+    };
+  
+    const handleSetTime = () => {
+      const totalSeconds = parseInt(inputMinutes) * 60 + parseInt(inputSeconds);
+      setInitialTime(totalSeconds);
+      setTime(totalSeconds);
+    };
+  
+    // 타이머 바의 진행률 계산
+    const progressBarWidth = (time / initialTime) * 100;
+  
     return (
-      <div className="timer">
-        <div className="work-timer">
-          <h2>WORK</h2>
-          <div className="time">00:20</div>
+      <div className="timer-container">
+        <h1>알람</h1>
+        <div className="timer-display">
+          {minutes < 10 ? `0${minutes}` : minutes}:
+          {seconds < 10 ? `0${seconds}` : seconds}
         </div>
-        <div className="audio-player">
-          <span>재활의학과 교수...</span>
-          <div className="controls">
-            <button>Play</button>
-            <button>Pause</button>
-          </div>
+        <div className="progress-bar">
+          <div className="progress-bar-fill" style={{ width: `${progressBarWidth}%` }}></div>
+        </div>
+        <div className="input-container">
+          <input
+            type="number"
+            value={inputMinutes}
+            onChange={handleInputMinutesChange}
+            placeholder="분"
+          />
+          <input
+            type="number"
+            value={inputSeconds}
+            onChange={handleInputSecondsChange}
+            placeholder="초"
+          />
+          <button onClick={handleSetTime}>설정하기</button>
         </div>
       </div>
     );
   };
+  
+  
+ 
+  
 
+
+  /*=====================================*/
+  const EditButton = () => {
+    const [isEditing, setIsEditing] = useState(false);
+    const [introText, setIntroText] = useState("");
+  
+    const handleEditClick = () => {
+      setIsEditing(true);
+    };
+  
+    const handleSaveClick = () => {
+      setIsEditing(false);
+    };
+  
+    const handleChange = (e) => {
+      setIntroText(e.target.value);
+    };
+  
+    return (
+      <div className="edit-section">
+        {isEditing ? (
+          <div>
+            <input 
+              type="text" 
+              placeholder="한 줄 소개 작성하기" 
+              value={introText} 
+              onChange={handleChange} 
+            />
+            <button onClick={handleSaveClick}>저장</button>
+          </div>
+        ) : (
+          <div className="intro-display">
+            <span>{introText || "한 줄 소개 작성하기"}</span>
+            <button className="edit-button" onClick={handleEditClick}>편집하기</button>
+          </div>
+        )}
+      </div>
+    );
+  };
+  
+  /*=====================================*/
   const GoalProgress = () => {
     return (
       <div className="goal-progress">
@@ -78,6 +183,7 @@ export default function Profile() {
     );
   };
 
+  
   return (
     <div className="container">
       <div className="top">
@@ -105,19 +211,28 @@ export default function Profile() {
         </div>
       </div>
       <div className="Main-Layout">
-        <div class="Left-Box">
+        <div className="Left-Box">
           <div>
             <img src={character1} alt="character1" />
             <img src={character2} alt="character2" />
           </div>  
-        <div className="icon">
-          <button className="icon-button">
-            <img src={activebutton} alt="neck" />
-          </button>
-          <button className="icon-button">
-            <img src={nonactivebutton} alt="huri" />
-          </button>
-        </div>
+          <div className="icon">
+            <button 
+              className="icon-button" 
+              onClick={() => handleButtonClick('neck')}
+              disabled={neckActive}
+            >
+              <img src={neckActive ? activeneckbutton : noactiveneckbutton} alt="neck" />
+            </button>
+            <button 
+              className="icon-button" 
+              onClick={() => handleButtonClick('huri')}
+              disabled={huriActive}
+            >
+              <img src={huriActive ? activehuributton : noactivehuributton} alt="huri" />
+            </button>
+          </div>
+
           <img src={ilona} alt="ilona" className='imagecenter'/>
               <div className="icon">
                 <button className="icon-button">
@@ -134,8 +249,15 @@ export default function Profile() {
                 </button>
               </div>
         </div>
-        <div class="Right-Box">2</div>
+        <div className="Right-Box">
+          <div className="sub-box"><Timer /></div>
+          <div className="sub-box"><GoalProgress/></div>
+          <div className="sub-box"><EditButton/></div>
+        </div>
+        
       </div>
+      
     </div>
+
   );
 }
