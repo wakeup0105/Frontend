@@ -55,6 +55,15 @@ export default function Profile() {
   };
 
   useEffect(() => {
+    // Modal이 열릴 때마다 상태를 새로고침
+    if (showModal) {
+      setModalContent(
+        <HealthModal neckActive={neckActive} huriActive={huriActive} handleButtonClick={handleButtonClick} />
+      );
+    }
+  }, [neckActive, huriActive, showModal]);
+  
+  useEffect(() => {
     if (showModal) {
       setFadeInModal(true);
     }
