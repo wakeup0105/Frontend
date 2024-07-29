@@ -81,6 +81,46 @@ export default function Profile() {
     );
   };
 
+  /*=====================================*/
+  const EditButton = () => {
+    const [isEditing, setIsEditing] = useState(false);
+    const [introText, setIntroText] = useState("");
+  
+    const handleEditClick = () => {
+      setIsEditing(true);
+    };
+  
+    const handleSaveClick = () => {
+      setIsEditing(false);
+    };
+  
+    const handleChange = (e) => {
+      setIntroText(e.target.value);
+    };
+  
+    return (
+      <div className="edit-section">
+        {isEditing ? (
+          <div>
+            <input 
+              type="text" 
+              placeholder="한 줄 소개 작성하기" 
+              value={introText} 
+              onChange={handleChange} 
+            />
+            <button onClick={handleSaveClick}>저장</button>
+          </div>
+        ) : (
+          <div className="intro-display">
+            <span>{introText || "한 줄 소개 작성하기"}</span>
+            <button className="edit-button" onClick={handleEditClick}>편집하기</button>
+          </div>
+        )}
+      </div>
+    );
+  };
+  
+  /*=====================================*/
   const GoalProgress = () => {
     return (
       <div className="goal-progress">
@@ -93,6 +133,7 @@ export default function Profile() {
     );
   };
 
+  
   return (
     <div className="container">
       <div className="top">
@@ -159,9 +200,9 @@ export default function Profile() {
               </div>
         </div>
         <div className="Right-Box">
-          <div className="sub-box">시계</div>
-          <div className="left-Box">이게되나?</div>
-          <div className="sub-box">한 줄 소개 작성하기</div>
+          <div className="sub-box"><Timer /></div>
+          <div className="sub-box"><GoalProgress/></div>
+          <div className="sub-box"><EditButton/></div>
         </div>
         
       </div>
