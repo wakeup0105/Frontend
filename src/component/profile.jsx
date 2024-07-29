@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../index.css';
 import health from '../image/health.png';
 import ring1 from '../image/ring1.png';
@@ -17,8 +17,7 @@ import activeneckbutton from '../image/neckandhuributton/목컬러.png';
 import noactiveneckbutton from '../image/neckandhuributton/목흑백.png';
 import activehuributton from '../image/neckandhuributton/허리컬러.png';
 import noactivehuributton from '../image/neckandhuributton/허리흑백.png';
-
-
+import '../Timer.css'; // CSS 파일 임포트
 
 export default function Profile() {
   const [neckActive, setNeckActive] = useState(true); // 초기 상태: 목 활성화
@@ -54,32 +53,83 @@ export default function Profile() {
     );
   };
 
-  const RightPanel = () => {
-    return (
-      <div className="right-panel">
-        <Timer />
-        <GoalProgress />
-      </div>
-    );
-  };
 
   const Timer = () => {
+    const [initialTime, setInitialTime] = useState(20 * 60); // 기본값 20분 (초 단위)
+    const [time, setTime] = useState(initialTime);
+    const [minutes, setMinutes] = useState(Math.floor(initialTime / 60));
+    const [seconds, setSeconds] = useState(initialTime % 60);
+    const [inputMinutes, setInputMinutes] = useState(0);
+    const [inputSeconds, setInputSeconds] = useState(0);
+  
+    useEffect(() => {
+      const timer = setInterval(() => {
+        setTime(prevTime => {
+          if (prevTime > 0) {
+            return prevTime - 1;
+          }
+          return initialTime;
+        });
+      }, 1000);
+  
+      return () => clearInterval(timer);
+    }, [initialTime]);
+  
+    useEffect(() => {
+      setMinutes(Math.floor(time / 60));
+      setSeconds(time % 60);
+    }, [time]);
+  
+    const handleInputMinutesChange = (e) => {
+      setInputMinutes(e.target.value);
+    };
+  
+    const handleInputSecondsChange = (e) => {
+      setInputSeconds(e.target.value);
+    };
+  
+    const handleSetTime = () => {
+      const totalSeconds = parseInt(inputMinutes) * 60 + parseInt(inputSeconds);
+      setInitialTime(totalSeconds);
+      setTime(totalSeconds);
+    };
+  
+    // 타이머 바의 진행률 계산
+    const progressBarWidth = (time / initialTime) * 100;
+  
     return (
-      <div className="timer">
-        <div className="work-timer">
-          <h2>WORK</h2>
-          <div className="time">00:20</div>
+      <div className="timer-container">
+        <h1>알람</h1>
+        <div className="timer-display">
+          {minutes < 10 ? `0${minutes}` : minutes}:
+          {seconds < 10 ? `0${seconds}` : seconds}
         </div>
-        <div className="audio-player">
-          <span>재활의학과 교수...</span>
-          <div className="controls">
-            <button>Play</button>
-            <button>Pause</button>
-          </div>
+        <div className="progress-bar">
+          <div className="progress-bar-fill" style={{ width: `${progressBarWidth}%` }}></div>
+        </div>
+        <div className="input-container">
+          <input
+            type="number"
+            value={inputMinutes}
+            onChange={handleInputMinutesChange}
+            placeholder="분"
+          />
+          <input
+            type="number"
+            value={inputSeconds}
+            onChange={handleInputSecondsChange}
+            placeholder="초"
+          />
+          <button onClick={handleSetTime}>설정하기</button>
         </div>
       </div>
     );
   };
+  
+  
+ 
+  
+
 
   /*=====================================*/
   const EditButton = () => {
