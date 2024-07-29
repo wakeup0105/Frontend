@@ -3,7 +3,6 @@ import '../index.css';
 import health from '../image/health.png';
 import ring1 from '../image/ring1.png';
 import setting from '../image/setting.png';
-import jam from '../image/jam.png';
 import character1 from '../image/character1.png';
 import character2 from '../image/character2.png';
 import memark1 from '../image/15memark.png';
@@ -13,15 +12,24 @@ import enter from '../image/enter.png';
 import chat from '../image/chat.png';
 import store from '../image/cashstore.png';
 import userinformation from '../image/userinformation.png';
+import HealthModal from './HealthModal';
+import RingModal from './RingModal';
+import SettingModal from './SettingModal';
 import activeneckbutton from '../image/neckandhuributton/목컬러.png';
 import noactiveneckbutton from '../image/neckandhuributton/목흑백.png';
 import activehuributton from '../image/neckandhuributton/허리컬러.png';
 import noactivehuributton from '../image/neckandhuributton/허리흑백.png';
-import '../Timer.css'; // CSS 파일 임포트
+import '../Timer.css';
 
 export default function Profile() {
-  const [neckActive, setNeckActive] = useState(true); // 초기 상태: 목 활성화
-  const [huriActive, setHuriActive] = useState(false); // 초기 상태: 허리 비활성화
+  const [neckActive, setNeckActive] = useState(true);
+  const [huriActive, setHuriActive] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
+  const [fadeOut, setFadeOut] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [fadeOutModal, setFadeOutModal] = useState(false);
+  const [fadeInModal, setFadeInModal] = useState(false);
+  const [modalContent, setModalContent] = useState(null);
 
   const handleButtonClick = (button) => {
     if (button === 'neck') {
@@ -33,70 +41,80 @@ export default function Profile() {
     }
   };
 
-  const LeftPanel = () => {
-    return (
-      <div className="left-panel">
-        <div className="character">
-          <img src="/path-to-your-image.png" alt="Character" />
-          <div className="character-info">
-            <span>이로나</span>
-            <div className="health-bar">
-              <div className="health" style={{ width: '75%' }}></div>
-            </div>
-          </div>
-        </div>
-        <div className="buttons">
-          <button>목</button>
-          <button disabled>허리</button>
-        </div>
-      </div>
-    );
+  const handleIconClick = (content) => {
+    if (content === 'Health') {
+      setModalContent(
+        <HealthModal neckActive={neckActive} huriActive={huriActive} handleButtonClick={handleButtonClick} />
+      );
+    } else if (content === 'Ring') {
+      setModalContent(<RingModal />);
+    } else if (content === 'Setting') {
+      setModalContent(<SettingModal />);
+    }
+    setShowModal(true);
   };
 
+  useEffect(() => {
+    if (showModal) {
+      setFadeInModal(true);
+    }
+  }, [showModal]);
+
+  const closeModal = () => {
+    setFadeOutModal(true);
+    setTimeout(() => {
+      setShowModal(false);
+      setFadeOutModal(false);
+      setFadeInModal(false);
+    }, 500);
+  };
 
   const Timer = () => {
-    const [initialTime, setInitialTime] = useState(20 * 60); // 기본값 20분 (초 단위)
+    const [initialTime, setInitialTime] = useState(20 * 60);
     const [time, setTime] = useState(initialTime);
     const [minutes, setMinutes] = useState(Math.floor(initialTime / 60));
     const [seconds, setSeconds] = useState(initialTime % 60);
     const [inputMinutes, setInputMinutes] = useState(0);
     const [inputSeconds, setInputSeconds] = useState(0);
-  
+
     useEffect(() => {
       const timer = setInterval(() => {
         setTime(prevTime => {
           if (prevTime > 0) {
             return prevTime - 1;
+          } else {
+            clearInterval(timer);
+            setShowAlert(true);
+            return 0;
           }
-          return initialTime;
         });
       }, 1000);
-  
+
       return () => clearInterval(timer);
     }, [initialTime]);
-  
+
     useEffect(() => {
       setMinutes(Math.floor(time / 60));
       setSeconds(time % 60);
     }, [time]);
-  
+
     const handleInputMinutesChange = (e) => {
       setInputMinutes(e.target.value);
     };
-  
+
     const handleInputSecondsChange = (e) => {
       setInputSeconds(e.target.value);
     };
-  
+
     const handleSetTime = () => {
       const totalSeconds = parseInt(inputMinutes) * 60 + parseInt(inputSeconds);
       setInitialTime(totalSeconds);
       setTime(totalSeconds);
+      setShowAlert(false);
     };
-  
-    // 타이머 바의 진행률 계산
+
     const progressBarWidth = (time / initialTime) * 100;
-  
+
     return (
       <div className="timer-container">
         <h1>알람</h1>
@@ -125,29 +143,23 @@ export default function Profile() {
       </div>
     );
   };
-  
-  
- 
-  
 
-
-  /*=====================================*/
   const EditButton = () => {
     const [isEditing, setIsEditing] = useState(false);
     const [introText, setIntroText] = useState("");
-  
+
     const handleEditClick = () => {
       setIsEditing(true);
     };
-  
+
     const handleSaveClick = () => {
       setIsEditing(false);
     };
-  
+
     const handleChange = (e) => {
       setIntroText(e.target.value);
     };
-  
+
     return (
       <div className="edit-section">
         {isEditing ? (
@@ -169,8 +181,7 @@ export default function Profile() {
       </div>
     );
   };
-  
-  /*=====================================*/
+
   const GoalProgress = () => {
     return (
       <div className="goal-progress">
@@ -183,9 +194,36 @@ export default function Profile() {
     );
   };
 
-  
+  const handleAlertClose = () => {
+    setFadeOut(true);
+    setTimeout(() => {
+      setShowAlert(false);
+      setFadeOut(false);
+    }, 500);
+  };
+
   return (
     <div className="container">
+      {showAlert && (
+        <div className={`alert-overlay ${fadeOut ? 'fade-out' : ''}`} onClick={handleAlertClose}>
+          <div className="alert">
+            스트레칭하세요!!
+          </div>
+        </div>
+      )}
+
+      {showModal && (
+        <div className={`modal ${fadeOutModal ? 'fade-out' : 'fade-in'}`} onClick={closeModal}>
+          <div className="modal-content modal-content-custom" onClick={(e) => e.stopPropagation()}>
+            {modalContent}
+            <div className="modal-footer">
+              <button>더보기</button>
+              <button onClick={closeModal}>닫기</button>
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className="top">
         <span><img src={memark2} alt="character1" /><img src={memark1} alt="character2" /></span>
         <a href="#">Log out</a>
@@ -196,16 +234,13 @@ export default function Profile() {
           <img src={character2} alt="character2" />
         </div>
         <div className="icon">
-          <button className="icon-button">
-            <img src={jam} alt="jam" />
-          </button>
-          <button className="icon-button">
+          <button className="icon-button" onClick={() => handleIconClick('Health')}>
             <img src={health} alt="health" />
           </button>
-          <button className="icon-button">
+          <button className="icon-button" onClick={() => handleIconClick('Ring')}>
             <img src={ring1} alt="ring1" />
           </button>
-          <button className="icon-button">
+          <button className="icon-button" onClick={() => handleIconClick('Setting')}>
             <img src={setting} alt="setting" />
           </button>
         </div>
@@ -234,30 +269,27 @@ export default function Profile() {
           </div>
 
           <img src={ilona} alt="ilona" className='imagecenter'/>
-              <div className="icon">
-                <button className="icon-button">
-                  <img src={enter} alt="enter" />
-                </button>
-                <button className="icon-button">
-                  <img src={chat} alt="chat" />
-                </button>
-                <button className="icon-button">
-                  <img src={store} alt="store" />
-                </button>
-                <button className="icon-button">
-                  <img src={userinformation} alt="userinformation" className='icon-image'/>
-                </button>
-              </div>
+          <div className="icon">
+            <button className="icon-button">
+              <img src={enter} alt="enter" />
+            </button>
+            <button className="icon-button">
+              <img src={chat} alt="chat" />
+            </button>
+            <button className="icon-button">
+              <img src={store} alt="store" />
+            </button>
+            <button className="icon-button">
+              <img src={userinformation} alt="userinformation" className='icon-image'/>
+            </button>
+          </div>
         </div>
         <div className="Right-Box">
           <div className="sub-box"><Timer /></div>
           <div className="sub-box"><GoalProgress/></div>
           <div className="sub-box"><EditButton/></div>
         </div>
-        
       </div>
-      
     </div>
-
   );
 }

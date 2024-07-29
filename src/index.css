@@ -1,9 +1,5 @@
 body {
   background-color: #96C720;
-}
-
-body {
-  background-color: #96C720;
   margin: 0;
   padding: 0;
   overflow: hidden;
@@ -19,9 +15,9 @@ body {
 .top {
   display: flex;
   justify-content: space-between;
-  width: 90%; /* 화면 양쪽에 여유 공간 추가 */
-  padding: 20px 0; /* 상하 여백 */
-  box-sizing: border-box; /* padding과 width를 함께 고려 */
+  width: 90%;
+  padding: 20px 0;
+  box-sizing: border-box;
 }
 
 .second-top {
@@ -32,47 +28,41 @@ body {
   box-sizing: border-box;
 }
 
-
-
 .sub-box {
-  flex: 1 1 calc(50% - 10px); /* 각 박스는 너비가 50% */
+  flex: 1 1 calc(50% - 10px);
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 300px; /* 박스 높이 */
-  background-color: #fefefe; /* 박스 배경색 */
-  border: none; /* 박스 테두리 */
-  box-sizing: border-box; /* 테두리와 패딩을 포함한 박스 크기 계산 */
+  height: 300px;
+  background-color: #fefefe;
+  border: none;
+  box-sizing: border-box;
   border-radius: 10px;
   position: relative;
-  padding: 20px; /* padding을 늘려 버튼이 안에 있도록 조정 */
-  
+  padding: 20px;
 }
-
-/*========================================================= */
 
 .Main-Layout {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 80%; /* 마진을 고려한 너비 */
+  width: 80%;
   flex-grow: 1;
-  background: linear-gradient(to bottom, #015E2F, #223C07); /* 그라데이션 설정, 위에서 아래로 진해짐 */
-  border-radius: 20px; /* 모서리를 둥글게 설정 */
-  margin-left: 10%; /* 왼쪽 마진 */
-  margin-right: 10%; /* 오른쪽 마진 */
+  background: linear-gradient(to bottom, #015E2F, #223C07);
+  border-radius: 20px;
+  margin-left: 10%;
+  margin-right: 10%;
   margin-top: 1%;
 }
 
 .Left-Box, .Right-Box {
-  width: 45%; /* 박스 너비 설정 */
-  height: 100%; /* 부모의 높이를 채움 */
-  background-color: white; /* 배경을 흰색으로 설정 */
-  border-radius: 10px; /* 모서리를 둥글게 설정 */
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 약간의 그림자 추가 */
+  width: 45%;
+  height: 100%;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-/* 추가적인 여백 조정을 원할 경우 */
 .Left-Box {
   margin-top: 2.5%;
   margin-right: 2.5%;
@@ -85,33 +75,30 @@ body {
   margin-bottom: 2.5%;
   display: flex;
   flex-wrap: wrap;
-  gap: 10px; /* 박스 간의 간격 */
-  background: linear-gradient(to bottom, #015E2F, #223C07); /* 그라데이션 설정, 위에서 아래로 진해짐 */
+  gap: 10px;
+  background: linear-gradient(to bottom, #015E2F, #223C07);
 }
-
 
 .Main-Layout img {
   max-width: 100%;
   height: auto;
 }
 
-
 .icon-image {
-  width: 245px;  /* 원하는 너비 */
-  height: 161px; /* 원하는 높이 */
+  width: 245px;
+  height: 161px;
 }
 
 .icon {
-  display: flex; /* 버튼들을 가로로 나란히 배치 */
-  gap: 3px; /* 버튼 사이의 간격 */
+  display: flex;
+  gap: 3px;
 }
 
-.imagecenter{ /*이미지를 센터에 두게 함*/
-  display: block; 
-  margin-left: auto; 
+.imagecenter {
+  display: block;
+  margin-left: auto;
   margin-right: auto;
 }
-
 
 .edit-section {
   display: flex;
@@ -141,7 +128,6 @@ body {
   margin: 0;
 }
 
-/* 입력하는 칸 스타일 */
 .edit-section input {
   flex-grow: 1;
   padding: 5px;
@@ -155,7 +141,6 @@ body {
   outline: none;
 }
 
-/* 편집하기 및 저장 버튼 스타일 */
 .edit-section button {
   padding: 5px 10px;
   border: none;
@@ -173,16 +158,6 @@ body {
   outline: none;
 }
 
-/* 편집하기 버튼의 우측 하단 배치 */
-.edit-button {
-  position: absolute;
-  right: 10px;
-  bottom: 10px;
-  margin: 0;
-}
-
-/*========================================================= */
-
 .icon-button {
   background-color: transparent;
   border: none;
@@ -198,24 +173,22 @@ body {
   position: relative;
 }
 
-
 .character img:nth-child(1) {
   position: absolute;
-  top: -20px; /* 위치 조정 */
-  left: 0; /* 위치 조정 */
+  top: -20px;
+  left: 0;
   z-index: 2;
-  width: 100px; /* 이미지 크기 조정 */
+  width: 100px;
 }
 
 .character img:nth-child(2) {
   position: absolute;
-  top: 10px; /* 위치 조정 */
-  left: 40px; /* 위치 조정 */
+  top: 10px;
+  left: 40px;
   z-index: 1;
-  width: 280px; /* 이미지 크기 조정 */
+  width: 280px;
 }
 
-/*main page*/
 .page {
   position: absolute;
   top: 10%;
@@ -223,162 +196,127 @@ body {
   width: 100%;
   max-width: 500px;
   padding: 0 10px;
-
   left: 50%;
   transform: translate(-50%, 0);
-
   background: 
     linear-gradient(to bottom, #96C720, #618F15),
-    url('./image/back.jpg') no-repeat center center; /* 이미지 경로와 반복 설정 */
-  background-size: cover; /* 이미지를 요소 크기에 맞게 조정 */  border-radius: 40px; /* 모서리를 둥글게 설정 */
-
-
-  border-radius: 20px;
+    url('./image/back.jpg') no-repeat center center;
+  background-size: cover;
+  border-radius: 40px;
   border: 5px solid rgb(87, 84, 84);
-
   overflow: hidden;
-
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-
   box-shadow: 20px 20px 40px rgba(0, 0, 0, 0.2);
 }
 
-/*로그인 없이 접근할 때*/
 .nologinaccess {
   text-decoration: underline;
   font-size: 15px;
-  cursor: pointer; /* 마우스 커서를 포인터로 변경 */
-  padding: 2px 4px; /* 박스 효과를 위해 약간의 패딩 추가 */
-  transition: color 0.3s ease, background-color 0.3s ease, text-decoration 0.3s ease; /* 트랜지션 추가 */
+  cursor: pointer;
+  padding: 2px 4px;
+  transition: color 0.3s ease, background-color 0.3s ease, text-decoration 0.3s ease;
 }
 
 .nologinaccess:hover {
-  color: rgb(76, 139, 168); /* 마우스를 올렸을 때 글자 색을 변경 */
-  text-decoration: none; /* 밑줄 제거 */
-  background-color: lightblue; /* 배경색을 연한 파랑색으로 변경 */
-  border-radius: 4px; /* 모서리를 둥글게 */
+  color: rgb(76, 139, 168);
+  text-decoration: none;
+  background-color: lightblue;
+  border-radius: 4px;
 }
 
-/*같이 일오나 볼래요? 메인 타이틀*/
 .titleWrap {
   margin-top: 10%;
-  margin-left:3%;
+  margin-left: 3%;
   font-size: 30px;
   font-weight: 900;
   color: #262626;
-
 }
 
-/*컨텐츠 박스*/
-.contentWrap{
-  margin-top : 26px;
+.contentWrap {
+  margin-top: 26px;
   flex: 1;
 }
 
-/*인풋 박스*/ 
-.inputTitle{
-  
-  font-size : 12px;
-  font-weight : 600;
-  color :#262626;
+.inputTitle {
+  font-size: 12px;
+  font-weight: 600;
+  color: #262626;
 }
 
-/*인풋*/ 
 .inputWrap {
-
-  display:flex;
+  display: flex;
   border-radius: 15px;
   padding: 16px;
-  margin-top:10px;
+  margin-top: 10px;
   background-color: #253b08;
   border: 1px solid #253b08;
-  align-items: center; 
+  align-items: center;
 }
 
-/*인풋 박스 클릭 시*/
-.inputWrap:focus-within{
-  border:1px solid #9e30f4;
-
+.inputWrap:focus-within {
+  border: 1px solid #9e30f4;
 }
 
-.input{
-  width:100%;
-  outline:none;
-  border:none;
+.input {
+  width: 100%;
+  outline: none;
+  border: none;
   height: 17px;
   font-size: 14px;
   font-weight: 400;
   background-color: #253b08;
-  color:white
-
+  color: white;
 }
 
 .input::placeholder {
-  color: white; /* 텍스트 색상 */
-  opacity: 0.8; /* 투명도 (0부터 1까지, 1이 완전 불투명) */
+  color: white;
+  opacity: 0.8;
 }
 
-
-
-.bottomButton{
-  position:absolute;
-  left:20%;
-  bottom:20px;
-  width:60%;
-  height:48px;
-  border:none;
+.bottomButton {
+  position: absolute;
+  left: 20%;
+  bottom: 20px;
+  width: 60%;
+  height: 48px;
+  border: none;
   font-weight: bold;
   background-color: #253b08;
   border-radius: 64px;
-  color:white;
-  cursor:pointer;
+  color: white;
+  cursor: pointer;
   transition: transform 150ms ease, box-shadow 150ms ease;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .bottomButton:active {
-    transform: scale(0.95);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+  transform: scale(0.95);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
 }
 
-.account{
-  margin-left:2%;
+.account {
+  margin-left: 2%;
 }
-.find {
+
+.find, .generate {
   font-size: 14px;
   text-decoration: underline;
-  cursor: pointer; /* 마우스 커서를 포인터로 변경 */
-  padding: 2px 4px; /* 박스 효과를 위해 약간의 패딩 추가 */
-  transition: color 0.3s ease, background-color 0.3s ease, text-decoration 0.3s ease; /* 트랜지션 추가 */
+  cursor: pointer;
+  padding: 2px 4px;
+  transition: color 0.3s ease, background-color 0.3s ease, text-decoration 0.3s ease;
 }
 
-.find:hover {
-  color: rgb(76, 139, 168); /* 마우스를 올렸을 때 글자 색을 변경 */
-  text-decoration: none; /* 밑줄 제거 */
-  background-color: lightblue; /* 배경색을 연한 파랑색으로 변경 */
-  border-radius: 4px; /* 모서리를 둥글게 */
+.find:hover, .generate:hover {
+  color: rgb(76, 139, 168);
+  text-decoration: none;
+  background-color: lightblue;
+  border-radius: 4px;
 }
 
-.generate {
-  font-size: 14px;
-  text-decoration: underline;
-  cursor: pointer; /* 마우스 커서를 포인터로 변경 */
-  padding: 2px 4px; /* 박스 효과를 위해 약간의 패딩 추가 */
-  transition: color 0.3s ease, background-color 0.3s ease, text-decoration 0.3s ease; /* 트랜지션 추가 */
-}
-
-.generate:hover {
-  color: rgb(76, 139, 168); /* 마우스를 올렸을 때 글자 색을 변경 */
-  text-decoration: none; /* 밑줄 제거 */
-  background-color: lightblue; /* 배경색을 연한 파랑색으로 변경 */
-  border-radius: 4px; /* 모서리를 둥글게 */
-}
-
-
-.rule{
-  margin-left:4%;
+.rule {
+  margin-left: 4%;
   font-size: 15px;
 }
 
@@ -396,21 +334,19 @@ body {
   transform: scale(0.95);
 }
 
-
-/* 소셜로그인 css */
-
 @import url('//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css');
 * {
   padding: 0px;
   margin: 0px;
 }
 
- ul {
-   margin: 40px 90px;
-   position: relative;
-   display: flex;
-   transform-style: preserve-3d;
+ul {
+  margin: 40px 90px;
+  position: relative;
+  display: flex;
+  transform-style: preserve-3d;
 }
+
 ul li {
   position: relative;
   list-style: none;
@@ -418,7 +354,8 @@ ul li {
   height: 60px;
   margin: 0px 25px;
 }
-ul li:before{
+
+ul li:before {
   content: '';
   position: absolute;
   bottom: -10px;
@@ -430,17 +367,18 @@ ul li:before{
   transform: skewX(-41deg);
 }
 
-ul li:after{
+ul li:after {
   content: '';
   position: absolute;
-  top:5px;
+  top: 5px;
   left: -9px;
   width: 9px;
   height: 100%;
   background: #245c2c;
   transform: skewY(-49deg);
 }
-ul li span{
+
+ul li span {
   position: absolute;
   top: 0;
   left: 0;
@@ -454,95 +392,221 @@ ul li span{
   font-size: 30px !important;
   transition: 1.5s ease-out;
 }
+
 ul li:hover span {
   z-index: 1000;
   transition: .3s;
   color: #fff;
   box-shadow: -1px 1px 1px rgba(0, 0, 0, .5);
 }
-ul li:hover span:nth-child(5){
+
+ul li:hover span:nth-child(5) {
   transform: translate(40px, -40px);
   opacity: 1;
 }
-ul li:hover span:nth-child(4){
+
+ul li:hover span:nth-child(4) {
   transform: translate(30px, -30px);
   opacity: .8;
 }
-ul li:hover span:nth-child(3){
+
+ul li:hover span:nth-child(3) {
   transform: translate(20px, -20px);
   opacity: .6;
 }
-ul li:hover span:nth-child(2){
+
+ul li:hover span:nth-child(2) {
   transform: translate(10px, -10px);
   opacity: .4;
-}ul li:hover span:nth-child(1){
+}
+
+ul li:hover span:nth-child(1) {
   transform: translate(0px, 0px);
   opacity: .2;
 }
-ul li:nth-child(1):hover span{
+
+ul li:nth-child(1):hover span {
   background: #52E19F !important;
 }
-ul li:nth-child(2):hover span{
+
+ul li:nth-child(2):hover span {
   background: #1220b5 !important;
 }
-ul li:nth-child(3):hover span{
-  background :#56515c !important;
+
+ul li:nth-child(3):hover span {
+  background: #56515c !important;
 }
 
-/* 화면전환 애니메이션 */
 .fade-enter {
   opacity: 0;
 }
+
 .fade-enter-active {
   opacity: 1;
   transition: opacity 300ms ease-in-out;
 }
+
 .fade-exit {
   opacity: 1;
 }
+
 .fade-exit-active {
   opacity: 0;
   transition: opacity 300ms ease-in-out;
 }
-
-
-/* 이용약관, 개인정보처리방침 modal창 구현 */
-
 .modal {
-  display: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   position: fixed;
-  /*z-index값이 높을수록 앞에 표시됨.-> 모달 창이 다른 콘텐츠 위에 표시되도록*/
-  z-index: 1;
+  z-index: 3;
   left: 0;
   top: 0;
   width: 100%;
-  height: 100%;
-  /*모달 창의 내용이 창을 초과할 경우 스크롤 바를 추가하여 스크롤할 수 있도록 합니다.*/
+  height: 110%;
   overflow: auto;
-  background-color: rgba(139, 132, 133, 0.9); /* Adjusting the background color transparency */
-  /*모달 창이 나타날 때 fadeIn 애니메이션을 0.5초 동안 적용합니다.*/
-  animation: fadeIn 0.5s;
 }
 
 .modal-content {
-  background-color: white;
-  margin: 5% auto; /* 페이지의 중앙에 배치 */
-  padding: 20px;
-  width: 90%;
-  max-width: 750px; /* 최대 너비 설정 */
-  max-height: 90%; /* 최대 높이 설정 */
-  overflow: auto;
-  border-radius: 10px;
-  animation: fadeIn 0.5s; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 80%;
+  flex-grow: 1;
+  background: linear-gradient(to bottom, #015E2F, #223C07);
+  margin-left: 10%;
+  margin-right: 10%;
+  margin-top: 1%;
 }
 
+/* 기존 애니메이션 키프레임 유지 */
 @keyframes fadeIn {
   from {
-      opacity: 0;
+    opacity: 0;
   }
   to {
-      opacity: 1;
+    opacity: 1;
   }
 }
 
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
 
+@keyframes scaleIn {
+  from {
+    transform: scale(0.9);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+@keyframes scaleOut {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(0.9);
+  }
+}
+
+.fade-in .modal-content {
+  animation: scaleIn 0.5s forwards, fadeIn 0.5s forwards;
+}
+
+.fade-out .modal-content {
+  animation: scaleOut 0.5s forwards, fadeOut 0.5s forwards;
+}
+
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: transparent;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.close-button:hover {
+  color: red;
+}
+
+/* index.css 파일에서 기존 .modal-content-custom 스타일을 수정 */
+.modal-content-custom {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  height: 70%; 
+  background: linear-gradient(to bottom, #015E2F, #223C07);
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin:20px;
+  color:white;
+  font-size: 20px;
+}
+
+
+.modal-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  overflow-y: auto;
+  max-height: 500px;
+}
+
+/* index.css 파일에서 기존 .modal-footer 스타일 수정 */
+.modal-footer {
+  display: flex;
+  justify-content: center; /* 중앙 정렬 */
+  width: 100%;
+  margin-top: 10px;
+}
+
+.modal-footer button {
+  background: none;
+  border: none;
+  color: white;
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 0 20px;
+}
+
+.modal-footer button:hover {
+  color: lightgray;
+}
+
+
+.card-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 50px;
+}
+
+.card {
+  background-color: white;
+  border-radius: 10px;
+  padding: 150px 10px;
+  margin: 50px;
+  width: 30%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
