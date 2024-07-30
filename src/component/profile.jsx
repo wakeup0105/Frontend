@@ -134,8 +134,7 @@ export default function Profile() {
         <a href="#">Log out</a>
       </div>
       <div className="second-top">
-        <div className="character">
-        </div>
+        <span></span>
         <div className="icon">
           <button className="icon-button" onClick={() => handleIconClick('Health')}>
             <img src={health} alt="health" />
