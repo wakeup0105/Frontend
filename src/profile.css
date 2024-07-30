@@ -1,0 +1,72 @@
+.profile-container {
+    display: flex;
+    flex-direction: row;
+    width: 100%; /* 전체 너비를 100%로 설정 */
+    height: 100px; /* 높이를 100px로 설정 (적절한 크기로 조정 가능) */
+    background-color: #f0f0f0; /* 배경색 */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .icon-box {
+    width: 30%; /* 너비를 30%로 설정 */
+    height: 100%; /* 높이를 100%로 설정 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff; /* 배경색 */
+    border-radius: 10px 0 0 10px;
+  }
+  
+  .icon-box img {
+    width: 80%; /* 이미지 크기 조정 */
+    height: auto;
+    border-radius: 50%;
+  }
+  
+  .info-container {
+    width: 70%; /* 너비를 70%로 설정 */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* 수직 중앙 정렬 */
+    background-color: #fefefe; /* 배경색 */
+    padding: 10px;
+    box-sizing: border-box;
+    border-radius: 0 10px 10px 0;
+  }
+  
+  .name-level-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 50%; /* 높이를 50%로 설정 */
+    padding: 0 10px;
+    box-sizing: border-box;
+  }
+  
+  .name-level-box .username {
+    font-size: 1.2em;
+    font-weight: bold;
+  }
+  
+  .name-level-box .level {
+    font-size: 1em;
+    color: #666;
+  }
+  
+  .xp-box {
+    height: 50%; /* 높이를 50%로 설정 */
+    background-color: #ddd; /* 배경색 */
+    border-radius: 10px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    margin-top: 5px; /* 상단 마진 */
+  }
+  
+  .xp-bar {
+    height: 100%; /* 높이를 100%로 설정 */
+    background-color: #4caf50; /* XP 바 색상 */
+    border-radius: 10px;
+  }
+  

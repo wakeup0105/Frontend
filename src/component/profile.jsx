@@ -23,7 +23,9 @@ import noactiveneckbutton from '../image/neckandhuributton/목흑백.png';
 import activehuributton from '../image/neckandhuributton/허리컬러.png';
 import noactivehuributton from '../image/neckandhuributton/허리흑백.png';
 import Timer from './Timer'; // Timer를 별도의 파일에서 가져옵니다.
+import ironaicon from '../image/ironaicon.png';
 import '../Timer.css';
+import '../profile.css';
 import EditButton from './EditButton'; // EditButton을 임포트합니다.
 
 export default function Profile() {
@@ -149,12 +151,20 @@ export default function Profile() {
       </div>
       <div className="Main-Layout">
         <div className="Left-Box">
-            <div className='userinfo'>
-              <img src={character1} alt="character1" />
-              <img src={character2} alt="character2" />
-              {/* nickname 표시 */}
-              <div className="nickname">{nickname}</div>
-            </div>  
+        <div class="profile-container">
+            <div class="icon-box">
+              <img src={ironaicon} alt="character1" />
+            </div>
+            <div class="info-container">
+              <div class="name-level-box">
+                <span class="username">Username</span>
+                <span class="level">Level</span>
+              </div>
+              <div class="xp-box">
+                <div class="xp-bar" style={{ width: '70%' }}></div> 
+              </div>
+            </div>
+            </div>
           <div className="icon">
             <button 
               className="icon-button" 
