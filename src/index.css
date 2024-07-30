@@ -686,3 +686,101 @@ ul li:nth-child(3):hover span {
   z-index: 2; /* 다른 이미지 위에 배치 */
   text-align: center; /* 가운데 정렬 */
 }
+/* 알림 모달창 */
+.notification-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 320px; /* 모달 창의 너비를 조정 */
+  height: 600px; /* 모달 창의 높이를 조정 */
+  background: none; /* 배경색 제거 */
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 1000; /* 필요한 경우 추가 */
+}
+
+.notification-header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: none; /* 배경색 제거 */
+}
+
+.notification-content {
+  width: 500%; /* 너비를 100%로 설정 */
+  max-height: 500px; /* 모달 창의 높이에 맞게 조정 */
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 10px 0;
+  background: none; /* 배경색 제거 */
+}
+
+.notification-item {
+  width: 90%; /* 너비를 모달 창의 100%로 설정 */
+  display: flex;
+  flex-direction: column;
+  background-color: #f0f8ff; /* 밝은 배경색으로 변경 */
+  border: 1px solid #e0e0e0;
+  border-radius: 5px;
+  padding: 30px; /* 상하 너비를 키우기 위해 padding 조정 */
+  margin-bottom: 20px; /* 항목 사이의 간격을 조정 */
+  position: relative;
+  color: #000; /* 텍스트 색상 변경 */
+  flex-grow: 1; /* 각 항목이 동일한 크기를 갖도록 설정 */
+}
+
+.notification-from {
+  font-weight: bold;
+}
+
+.notification-message {
+  margin: 10px 0; /* 메시지 상하 간격 조정 */
+}
+
+.notification-time {
+  font-size: 12px;
+  color: #666; /* 텍스트 색상 변경 */
+}
+
+.notification-close {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background: none;
+  border: none;
+  font-size: 12px;
+  cursor: pointer;
+  color: #000; /* 텍스트 색상 변경 */
+}
+
+.scroll-buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.scroll-up, .scroll-down {
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  color: #000; /* 텍스트 색상 변경 */
+  margin: 5px 0;
+}
+
+.clear-all-button {
+  background: #ff0000; /* 빨간색 배경 */
+  border: none;
+  color: #fff; /* 흰색 텍스트 */
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-top: 10px; /* 상단 여백 추가 */
+}
