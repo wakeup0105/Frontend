@@ -1,6 +1,8 @@
 // Profile.jsx
+
 import React, { useState, useEffect } from 'react';
 import '../index.css';
+import { useLocation } from 'react-router-dom';
 import health from '../image/health.png';
 import ring1 from '../image/ring1.png';
 import setting from '../image/setting.png';
@@ -33,6 +35,10 @@ export default function Profile() {
   const [fadeOutModal, setFadeOutModal] = useState(false);
   const [fadeInModal, setFadeInModal] = useState(false);
   const [modalContent, setModalContent] = useState(null);
+
+  const location = useLocation();
+  const { state } = location;
+  const nickname = state?.nickname || ''; // 전달된 nickname을 받아옵니다.
 
   const handleButtonClick = (button) => {
     if (button === 'neck') {
@@ -129,8 +135,6 @@ export default function Profile() {
       </div>
       <div className="second-top">
         <div className="character">
-          <img src={character1} alt="character1" />
-          <img src={character2} alt="character2" />
         </div>
         <div className="icon">
           <button className="icon-button" onClick={() => handleIconClick('Health')}>
@@ -146,10 +150,12 @@ export default function Profile() {
       </div>
       <div className="Main-Layout">
         <div className="Left-Box">
-          <div>
-            <img src={character1} alt="character1" />
-            <img src={character2} alt="character2" />
-          </div>  
+            <div className='userinfo'>
+              <img src={character1} alt="character1" />
+              <img src={character2} alt="character2" />
+              {/* nickname 표시 */}
+              <div className="nickname">{nickname}</div>
+            </div>  
           <div className="icon">
             <button 
               className="icon-button" 

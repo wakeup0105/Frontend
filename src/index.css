@@ -646,3 +646,43 @@ ul li:nth-child(3):hover span {
   font-size: 48px;
   margin-bottom: 10px;
 }
+
+/*================================*/
+/* index.css 또는 관련 CSS 파일에 추가 */
+
+.userinfo {
+  position: relative; /* 자식 요소들이 절대 위치로 배치될 수 있도록 설정 */
+  display: inline-block; /* 이미지들을 수평으로 정렬 */
+}
+
+.userinfo img {
+  display: block; /* 이미지가 블록 요소처럼 동작하도록 설정 */
+}
+
+.userinfo img:first-child {
+  position: absolute; /* 절대 위치로 배치 */
+  top: -40px; /* 상단에서 40px 위로 이동 */
+  left: -40px;
+  width: 110px; /* 첫 번째 이미지의 너비를 110px로 설정 */
+  height: auto; /* 원본 비율 유지 */
+  z-index: 2; /* 다른 이미지 위에 배치 */
+}
+
+.userinfo img:last-child {
+  position: static; /* 기본 위치로 배치 */
+  width: 80%; /* 원본 너비 유지 */
+  height: 80%; /* 원본 높이 유지 */
+  z-index: 1; /* 첫 번째 이미지 아래에 배치 */
+}
+
+.nickname {
+  position: absolute; /* 절대 위치로 배치 */
+  top: 50%; /* 상단에서 50% 위치 */
+  left: 50%; /* 왼쪽에서 50% 위치 */
+  transform: translate(-50%, -100%); /* 가운데 정렬과 위쪽 위치 조정 */
+  color: rgb(42, 37, 37); /* 텍스트 색상 */
+  font-weight: bold; /* 글자 두껍게 */
+  font-size: calc(10px + 2vw); /* 이미지 크기에 비례하여 폰트 사이즈 조정 (예시) */
+  z-index: 2; /* 다른 이미지 위에 배치 */
+  text-align: center; /* 가운데 정렬 */
+}
