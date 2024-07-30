@@ -19,6 +19,7 @@ import activeneckbutton from '../image/neckandhuributton/목컬러.png';
 import noactiveneckbutton from '../image/neckandhuributton/목흑백.png';
 import activehuributton from '../image/neckandhuributton/허리컬러.png';
 import noactivehuributton from '../image/neckandhuributton/허리흑백.png';
+import Timer from './Timer'; // Timer를 별도의 파일에서 가져옵니다.
 import '../Timer.css';
 
 export default function Profile() {
@@ -77,114 +78,6 @@ export default function Profile() {
       setFadeInModal(false);
     }, 500);
   };
-
-  const Timer = () => {
-    const defaultTime = 20 * 60; // 기본값 20분
-    const [initialTime, setInitialTime] = useState(defaultTime);
-    const [time, setTime] = useState(defaultTime);
-    const [minutes, setMinutes] = useState(Math.floor(defaultTime / 60));
-    const [seconds, setSeconds] = useState(defaultTime % 60);
-    const [inputMinutes, setInputMinutes] = useState('');
-    const [inputSeconds, setInputSeconds] = useState('');
-    const [showAlert, setShowAlert] = useState(false);
-    const [fadeOut, setFadeOut] = useState(false);
-    const [isTimerActive, setIsTimerActive] = useState(true);
-  
-    useEffect(() => {
-      let timer;
-      if (isTimerActive) {
-        timer = setInterval(() => {
-          setTime(prevTime => {
-            if (prevTime > 0) {
-              return prevTime - 1;
-            } else {
-              clearInterval(timer);
-              setShowAlert(true);
-              setIsTimerActive(false); // 타이머 멈춤
-              return 0;
-            }
-          });
-        }, 1000);
-      } else {
-        clearInterval(timer);
-      }
-      return () => clearInterval(timer);
-    }, [isTimerActive]);
-  
-    useEffect(() => {
-      setMinutes(Math.floor(time / 60));
-      setSeconds(time % 60);
-    }, [time]);
-  
-    const handleInputMinutesChange = (e) => {
-      setInputMinutes(e.target.value);
-    };
-  
-    const handleInputSecondsChange = (e) => {
-      setInputSeconds(e.target.value);
-    };
-  
-    const handleSetTime = () => {
-      const totalSeconds = parseInt(inputMinutes) * 60 + parseInt(inputSeconds);
-      const newInitialTime = isNaN(totalSeconds) || totalSeconds <= 0 ? defaultTime : totalSeconds;
-      setInitialTime(newInitialTime);
-      setTime(newInitialTime);
-      setShowAlert(false);
-      setIsTimerActive(true); // 타이머 시작
-    };
-  
-    const handleAlertClose = () => {
-      setFadeOut(true);
-      setTimeout(() => {
-        setShowAlert(false);
-        setFadeOut(false);
-        // 타이머 재개
-        setIsTimerActive(true);
-        // 타이머를 설정된 시간으로 초기화
-        const resetTime = isNaN(initialTime) || initialTime <= 0 ? defaultTime : initialTime;
-        setTime(resetTime);
-      }, 500);
-    };
-  
-    const progressBarWidth = (time / initialTime) * 100;
-  
-    return (
-      <div className="timer-container">
-        <h1>알람</h1>
-        <div className="timer-display">
-          {minutes < 10 ? `0${minutes}` : minutes}:
-          {seconds < 10 ? `0${seconds}` : seconds}
-        </div>
-        <div className="progress-bar">
-          <div className="progress-bar-fill" style={{ width: `${progressBarWidth}%` }}></div>
-        </div>
-        <div className="input-container">
-          <input
-            type="number"
-            value={inputMinutes}
-            onChange={handleInputMinutesChange}
-            placeholder="분"
-          />
-          <input
-            type="number"
-            value={inputSeconds}
-            onChange={handleInputSecondsChange}
-            placeholder="초"
-          />
-          <button onClick={handleSetTime}>설정하기</button>
-        </div>
-        {showAlert && (
-          <div className={`alert-overlay ${fadeOut ? 'fade-out' : ''}`} onClick={handleAlertClose}>
-            <div className="alert">
-              <p>스트레칭하세요!!</p>
-              <button onClick={handleAlertClose}>확인</button>
-            </div>
-          </div>
-        )}
-      </div>
-    );
-  };
-  
 
   const EditButton = () => {
     const [isEditing, setIsEditing] = useState(false);
