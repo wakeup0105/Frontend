@@ -4,9 +4,12 @@ import noactiveneckbutton from '../image/neckandhuributton/목흑백.png';
 import activehuributton from '../image/neckandhuributton/허리컬러.png';
 import noactivehuributton from '../image/neckandhuributton/허리흑백.png';
 
-// 예제 이미지를 가져옵니다. 실제로는 올바른 경로와 이미지를 사용하세요.
-import neckImage from '../image/alone.png';
-import huriImage from '../image/chat.png';
+import neckImage1 from '../image/거북목.jpg';
+import neckImage2 from '../image/거북목2.jpg';
+import neckImage3 from '../image/거북목3.jpg';
+import huriImage1 from '../image/허리1.jpg';
+import huriImage2 from '../image/허리2.jpg';
+import huriImage3 from '../image/허리3.jpg';
 
 const HealthModal = ({ neckActive, huriActive, handleButtonClick }) => {
   useEffect(() => {
@@ -15,15 +18,15 @@ const HealthModal = ({ neckActive, huriActive, handleButtonClick }) => {
   }, [neckActive, huriActive]);
 
   const neckLinks = [
-    { title: '거북목 스트레칭', url: 'https://example.com/neck1', image: neckImage },
-    { title: '목 통증 완화 운동', url: 'https://example.com/neck2', image: neckImage },
-    { title: '목 건강 관리 팁', url: 'https://example.com/neck3', image: neckImage }
+    { title: '거북목 스트레칭', url: 'http://www.hitnews.co.kr/news/articleView.html?idxno=51221', image: neckImage1 },
+    { title: '목 통증 완화 운동', url: 'https://health.kdca.go.kr/healthinfo/biz/health/gnrlzHealthInfo/gnrlzHealthInfo/gnrlzHealthInfoView.do?cntnts_sn=5972', image: neckImage2 },
+    { title: '목 건강 관리 팁', url: 'https://www.korea.kr/news/interviewView.do?newsId=148841222#interview', image: neckImage3 }
   ];
 
   const huriLinks = [
-    { title: '허리 통증 완화 스트레칭', url: 'https://example.com/huri1', image: huriImage },
-    { title: '허리 강화 운동', url: 'https://example.com/huri2', image: huriImage },
-    { title: '허리 건강 유지 비결', url: 'https://example.com/huri3', image: huriImage }
+    { title: '허리 통증 완화 스트레칭', url: 'https://webzine.comwel.or.kr/vol92/sub2-4.html', image: huriImage1 },
+    { title: '허리 강화 운동', url: 'https://www.sportsmed.or.kr/board/view.html?num=905&start=70&code=sportsdoctor&key=&keyword=', image: huriImage2 },
+    { title: '허리 건강 유지 비결', url: 'https://www.korea.kr/news/issueQAView.do?newsId=148813069', image: huriImage3 }
   ];
 
   const renderLinks = () => {
@@ -34,7 +37,6 @@ const HealthModal = ({ neckActive, huriActive, handleButtonClick }) => {
           <img src={link.image} alt={link.title} className="card-image" />
         </a>
         <p>{link.title}</p>
-        <a href={link.url} target="_blank" rel="noopener noreferrer">자세히 보기</a>
       </div>
     ));
   };

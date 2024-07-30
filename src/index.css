@@ -53,6 +53,7 @@ body {
   margin-left: 10%;
   margin-right: 10%;
   margin-top: 1%;
+  
 }
 
 .Left-Box, .Right-Box {
@@ -581,42 +582,73 @@ ul li:nth-child(3):hover span {
 
 .card-container {
   display: flex;
+  flex-wrap: nowrap;
   justify-content: space-between;
-  width: 100%;
-  margin-top: 30px;
+  width:100%;
+  gap: 10px;
 }
 
-
 .card {
-  background-color: white;
-  border-radius: 10px;
-  padding: 100px 100px;
-  margin: 10px;
-  width: 30%;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
   align-items: center;
-  text-align: center; /* 텍스트를 가운데 정렬 */
-  transition: transform 0.3s; /* 카드 전체에 부드러운 이동 효과 적용 */
+  width: 32%;
+  background-color: rgba(255, 255, 255, 0.8); /* 반투명 배경 설정 */
+  border-radius: 10px;
+  padding: 45px;
+  margin: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  transition: transform 0.3s;
 }
 
 .card:hover {
-  transform: translateY(-10px); /* 마우스를 올렸을 때 카드가 살짝 위로 이동 */
+  transform: translateY(-10px);
 }
 
 .card-image {
-  width: 100%; /* 이미지를 카드 너비에 맞추기 */
-  height: auto;
-  border-radius: 10px 10px 0 0; /* 카드의 윗부분만 둥글게 */
+  width: 400px;
+  height: 330px; /* 카드 내 이미지의 고정 높이 설정 */
+  object-fit: cover; /* 이미지가 카드 크기에 맞도록 조정됨 */
+  border-radius: 10px;
   margin-bottom: 10px;
-  transition: transform 0.3s, filter 0.3s; /* 이미지에 부드러운 이동 및 필터 효과 적용 */
 }
 
-.card-image:hover {
-  transform: scale(1.05); /* 마우스를 올렸을 때 이미지 확대 */
-  filter: brightness(1.2); /* 밝기 조정 */
+.card p {
+  margin-top: 10px;
+  font-size: 18px; /* 글자 크기 설정 */
 }
+
+.card a {
+  font-size: 18px; /* 글자 크기 설정 */
+  color: #007BFF; /* 링크 색상 */
+}
+
+
+.more-info-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 4;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.more-info-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.more-info-content img {
+  max-width: 100%;
+  height: auto;
+}
+
 
 .break-timer-overlay {
   display: flex;
@@ -699,7 +731,6 @@ ul li:nth-child(3):hover span {
   display: flex;
   flex-direction: column;
   align-items: center;
-  z-index: 1000; /* 필요한 경우 추가 */
 }
 
 .notification-header {
@@ -775,15 +806,16 @@ ul li:nth-child(3):hover span {
 }
 
 .clear-all-button {
-  background: #ff0000; /* 빨간색 배경 */
+  background: rgba(255, 255, 255, 0.5); /* 배경 투명하게 변경 */
   border: none;
-  color: #fff; /* 흰색 텍스트 */
+  color: black; /* 검정색 텍스트 */
   padding: 10px 20px;
   font-size: 16px;
   cursor: pointer;
   border-radius: 5px;
-  margin-top: 10px; /* 상단 여백 추가 */
+  margin-top: 20px; /* 상단 여백 추가 */
 }
+
 .modal-container {
   display: flex;
   flex-direction: column;

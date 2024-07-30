@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import '../Timer.css';
 
-const Timer = () => {
+const Timer = ({ onConfirm }) => {
   const defaultTime = 20 * 60; // 기본값 20분
   const [initialTime, setInitialTime] = useState(defaultTime);
   const [time, setTime] = useState(defaultTime);
@@ -63,6 +63,7 @@ const Timer = () => {
       setFadeOut(false);
       setIsTimerActive(true); // 타이머 재시작
       setTime(initialTime); // 타이머 시간을 초기화
+      onConfirm(); // 추가: 확인 버튼 클릭 시 호출
     }, 500);
   };
   

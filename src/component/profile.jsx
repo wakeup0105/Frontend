@@ -8,7 +8,9 @@ import character1 from '../image/character1.png';
 import character2 from '../image/character2.png';
 import memark1 from '../image/15memark.png';
 import memark2 from '../image/15memark2.png';
-import ilona from '../image/ilona.png';
+import ilona1 from '../image/ilona.png'; // 기존 이미지
+import ilona2 from '../image/ilona2.png'; // 새로운 이미지 1
+import ilona3 from '../image/ilona3.png'; // 새로운 이미지 2
 import enter from '../image/enter.png';
 import chat from '../image/chat.png';
 import store from '../image/cashstore.png';
@@ -25,6 +27,7 @@ import ironaicon from '../image/ironaicon.png';
 import '../Timer.css';
 import '../profile.css';
 import EditButton from './EditButton'; // EditButton을 임포트합니다.
+import moreInfoImage from '../image/moreInfoImage.png'; // 추가: 더보기 이미지
 
 export default function Profile() {
   const [neckActive, setNeckActive] = useState(true);
@@ -35,6 +38,9 @@ export default function Profile() {
   const [fadeOutModal, setFadeOutModal] = useState(false);
   const [fadeInModal, setFadeInModal] = useState(false);
   const [modalType, setModalType] = useState(null); // modalType 상태 추가
+  const [showMoreInfoImage, setShowMoreInfoImage] = useState(false); // 추가: 더보기 이미지 상태
+  const [fadeOutMoreInfoImage, setFadeOutMoreInfoImage] = useState(false); // 추가: 더보기 이미지 애니메이션 상태
+  const [clickCount, setClickCount] = useState(0); // 추가: 확인 버튼 클릭 횟수 상태
 
   const location = useLocation();
   const { state } = location;
@@ -90,6 +96,33 @@ export default function Profile() {
     }, 500);
   };
 
+  // 추가: 더보기 버튼 클릭 핸들러
+  const handleMoreInfoClick = () => {
+    setShowMoreInfoImage(true);
+  };
+
+  // 추가: 더보기 이미지 닫기 핸들러
+  const closeMoreInfoImage = () => {
+    setFadeOutMoreInfoImage(true);
+    setTimeout(() => {
+      setShowMoreInfoImage(false);
+      setFadeOutMoreInfoImage(false);
+    }, 500);
+  };
+
+  // 추가: 타이머에서 클릭 횟수 증가 함수
+  const incrementClickCount = () => {
+    setClickCount((prevCount) => prevCount + 1);
+  };
+
+  // 이미지 변경을 위한 조건
+    const getIlonaImage = () => {
+      if (clickCount >= 2) return ilona3; // 2번 클릭 시 ilona3
+      if (clickCount >= 1) return ilona2; // 1번 클릭 시 ilona2
+      return ilona1; // 그 외에는 ilona1
+    };
+
+
   return (
     <div className="container">
       {showAlert && (
@@ -106,12 +139,20 @@ export default function Profile() {
             {modalType === 'Health' && (
               <HealthModal neckActive={neckActive} huriActive={huriActive} handleButtonClick={handleButtonClick} />
             )}
-            {modalType === 'Ring' && <RingModal />}
+            {modalType === 'Ring' && <RingModal onClose={closeModal} />} {/* onClose prop 전달 */}
             {modalType === 'Setting' && <SettingModal />}
             <div className="modal-footer">
-              <button>더보기</button>
+              {modalType === 'Health' && <button onClick={handleMoreInfoClick}>더보기</button>}
               <button onClick={closeModal}>닫기</button>
             </div>
+          </div>
+        </div>
+      )}
+
+      {showMoreInfoImage && (
+        <div className={`more-info-overlay ${fadeOutMoreInfoImage ? 'fade-out' : 'fade-in'}`} onClick={closeMoreInfoImage}>
+          <div className="more-info-content">
+            <img src={moreInfoImage} alt="More Info" />
           </div>
         </div>
       )}
@@ -136,20 +177,20 @@ export default function Profile() {
       </div>
       <div className="Main-Layout">
         <div className="Left-Box">
-        <div class="profile-container">
-            <div class="icon-box">
+          <div className="profile-container">
+            <div className="icon-box">
               <img src={ironaicon} alt="character1" />
             </div>
-            <div class="info-container">
-              <div class="name-level-box">
-                <span class="username">{nickname}</span>
-                <span class="level">Level.1</span>
+            <div className="info-container">
+              <div className="name-level-box">
+                <span className="username">{nickname}</span>
+                <span className="level">Level.1</span>
               </div>
-              <div class="xp-box">
-                <div class="xp-bar" style={{ width: '70%' }}></div> 
+              <div className="xp-box">
+                <div className="xp-bar" style={{ width: '70%' }}></div>
               </div>
             </div>
-            </div>
+          </div>
           <div className="icon">
             <button 
               className="icon-button" 
@@ -167,7 +208,7 @@ export default function Profile() {
             </button>
           </div>
 
-          <img src={ilona} alt="ilona" className='imagecenter'/>
+          <img src={getIlonaImage()} alt="ilona" className='imagecenter'/>
           <div className="icon">
             <button className="icon-button">
               <img src={enter} alt="enter" />
@@ -184,7 +225,7 @@ export default function Profile() {
           </div>
         </div>
         <div className="Right-Box">
-          <div className="sub-box"><Timer /></div>
+          <div className="sub-box"><Timer onConfirm={incrementClickCount} /></div>
           <div className="sub-box"><GoalProgress/></div>
           <div className="sub-box"><EditButton/></div>
         </div>
