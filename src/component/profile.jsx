@@ -1,3 +1,4 @@
+// Profile.jsx
 import React, { useState, useEffect } from 'react';
 import '../index.css';
 import health from '../image/health.png';
@@ -21,6 +22,7 @@ import activehuributton from '../image/neckandhuributton/허리컬러.png';
 import noactivehuributton from '../image/neckandhuributton/허리흑백.png';
 import Timer from './Timer'; // Timer를 별도의 파일에서 가져옵니다.
 import '../Timer.css';
+import EditButton from './EditButton'; // EditButton을 임포트합니다.
 
 export default function Profile() {
   const [neckActive, setNeckActive] = useState(true);
@@ -77,44 +79,6 @@ export default function Profile() {
       setFadeOutModal(false);
       setFadeInModal(false);
     }, 500);
-  };
-
-  const EditButton = () => {
-    const [isEditing, setIsEditing] = useState(false);
-    const [introText, setIntroText] = useState("");
-
-    const handleEditClick = () => {
-      setIsEditing(true);
-    };
-
-    const handleSaveClick = () => {
-      setIsEditing(false);
-    };
-
-    const handleChange = (e) => {
-      setIntroText(e.target.value);
-    };
-
-    return (
-      <div className="edit-section">
-        {isEditing ? (
-          <div>
-            <input 
-              type="text" 
-              placeholder="한 줄 소개 작성하기" 
-              value={introText} 
-              onChange={handleChange} 
-            />
-            <button onClick={handleSaveClick}>저장</button>
-          </div>
-        ) : (
-          <div className="intro-display">
-            <span>{introText || "한 줄 소개 작성하기"}</span>
-            <button className="edit-button" onClick={handleEditClick}>편집하기</button>
-          </div>
-        )}
-      </div>
-    );
   };
 
   const GoalProgress = () => {
