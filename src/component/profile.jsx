@@ -1,5 +1,3 @@
-// Profile.jsx
-
 import React, { useState, useEffect } from 'react';
 import '../index.css';
 import { useLocation } from 'react-router-dom';
@@ -36,7 +34,7 @@ export default function Profile() {
   const [showModal, setShowModal] = useState(false);
   const [fadeOutModal, setFadeOutModal] = useState(false);
   const [fadeInModal, setFadeInModal] = useState(false);
-  const [modalContent, setModalContent] = useState(null);
+  const [modalType, setModalType] = useState(null); // modalType 상태 추가
 
   const location = useLocation();
   const { state } = location;
@@ -52,28 +50,11 @@ export default function Profile() {
     }
   };
 
-  const handleIconClick = (content) => {
-    if (content === 'Health') {
-      setModalContent(
-        <HealthModal neckActive={neckActive} huriActive={huriActive} handleButtonClick={handleButtonClick} />
-      );
-    } else if (content === 'Ring') {
-      setModalContent(<RingModal />);
-    } else if (content === 'Setting') {
-      setModalContent(<SettingModal />);
-    }
+  const handleIconClick = (type) => {
+    setModalType(type);
     setShowModal(true);
   };
 
-  useEffect(() => {
-    // Modal이 열릴 때마다 상태를 새로고침
-    if (showModal) {
-      setModalContent(
-        <HealthModal neckActive={neckActive} huriActive={huriActive} handleButtonClick={handleButtonClick} />
-      );
-    }
-  }, [neckActive, huriActive, showModal]);
-  
   useEffect(() => {
     if (showModal) {
       setFadeInModal(true);
@@ -122,7 +103,11 @@ export default function Profile() {
       {showModal && (
         <div className={`modal ${fadeOutModal ? 'fade-out' : 'fade-in'}`} onClick={closeModal}>
           <div className="modal-content modal-content-custom" onClick={(e) => e.stopPropagation()}>
-            {modalContent}
+            {modalType === 'Health' && (
+              <HealthModal neckActive={neckActive} huriActive={huriActive} handleButtonClick={handleButtonClick} />
+            )}
+            {modalType === 'Ring' && <RingModal />}
+            {modalType === 'Setting' && <SettingModal />}
             <div className="modal-footer">
               <button>더보기</button>
               <button onClick={closeModal}>닫기</button>
