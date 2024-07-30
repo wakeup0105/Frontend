@@ -5,7 +5,8 @@
     height: 100px; /* 높이를 100px로 설정 (적절한 크기로 조정 가능) */
     background-color: #f0f0f0; /* 배경색 */
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    margin-top: 2%;
+    margin-bottom: 3%;
   }
   
   .icon-box {
@@ -15,13 +16,14 @@
     justify-content: center;
     align-items: center;
     background-color: #fff; /* 배경색 */
-    border-radius: 10px 0 0 10px;
+    border-radius: 10px 0 0 10px; /* 상단 좌측 및 하단 좌측 둥글게 설정 */
+    overflow: hidden; /* 자식 요소가 부모 요소를 벗어나지 않게 설정 */
   }
   
   .icon-box img {
-    width: 80%; /* 이미지 크기 조정 */
-    height: auto;
-    border-radius: 50%;
+    max-width: 100%; /* 이미지의 최대 너비를 부모 요소에 맞춤 */
+    max-height: 100%; /* 이미지의 최대 높이를 부모 요소에 맞춤 */
+    object-fit: contain; /* 이미지 비율을 유지하며 부모 요소를 채우되 잘리지 않도록 설정 */
   }
   
   .info-container {
@@ -53,20 +55,35 @@
     font-size: 1em;
     color: #666;
   }
-  
+
   .xp-box {
-    height: 50%; /* 높이를 50%로 설정 */
-    background-color: #ddd; /* 배경색 */
-    border-radius: 10px;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    margin-top: 5px; /* 상단 마진 */
-  }
-  
-  .xp-bar {
-    height: 100%; /* 높이를 100%로 설정 */
-    background-color: #4caf50; /* XP 바 색상 */
-    border-radius: 10px;
-  }
-  
+  height: 50%; /* 높이를 50%로 설정 */
+  background-color: #ddd; /* 배경색 */
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  margin-top: 5px; /* 상단 마진 */
+  position: relative; /* 위치를 상대적으로 설정 */
+}
+
+.xp-bar {
+  height: 100%; /* 높이를 100%로 설정 */
+  background: linear-gradient(to bottom, #4caf50 0%, #388e3c 100%); /* 상단이 밝고 하단이 어두운 그라디언트 */
+  border-radius: 10px;
+  width: 70%; /* 너비를 70%로 설정 */
+  position: relative; /* 위치를 상대적으로 설정 */
+  box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.2); /* 내부 그림자 효과 */
+}
+
+.xp-bar::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at top left, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0) 50%);
+  border-radius: 10px;
+  pointer-events: none; /* 마우스 이벤트를 무시하여 클릭 방지 */
+}

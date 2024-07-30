@@ -142,8 +142,8 @@ export default function Profile() {
             </div>
             <div class="info-container">
               <div class="name-level-box">
-                <span class="username">Username</span>
-                <span class="level">Level</span>
+                <span class="username">{nickname}</span>
+                <span class="level">Level.1</span>
               </div>
               <div class="xp-box">
                 <div class="xp-bar" style={{ width: '70%' }}></div> 
