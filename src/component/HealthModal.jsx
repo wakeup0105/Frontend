@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import activeneckbutton from '../image/neckandhuributton/목컬러.png';
 import noactiveneckbutton from '../image/neckandhuributton/목흑백.png';
 import activehuributton from '../image/neckandhuributton/허리컬러.png';
@@ -11,7 +11,12 @@ import huriImage1 from '../image/허리1.jpg';
 import huriImage2 from '../image/허리2.jpg';
 import huriImage3 from '../image/허리3.jpg';
 
-const HealthModal = ({ neckActive, huriActive, handleButtonClick }) => {
+import neckmoreinfo from '../image/moreInfoImage.png';
+
+const HealthModal = ({ neckActive, huriActive, handleButtonClick, onClose }) => {
+  const [showMoreInfo, setShowMoreInfo] = useState(false);
+  const [moreInfoImage, setMoreInfoImage] = useState(null);
+
   useEffect(() => {
     console.log('Neck Active:', neckActive);
     console.log('Huri Active:', huriActive);
@@ -41,6 +46,16 @@ const HealthModal = ({ neckActive, huriActive, handleButtonClick }) => {
     ));
   };
 
+  const handleMoreInfoClick = () => {
+    setMoreInfoImage(neckActive ? neckmoreinfo : huriImage1);
+    setShowMoreInfo(true);
+  };
+
+  const closeMoreInfo = () => {
+    setShowMoreInfo(false);
+    setMoreInfoImage(null);
+  };
+
   return (
     <div>
       <div className="modal-header">
@@ -67,6 +82,18 @@ const HealthModal = ({ neckActive, huriActive, handleButtonClick }) => {
           {renderLinks()}
         </div>
       </div>
+      <div className="modal-footer">
+        <button onClick={handleMoreInfoClick}>더보기</button>
+        <button onClick={onClose}>닫기</button>
+      </div>
+      {showMoreInfo && (
+        <div className="more-info-overlay" onClick={closeMoreInfo}>
+          <div className="more-info-content" onClick={(e) => e.stopPropagation()}>
+            <img src={moreInfoImage} alt="More Info" />
+            <button onClick={closeMoreInfo}>닫기</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

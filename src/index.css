@@ -455,30 +455,7 @@ ul li:nth-child(3):hover span {
   opacity: 0;
   transition: opacity 300ms ease-in-out;
 }
-.modal {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: fixed;
-  z-index: 3;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 110%;
-  overflow: auto;
-}
 
-.modal-content {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 80%;
-  flex-grow: 1;
-  background: linear-gradient(to bottom, #015E2F, #223C07);
-  margin-left: 10%;
-  margin-right: 10%;
-  margin-top: 1%;
-}
 
 /* 기존 애니메이션 키프레임 유지 */
 @keyframes fadeIn {
@@ -526,7 +503,30 @@ ul li:nth-child(3):hover span {
 }
 
 
-/* index.css 파일에서 기존 .modal-content-custom 스타일을 수정 */
+.modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  z-index: 3;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 110%;
+  overflow: auto;
+}
+
+.modal-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 80%;
+  flex-grow: 1;
+  background: linear-gradient(to bottom, #015E2F, #223C07);
+  margin-left: 10%;
+  margin-right: 10%;
+  margin-top: 1%;
+}
 .modal-content-custom {
   display: flex;
   flex-direction: column;
@@ -576,9 +576,12 @@ ul li:nth-child(3):hover span {
 }
 
 .modal-footer button:hover {
-  color: lightgray;
+  color: rgb(253, 191, 191);
 }
 
+
+
+/* Health modal */
 
 .card-container {
   display: flex;
@@ -718,15 +721,18 @@ ul li:nth-child(3):hover span {
   z-index: 2; /* 다른 이미지 위에 배치 */
   text-align: center; /* 가운데 정렬 */
 }
+
+
 /* 알림 모달창 */
+
 .notification-modal {
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 320px; /* 모달 창의 너비를 조정 */
-  height: 600px; /* 모달 창의 높이를 조정 */
-  background: none; /* 배경색 제거 */
+  width: 400px;
+  height: 700px;
+  background: none;
   padding: 10px;
   display: flex;
   flex-direction: column;
@@ -738,32 +744,39 @@ ul li:nth-child(3):hover span {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: none; /* 배경색 제거 */
+  background: none;
 }
 
 .notification-content {
-  width: 500%; /* 너비를 100%로 설정 */
-  max-height: 500px; /* 모달 창의 높이에 맞게 조정 */
+  width: 400%;
+  max-height: 500px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
   align-items: center;
   margin: 10px 0;
-  background: none; /* 배경색 제거 */
+  background: none;
 }
 
 .notification-item {
-  width: 90%; /* 너비를 모달 창의 100%로 설정 */
+  width: 90%;
   display: flex;
   flex-direction: column;
-  background-color: #f0f8ff; /* 밝은 배경색으로 변경 */
-  border: 1px solid #e0e0e0;
+  background: linear-gradient(to bottom, #a8d5ba, #4caf50); /* 그라디언트 색상 */
+  border: none;
   border-radius: 5px;
-  padding: 30px; /* 상하 너비를 키우기 위해 padding 조정 */
-  margin-bottom: 20px; /* 항목 사이의 간격을 조정 */
+  padding: 40px;
+  margin-bottom: 20px;
   position: relative;
-  color: #000; /* 텍스트 색상 변경 */
-  flex-grow: 1; /* 각 항목이 동일한 크기를 갖도록 설정 */
+  color: #000;
+  cursor: pointer;
+  flex-grow: 1;
+  transition: transform 0.2s ease-in-out; /* 부드러운 전환 효과 */
+}
+
+.notification-item:hover {
+  transform: scale(1.02); /* 확대 효과 */
+  background: linear-gradient(to bottom, #8abf9f, #388e3c); /* hover 시 색상 변화 */
 }
 
 .notification-from {
@@ -771,12 +784,12 @@ ul li:nth-child(3):hover span {
 }
 
 .notification-message {
-  margin: 10px 0; /* 메시지 상하 간격 조정 */
+  margin: 10px 0;
 }
 
 .notification-time {
   font-size: 12px;
-  color: #666; /* 텍스트 색상 변경 */
+  color: #666;
 }
 
 .notification-close {
@@ -787,7 +800,7 @@ ul li:nth-child(3):hover span {
   border: none;
   font-size: 12px;
   cursor: pointer;
-  color: #000; /* 텍스트 색상 변경 */
+  color: #000;
 }
 
 .scroll-buttons {
@@ -795,26 +808,72 @@ ul li:nth-child(3):hover span {
   flex-direction: column;
   align-items: center;
 }
-
 .scroll-up, .scroll-down {
   background: none;
   border: none;
   font-size: 18px;
   cursor: pointer;
-  color: #000; /* 텍스트 색상 변경 */
+  color: #000;
   margin: 5px 0;
+  transition: transform 0.3s ease-in-out; /* 클릭 효과 */
+}
+
+.scroll-up:hover, .scroll-down:hover {
+  transform: scale(1.2); 
 }
 
 .clear-all-button {
-  background: rgba(255, 255, 255, 0.5); /* 배경 투명하게 변경 */
+  background: rgba(255, 255, 255, 0.5);
   border: none;
-  color: black; /* 검정색 텍스트 */
+  color: black;
   padding: 10px 20px;
   font-size: 16px;
   cursor: pointer;
   border-radius: 5px;
-  margin-top: 20px; /* 상단 여백 추가 */
+  margin-top: 20px;
 }
+
+.details-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px;
+  padding: 20px;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+
+.details-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.details-content h2 {
+  margin-bottom: 10px;
+}
+
+.details-content p {
+  margin: 5px 0;
+}
+
+.details-content button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background: rgba(255, 255, 255, 0.5);
+  border: none;
+  color: black;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+
+/* setting modal */
 
 .modal-container {
   display: flex;
@@ -929,4 +988,24 @@ ul li:nth-child(3):hover span {
 .setting-footer-button:hover,
 .feature-footer-button:hover {
   background-color: #1b4a1b;
+}
+
+.setting-logout {
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 1em;
+  font-weight: bold;
+  text-decoration: none;
+  color: #fff; /* 텍스트 색상 */
+  background: linear-gradient(to bottom, #a8d5ba, #4caf50); /* 그라디언트 색상 */
+  border-radius: 5px; /* 모서리 둥글게 */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+  transition: transform 0.3s ease, background 0.3s ease; /* 확대 및 배경색 변화 효과 */
+  outline: none; /* 기본 테두리 제거 */
+  border: none; /* 기본 경계 제거 */
+}
+
+.setting-logout:hover {
+  transform: scale(1.05); /* 확대 효과 */
+  background: linear-gradient(to bottom, #8abf9f, #388e3c); /* hover 시 색상 변화 */
 }

@@ -159,14 +159,11 @@ export default function Profile() {
         <div className={`modal ${fadeOutModal ? 'fade-out' : 'fade-in'}`} onClick={closeModal}>
           <div className="modal-content modal-content-custom" onClick={(e) => e.stopPropagation()}>
             {modalType === 'Health' && (
-              <HealthModal neckActive={neckActive} huriActive={huriActive} handleButtonClick={handleButtonClick} />
+              <HealthModal neckActive={neckActive} huriActive={huriActive} handleButtonClick={handleButtonClick} onClose={closeModal} />
             )}
             {modalType === 'Ring' && <RingModal onClose={closeModal} />}
-            {modalType === 'Setting' && <SettingModal />}
-            <div className="modal-footer">
-              {modalType === 'Health' && <button onClick={handleMoreInfoClick}>더보기</button>}
-              <button onClick={closeModal}>닫기</button>
-            </div>
+            {modalType === 'Setting' && <SettingModal onClose={closeModal}/>}
+
           </div>
         </div>
       )}

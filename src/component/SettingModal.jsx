@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
-const SettingModal = () => {
+const SettingModal = ({onClose}) => {
   const [userInfo, setUserInfo] = useState({
     email: '',
     phoneNumber: '',
@@ -89,9 +90,8 @@ const SettingModal = () => {
           </div>
         </div>
         <div className="setting-modal-footer">
-          <button className="setting-footer-button">회원 탈퇴</button>
-          <button className="setting-footer-button">로그아웃</button>
-        </div>
+          <button className="setting-logout">회원 탈퇴</button>
+          <Link to="/" className="setting-logout">로그아웃</Link> {/* Link로 변경 */}        </div>
       </div>
 
       <div
@@ -122,9 +122,9 @@ const SettingModal = () => {
             <span>{status}</span>
           </div>
         </div>
-        <div className="feature-modal-footer">
-          <button className="feature-footer-button">X 닫기</button>
-        </div>
+      </div>
+      <div className="modal-footer">
+        <button onClick={onClose}>닫기</button> {/* 닫기 버튼 추가 */}
       </div>
     </div>
   );
