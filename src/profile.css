@@ -99,6 +99,29 @@
   white-space: nowrap; /* 텍스트가 줄바꿈되지 않게 설정 */
 }
 
+/* 레벨 텍스트 강조 */
+.level {
+  font-size: 1em;
+  font-weight: bold;
+  color: #333;
+}
+
+/* 경험치 박스의 호버 텍스트 스타일 */
+.experience-info {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.7);
+  color: #fff;
+  padding: 5px;
+  border-radius: 5px;
+  font-size: 0.9em;
+  white-space: nowrap;
+  pointer-events: none; /* 텍스트가 클릭되지 않게 설정 */
+}
+
+/* 로그아웃 버튼 스타일 */
 .logout {
   display: inline-block;
   padding: 10px 20px;

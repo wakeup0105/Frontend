@@ -43,7 +43,6 @@ export default function Profile() {
   const [showMoreInfoImage, setShowMoreInfoImage] = useState(false);
   const [fadeOutMoreInfoImage, setFadeOutMoreInfoImage] = useState(false);
   const [clickCount, setClickCount] = useState(0);
-  
   const [healthClicked, setHealthClicked] = useState(false);
   const [ringClicked, setRingClicked] = useState(false);
   const [settingClicked, setSettingClicked] = useState(false);
@@ -59,23 +58,18 @@ export default function Profile() {
   const levelUpRequirements = [0, 10, 20, 30, 40, 50]; // 레벨 0은 사용하지 않음
 
   useEffect(() => {
-    let newLevel = level;
-    let remainingCxp = cxp;
-
-    // 레벨업 로직
-    for (let i = level; i < levelUpRequirements.length; i++) {
-      if (remainingCxp >= levelUpRequirements[i]) {
-        newLevel = i;
-        remainingCxp -= levelUpRequirements[i];
-      } else {
-        break;
-      }
+    let currentCxp = cxp;
+    let currentLevel = level;
+  
+    while (currentLevel < levelUpRequirements.length - 1 && currentCxp >= levelUpRequirements[currentLevel]) {
+      currentCxp -= levelUpRequirements[currentLevel];
+      currentLevel++;
     }
-
-    setLevel(newLevel);
-    setCxp(remainingCxp); // 남은 경험치 설정
+  
+    setLevel(currentLevel);
+    setCxp(currentCxp);
   }, [cxp]);
-
+  
   const totalXPRequired = levelUpRequirements[level];
   const xpBarWidth = (cxp / totalXPRequired) * 100;
 
@@ -177,7 +171,6 @@ export default function Profile() {
             )}
             {modalType === 'Ring' && <RingModal onClose={closeModal} />}
             {modalType === 'Setting' && <SettingModal onClose={closeModal}/>}
-
           </div>
         </div>
       )}

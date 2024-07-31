@@ -13,8 +13,12 @@ const Timer = ({ onConfirm }) => {
   const [showAlert, setShowAlert] = useState(false);
   const [fadeOut, setFadeOut] = useState(false);
   const [isTimerActive, setIsTimerActive] = useState(false);
-  const [isStretching, setIsStretching] = useState(false); // 스트레칭 상태
-  const [showVideo, setShowVideo] = useState(false); // 영상 표시 상태
+  const [isStretching, setIsStretching] = useState(false);
+  const [showVideo, setShowVideo] = useState(false);
+
+  // 레벨 및 총 경험치량 상태 추가
+  const [level, setLevel] = useState(1);
+  const [totalExperience, setTotalExperience] = useState(10);
 
   useEffect(() => {
     let timer;
@@ -29,12 +33,14 @@ const Timer = ({ onConfirm }) => {
               // 스트레칭 타이머가 끝나면 원래 타이머로 돌아감
               setIsStretching(false);
               setShowAlert(false);
-              setTime(initialTime); // 원래 타이머 시간으로 복원
-              setIsTimerActive(true); // 원래 타이머 재시작
+              setTime(initialTime);
+              setIsTimerActive(true);
             } else {
               // 원래 타이머가 끝났을 때 알림 표시
               setShowAlert(true);
-              setIsTimerActive(false); // 타이머 멈춤
+              setIsTimerActive(false);
+              // 레벨업 로직 추가
+              levelUp();
             }
             return 0;
           }
@@ -65,7 +71,7 @@ const Timer = ({ onConfirm }) => {
     setInitialTime(newInitialTime);
     setTime(newInitialTime);
     setShowAlert(false);
-    setIsTimerActive(true); // 타이머 시작
+    setIsTimerActive(true);
   };
 
   const handleAlertClose = () => {
@@ -73,23 +79,34 @@ const Timer = ({ onConfirm }) => {
     setTimeout(() => {
       setShowAlert(false);
       setFadeOut(false);
-      setIsStretching(true); // 스트레칭 타이머 시작
-      setTime(stretchTime); // 스트레칭 타이머로 설정
-      setIsTimerActive(true); // 스트레칭 타이머 시작
+      setIsStretching(true);
+      setTime(stretchTime);
+      setIsTimerActive(true);
       onConfirm(); // 추가: 확인 버튼 클릭 시 호출
     }, 500);
   };
 
   const handleVideoClick = () => {
-    setShowVideo(true); // 영상 표시 상태로 변경
+    setShowVideo(true);
   };
 
   const handleVideoClose = () => {
-    setShowVideo(false); // 영상 숨기기
+    setShowVideo(false);
+  };
+
+  // 레벨업 함수
+  const levelUp = () => {
+    if (level < 5) { // 최대 레벨 5
+      setLevel(prevLevel => {
+        const newLevel = prevLevel + 1;
+        setTotalExperience(newLevel * 10); // 레벨에 따라 총 경험치량 증가
+        return newLevel;
+      });
+    }
   };
 
   const progressBarWidth = (time / (isStretching ? stretchTime : initialTime)) * 100;
-  const progressBarColor = isStretching ? '#808480' : '#60b1bf'; // 스트레칭 타이머일 때 회색
+  const progressBarColor = isStretching ? '#808480' : '#60b1bf';
 
   return (
     <div className="timer-container">
@@ -110,16 +127,16 @@ const Timer = ({ onConfirm }) => {
           value={inputMinutes}
           onChange={handleInputMinutesChange}
           placeholder="분"
-          disabled={isStretching} // 스트레칭 상태에서 비활성화
+          disabled={isStretching}
         />
         <input
           type="number"
           value={inputSeconds}
           onChange={handleInputSecondsChange}
           placeholder="초"
-          disabled={isStretching} // 스트레칭 상태에서 비활성화
+          disabled={isStretching}
         />
-        <button onClick={handleSetTime} disabled={isStretching}>설정하기</button> {/* 스트레칭 상태에서 비활성화 */}
+        <button onClick={handleSetTime} disabled={isStretching}>설정하기</button>
       </div>
       {showAlert && !isStretching && (
         <div className={`alert-overlay ${fadeOut ? 'fade-out' : ''}`}>
