@@ -98,3 +98,21 @@
   font-size: 0.9em;
   white-space: nowrap; /* 텍스트가 줄바꿈되지 않게 설정 */
 }
+
+.logout {
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 1em;
+  font-weight: bold;
+  text-decoration: none;
+  color: #fff; /* 텍스트 색상 */
+  background: linear-gradient(to bottom, #a8d5ba, #4caf50); /* 그라디언트 색상 */
+  border-radius: 5px; /* 모서리 둥글게 */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+  transition: transform 0.3s ease, background 0.3s ease; /* 확대 및 배경색 변화 효과 */
+}
+
+.logout:hover {
+  transform: scale(1.05); /* 확대 효과 */
+  background: linear-gradient(to bottom, #8abf9f, #388e3c); /* hover 시 색상 변화 */
+}
