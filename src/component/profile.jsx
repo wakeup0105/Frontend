@@ -2,8 +2,11 @@ import React, { useState, useEffect } from 'react';
 import '../index.css';
 import { useLocation } from 'react-router-dom';
 import health from '../image/health.png';
+import healthClick from '../image/healthclick.png'; // 클릭 시 이미지
 import ring1 from '../image/ring1.png';
+import ringClick from '../image/ringclick.png'; // 클릭 시 이미지
 import setting from '../image/setting.png';
+import settingClick from '../image/settingclick.png'; // 클릭 시 이미지
 import { Link } from 'react-router-dom';
 import memark1 from '../image/15memark.png';
 import memark2 from '../image/15memark2.png';
@@ -40,6 +43,10 @@ export default function Profile() {
   const [showMoreInfoImage, setShowMoreInfoImage] = useState(false);
   const [fadeOutMoreInfoImage, setFadeOutMoreInfoImage] = useState(false);
   const [clickCount, setClickCount] = useState(0);
+  
+  const [healthClicked, setHealthClicked] = useState(false);
+  const [ringClicked, setRingClicked] = useState(false);
+  const [settingClicked, setSettingClicked] = useState(false);
 
   const location = useLocation();
   const { state } = location;
@@ -145,6 +152,13 @@ export default function Profile() {
     return ilona1;
   };
 
+  const handleClick = (setClickState, duration = 100) => {
+    setClickState(true);
+    setTimeout(() => {
+      setClickState(false);
+    }, duration);
+  };
+
   return (
     <div className="container">
       {showAlert && (
@@ -183,14 +197,32 @@ export default function Profile() {
       <div className="second-top">
         <span></span>
         <div className="icon">
-          <button className="icon-button" onClick={() => handleIconClick('Health')}>
-            <img src={health} alt="health" />
+          <button
+            className="icon-button"
+            onClick={() => {
+              handleClick(setHealthClicked);
+              handleIconClick('Health');
+            }}
+          >
+            <img src={healthClicked ? healthClick : health} alt="health" />
           </button>
-          <button className="icon-button" onClick={() => handleIconClick('Ring')}>
-            <img src={ring1} alt="ring1" />
+          <button
+            className="icon-button"
+            onClick={() => {
+              handleClick(setRingClicked);
+              handleIconClick('Ring');
+            }}
+          >
+            <img src={ringClicked ? ringClick : ring1} alt="ring1" />
           </button>
-          <button className="icon-button" onClick={() => handleIconClick('Setting')}>
-            <img src={setting} alt="setting" />
+          <button
+            className="icon-button"
+            onClick={() => {
+              handleClick(setSettingClicked);
+              handleIconClick('Setting');
+            }}
+          >
+            <img src={settingClicked ? settingClick : setting} alt="setting" />
           </button>
         </div>
       </div>
