@@ -14,6 +14,7 @@ const Timer = ({ onConfirm }) => {
   const [fadeOut, setFadeOut] = useState(false);
   const [isTimerActive, setIsTimerActive] = useState(false);
   const [isStretching, setIsStretching] = useState(false); // 스트레칭 상태
+  const [showVideo, setShowVideo] = useState(false); // 영상 표시 상태
 
   useEffect(() => {
     let timer;
@@ -79,6 +80,14 @@ const Timer = ({ onConfirm }) => {
     }, 500);
   };
 
+  const handleVideoClick = () => {
+    setShowVideo(true); // 영상 표시 상태로 변경
+  };
+
+  const handleVideoClose = () => {
+    setShowVideo(false); // 영상 숨기기
+  };
+
   const progressBarWidth = (time / (isStretching ? stretchTime : initialTime)) * 100;
   const progressBarColor = isStretching ? '#808480' : '#60b1bf'; // 스트레칭 타이머일 때 회색
 
@@ -113,11 +122,26 @@ const Timer = ({ onConfirm }) => {
         <button onClick={handleSetTime} disabled={isStretching}>설정하기</button> {/* 스트레칭 상태에서 비활성화 */}
       </div>
       {showAlert && !isStretching && (
-        <div className={`alert-overlay ${fadeOut ? 'fade-out' : ''}`} onClick={handleAlertClose}>
+        <div className={`alert-overlay ${fadeOut ? 'fade-out' : ''}`}>
           <div className="alert">
             <p>스트레칭하세요!!</p>
+            <button onClick={handleVideoClick}>영상 보기</button>
             <button onClick={handleAlertClose}>확인</button>
           </div>
+          {showVideo && (
+            <div className="video-overlay">
+              <div className="video-container">
+                <iframe
+                  src="https://www.youtube.com/embed/yZpgPj9RKLQ?start=12"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  title="Stretching Video"
+                ></iframe>
+                <button className="video-close" onClick={handleVideoClose}>영상 닫기</button>
+              </div>
+            </div>
+          )}
         </div>
       )}
     </div>
