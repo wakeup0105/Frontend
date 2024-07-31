@@ -340,15 +340,16 @@ body {
   padding: 0px;
   margin: 0px;
 }
+/* body, container, top, second-top, sub-box, Main-Layout, Left-Box, Right-Box, Main-Layout img, icon-image, icon, imagecenter, edit-section, edit-mode, intro-display, intro-display span, edit-button, edit-section input, edit-section input:focus, edit-section button, edit-section button:hover, edit-section button:focus, icon-button, icon-button:active, character, character img:nth-child(1), character img:nth-child(2), page, nologinaccess, nologinaccess:hover, titleWrap, contentWrap, inputTitle, inputWrap, inputWrap:focus-within, input, input::placeholder, bottomButton, bottomButton:active, account, find, find:hover, generate, generate:hover, rule, verify, verify:active, @import url, *, ul, ul li, ul li:before, ul li:after, ul li span, ul li:hover span, ul li:hover span:nth-child(5), ul li:hover span:nth-child(4), ul li:hover span:nth-child(3), ul li:hover span:nth-child(2), ul li:hover span:nth-child(1), ul li:nth-child(1):hover span, ul li:nth-child(2):hover span, ul li:nth-child(3):hover span, fade-enter, fade-enter-active, fade-exit, fade-exit-active, @keyframes fadeIn, @keyframes fadeOut, @keyframes scaleIn, @keyframes scaleOut, fade-in .modal-content, fade-out .modal-content, signup modal, signup-modal, signup-modal .modal-content, signup-modal .fade-in, signup-modal .close-button, signup-modal .close-button:hover, signup-modal .close-button:focus, signup-modal, signup-modal.fade-in, find:hover, signup-modal-content, @keyframes fadeIn, signup-modal-content h2, signup-modal-content hr, signup-modal-content p, signup-modal .close-button, signup-modal .close-button:hover, signup-modal .close-button:focus, profile modal, modal, modal-content, modal-content-custom, modal-header, modal-body, .modal-footer, modal-footer button, modal-footer button:hover, Health modal, card-container, card, card:hover, card-image, card p, card a, more-info-overlay, more-info-content, more-info-content img, break-timer-overlay, break-timer, break-timer-display, .userinfo, userinfo img, userinfo img:first-child, userinfo img:last-child, nickname, .notification-modal, notification-header, notification-content, notification-item, notification-item:hover, notification-from, notification-message, notification-time, notification-close, scroll-buttons, scroll-up, scroll-down, scroll-up:hover, scroll-down:hover, scroll-up:active, scroll-down:active, clear-all-button, details-modal, details-content, details-content h2, details-content p, details-content button, setting modal, modal-container, modal-buttons, modal-button, modal-button.active, setting-modal, feature-modal, setting-modal.active, feature-modal.active, setting-modal.inactive, feature-modal.inactive, setting-modal-header h2, feature-modal-header h2, setting-modal-body, feature-modal-body, setting-info-item, feature-info-item, setting-info-label, feature-info-label, setting-info-value, feature-info-value, setting-info-value a, setting-modal-footer, feature-modal-footer, setting-footer-button, feature-footer-button, setting-footer-button:hover, feature-footer-button:hover, setting-logout, setting-logout:hover, .signup-modal */
 
-ul {
+.social-icons {
   margin: 40px 90px;
   position: relative;
   display: flex;
   transform-style: preserve-3d;
 }
 
-ul li {
+.social-icon {
   position: relative;
   list-style: none;
   width: 60px;
@@ -356,7 +357,7 @@ ul li {
   margin: 0px 25px;
 }
 
-ul li:before {
+.social-icon:before {
   content: '';
   position: absolute;
   bottom: -10px;
@@ -368,7 +369,7 @@ ul li:before {
   transform: skewX(-41deg);
 }
 
-ul li:after {
+.social-icon:after {
   content: '';
   position: absolute;
   top: 5px;
@@ -379,7 +380,7 @@ ul li:after {
   transform: skewY(-49deg);
 }
 
-ul li span {
+.social-icon span {
   position: absolute;
   top: 0;
   left: 0;
@@ -394,49 +395,60 @@ ul li span {
   transition: 1.5s ease-out;
 }
 
-ul li:hover span {
+.social-icon:hover span {
   z-index: 1000;
   transition: .3s;
   color: #fff;
   box-shadow: -1px 1px 1px rgba(0, 0, 0, .5);
 }
 
-ul li:hover span:nth-child(5) {
+.social-icon:hover span:nth-child(5) {
   transform: translate(40px, -40px);
   opacity: 1;
 }
 
-ul li:hover span:nth-child(4) {
+.social-icon:hover span:nth-child(4) {
   transform: translate(30px, -30px);
   opacity: .8;
 }
 
-ul li:hover span:nth-child(3) {
+.social-icon:hover span:nth-child(3) {
   transform: translate(20px, -20px);
   opacity: .6;
 }
 
-ul li:hover span:nth-child(2) {
+.social-icon:hover span:nth-child(2) {
   transform: translate(10px, -10px);
   opacity: .4;
 }
 
-ul li:hover span:nth-child(1) {
+.social-icon:hover span:nth-child(1) {
   transform: translate(0px, 0px);
   opacity: .2;
 }
 
-ul li:nth-child(1):hover span {
+.social-icon:nth-child(1):hover span {
   background: #52E19F !important;
 }
 
-ul li:nth-child(2):hover span {
+.social-icon:nth-child(2):hover span {
   background: #1220b5 !important;
 }
 
-ul li:nth-child(3):hover span {
+.social-icon:nth-child(3):hover span {
   background: #56515c !important;
 }
+
+/* modal-list 스타일 추가 */
+.modal-list {
+  list-style-type: disc;
+  margin-left: 20px;
+}
+
+.modal-list li {
+  margin-bottom: 10px;
+}
+
 
 .fade-enter {
   opacity: 0;
@@ -502,6 +514,120 @@ ul li:nth-child(3):hover span {
   animation: scaleOut 0.5s forwards, fadeOut 0.5s forwards;
 }
 
+/* signup modal */
+
+.signup-modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(173, 255, 47, 0.7); /* 반투명한 연두색 */
+  transition: opacity 0.5s ease;
+}
+
+.signup-modal .modal-content {
+  background-color: white;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+}
+
+.signup-modal .fade-in {
+  opacity: 1;
+}
+
+.signup-modal .close-button {
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.signup-modal .close-button:hover,
+.signup-modal .close-button:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* 초기 상태에서 모달의 투명도를 0으로 설정 */
+.signup-modal {
+  opacity: 0;
+}
+
+.signup-modal.fade-in {
+  opacity: 1;
+}
+
+.find:hover {
+  text-decoration: underline;
+}
+
+.signup-modal-content {
+  background-color: #ffffff;
+  margin: 10% auto; /* Centering the modal */
+  padding: 20px;
+  border: 2px solid #4caf50; /* Green border to match the theme */
+  width: 80%;
+  max-width: 600px; /* Maximum width */
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+  border-radius: 10px; /* Rounded corners */
+  animation: fadeIn 0.5s ease-in-out; /* Smooth fade-in animation */
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px); /* Slide up effect */
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.signup-modal-content h2 {
+  font-size: 24px;
+  color: #4caf50; /* Green heading color */
+  margin-bottom: 10px;
+}
+
+.signup-modal-content hr {
+  border: 0;
+  height: 1px;
+  background: #ddd;
+  margin-bottom: 20px;
+}
+
+.signup-modal-content p {
+  font-size: 16px;
+  line-height: 1.5;
+  color: #333;
+}
+
+.signup-modal .close-button {
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  color: #4caf50; /* Green color for close button */
+  cursor: pointer;
+}
+
+.signup-modal .close-button:hover,
+.signup-modal .close-button:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+
+/* profile modal */
 
 .modal {
   display: flex;
@@ -813,13 +939,13 @@ ul li:nth-child(3):hover span {
   border: none;
   font-size: 18px;
   cursor: pointer;
-  color: #000;
+  color: white;
   margin: 5px 0;
   transition: transform 0.3s ease-in-out; /* 클릭 효과 */
 }
 
-.scroll-up:hover, .scroll-down:hover {
-  transform: scale(1.2); 
+.scroll-up:hover, .scroll-down:hover, .scroll-up:active, .scroll-down:active {
+  transform: scale(1.3); 
 }
 
 .clear-all-button {
