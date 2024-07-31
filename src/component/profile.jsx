@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import '../index.css';
-import { useLocation } from 'react-router-dom';
+import { ClickContext } from './ClickContext'; // 추가
 import health from '../image/health.png';
-import healthClick from '../image/healthclick.png'; // 클릭 시 이미지
+import healthClick from '../image/healthclick.png';
 import ring1 from '../image/ring1.png';
-import ringClick from '../image/ringclick.png'; // 클릭 시 이미지
+import ringClick from '../image/ringclick.png';
 import setting from '../image/setting.png';
-import settingClick from '../image/settingclick.png'; // 클릭 시 이미지
+import settingClick from '../image/settingclick.png';
 import { Link } from 'react-router-dom';
 import memark1 from '../image/15memark.png';
 import memark2 from '../image/15memark2.png';
@@ -32,6 +33,7 @@ import EditButton from './EditButton';
 import moreInfoImage from '../image/moreInfoImage.png';
 
 export default function Profile() {
+  const { clickCount, setClickCount } = useContext(ClickContext); // 변경
   const [neckActive, setNeckActive] = useState(true);
   const [huriActive, setHuriActive] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
@@ -42,20 +44,20 @@ export default function Profile() {
   const [modalType, setModalType] = useState(null);
   const [showMoreInfoImage, setShowMoreInfoImage] = useState(false);
   const [fadeOutMoreInfoImage, setFadeOutMoreInfoImage] = useState(false);
-  const [clickCount, setClickCount] = useState(0);
   const [healthClicked, setHealthClicked] = useState(false);
   const [ringClicked, setRingClicked] = useState(false);
   const [settingClicked, setSettingClicked] = useState(false);
+  
+  const navigate = useNavigate();
 
   const location = useLocation();
   const { state } = location;
   const nickname = state?.nickname || '';
 
-  const [cxp, setCxp] = useState(0); // 현재 경험치
-  const [level, setLevel] = useState(1); // 현재 레벨
+  const [cxp, setCxp] = useState(0);
+  const [level, setLevel] = useState(1);
 
-  // 레벨에 따른 필요 경험치
-  const levelUpRequirements = [0, 10, 20, 30, 40, 50]; // 레벨 0은 사용하지 않음
+  const levelUpRequirements = [0, 10, 20, 30, 40, 50];
 
   useEffect(() => {
     let currentCxp = cxp;
@@ -137,7 +139,7 @@ export default function Profile() {
 
   const incrementClickCount = () => {
     setClickCount((prevCount) => prevCount + 1);
-    setCxp((prevCxp) => prevCxp + 4); // 경험치 4 증가
+    setCxp((prevCxp) => prevCxp + 4);
   };
 
   const getIlonaImage = () => {
@@ -263,7 +265,7 @@ export default function Profile() {
             <button className="icon-button">
               <img src={chat} alt="chat" />
             </button>
-            <button className="icon-button">
+            <button className="icon-button" onClick={() => navigate('/store')}>
               <img src={store} alt="store" />
             </button>
             <button className="icon-button">

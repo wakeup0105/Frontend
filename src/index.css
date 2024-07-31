@@ -1135,3 +1135,30 @@ body {
   transform: scale(1.05); /* 확대 효과 */
   background: linear-gradient(to bottom, #8abf9f, #388e3c); /* hover 시 색상 변화 */
 }
+
+/* 상점 */
+
+.store-container {
+  display: flex;
+  width: 100%;
+  height: 100vh;
+  background-image: url('./image/background.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.store-left-half, .store-right-half {
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.store-imagecenter {
+  width: 700px; /* 이미지 사이즈를 키웁니다 */
+  height: auto;
+  margin-top: 250px; /* 이미지를 아래로 내립니다 */
+  margin-left: 250px;
+}
+
