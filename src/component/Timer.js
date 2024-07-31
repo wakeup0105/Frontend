@@ -4,6 +4,7 @@ import '../Timer.css';
 const Timer = ({ onConfirm }) => {
   const defaultTime = 20 * 60; // 기본값 20분
   const stretchTime = 60; // 스트레칭 타이머 1분
+  const autoCloseTime = 10*60*1000; // 자동 닫힘 타이머 10분 (밀리초)
   const [initialTime, setInitialTime] = useState(defaultTime);
   const [time, setTime] = useState(defaultTime);
   const [minutes, setMinutes] = useState(Math.floor(defaultTime / 60));
@@ -15,6 +16,8 @@ const Timer = ({ onConfirm }) => {
   const [isTimerActive, setIsTimerActive] = useState(false);
   const [isStretching, setIsStretching] = useState(false);
   const [showVideo, setShowVideo] = useState(false);
+  const [autoCloseTimer, setAutoCloseTimer] = useState(null);
+  const [autoCloseTriggered, setAutoCloseTriggered] = useState(false);
 
   // 레벨 및 총 경험치량 상태 추가
   const [level, setLevel] = useState(1);
@@ -41,6 +44,8 @@ const Timer = ({ onConfirm }) => {
               setIsTimerActive(false);
               // 레벨업 로직 추가
               levelUp();
+              // 알림 자동 닫힘 타이머 시작
+              startAutoCloseTimer();
             }
             return 0;
           }
@@ -56,6 +61,12 @@ const Timer = ({ onConfirm }) => {
     setMinutes(Math.floor(time / 60));
     setSeconds(time % 60);
   }, [time]);
+
+  useEffect(() => {
+    if (showAlert && autoCloseTimer === null) {
+      startAutoCloseTimer();
+    }
+  }, [showAlert]);
 
   const handleInputMinutesChange = (e) => {
     setInputMinutes(e.target.value);
@@ -82,17 +93,41 @@ const Timer = ({ onConfirm }) => {
       setIsStretching(true);
       setTime(stretchTime);
       setIsTimerActive(true);
-      onConfirm(); // 추가: 확인 버튼 클릭 시 호출
+      // 확인 버튼 클릭 시 호출
+      if (!autoCloseTriggered) {
+        if (typeof onConfirm === 'function') {
+          onConfirm();
+        }
+      }
+      setAutoCloseTriggered(false); // 상태 초기화
     }, 500);
   };
 
-  const handleVideoClick = () => {
-    setShowVideo(true);
+  // 자동 닫힘 타이머 시작
+  const startAutoCloseTimer = () => {
+    setAutoCloseTimer(setTimeout(() => {
+      handleAutoClose();
+      setAutoCloseTimer(null); // 타이머가 완료되었으므로 상태를 초기화
+    }, autoCloseTime));
   };
 
-  const handleVideoClose = () => {
-    setShowVideo(false);
+  // 자동 닫힘 처리
+  const handleAutoClose = () => {
+    setAutoCloseTriggered(true);
+    setShowAlert(false);
+    setIsStretching(true);
+    setTime(stretchTime);
+    setIsTimerActive(true);
   };
+
+  // 컴포넌트 언마운트 시 자동 닫힘 타이머 클리어
+  useEffect(() => {
+    return () => {
+      if (autoCloseTimer) {
+        clearTimeout(autoCloseTimer);
+      }
+    };
+  }, [autoCloseTimer]);
 
   // 레벨업 함수
   const levelUp = () => {
@@ -107,6 +142,16 @@ const Timer = ({ onConfirm }) => {
 
   const progressBarWidth = (time / (isStretching ? stretchTime : initialTime)) * 100;
   const progressBarColor = isStretching ? '#808480' : '#60b1bf';
+
+  // 비디오 클릭 핸들러
+  const handleVideoClick = () => {
+    setShowVideo(true);
+  };
+
+  // 비디오 닫기 핸들러
+  const handleVideoClose = () => {
+    setShowVideo(false);
+  };
 
   return (
     <div className="timer-container">
