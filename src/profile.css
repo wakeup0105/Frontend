@@ -90,3 +90,24 @@
   border-radius: 10px;
   pointer-events: none; /* 마우스 이벤트를 무시하여 클릭 방지 */
 }
+
+/* 로그아웃 버튼 감싸는 클래스 */
+.logout {
+  display: inline-block; /* 버튼처럼 보이도록 설정 */
+  padding: 10px 20px; /* 내부 여백 */
+  color: #ffffff; /* 텍스트 색상 */
+  background-color: #f44336; /* 배경색 */
+  border: none; /* 기본 테두리 제거 */
+  border-radius: 5px; /* 모서리 둥글게 */
+  text-decoration: none; /* 밑줄 제거 */
+  font-size: 1em; /* 폰트 크기 */
+  font-weight: bold; /* 폰트 두께 */
+  text-align: center; /* 텍스트 중앙 정렬 */
+  transition: background-color 0.3s ease, transform 0.3s ease; /* 배경색 및 변형에 대한 부드러운 전환 효과 */
+}
+
+/* 로그아웃 버튼 hover 효과 */
+.logout:hover {
+  background-color: #d32f2f; /* 배경색 변경 */
+  transform: scale(1.05); /* 약간의 확대 효과 */
+}

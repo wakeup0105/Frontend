@@ -4,8 +4,7 @@ import { useLocation } from 'react-router-dom';
 import health from '../image/health.png';
 import ring1 from '../image/ring1.png';
 import setting from '../image/setting.png';
-import character1 from '../image/character1.png';
-import character2 from '../image/character2.png';
+import { Link } from 'react-router-dom'; // Link 컴포넌트 import
 import memark1 from '../image/15memark.png';
 import memark2 from '../image/15memark2.png';
 import ilona1 from '../image/ilona.png'; // 기존 이미지
@@ -159,7 +158,7 @@ export default function Profile() {
 
       <div className="top">
         <span><img src={memark2} alt="character1" /><img src={memark1} alt="character2" /></span>
-        <a href="#">Log out</a>
+        <Link to="/" className="logout">Log out</Link>
       </div>
       <div className="second-top">
         <span></span>
