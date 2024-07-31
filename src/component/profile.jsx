@@ -4,12 +4,12 @@ import { useLocation } from 'react-router-dom';
 import health from '../image/health.png';
 import ring1 from '../image/ring1.png';
 import setting from '../image/setting.png';
-import { Link } from 'react-router-dom'; // Link 컴포넌트 import
+import { Link } from 'react-router-dom';
 import memark1 from '../image/15memark.png';
 import memark2 from '../image/15memark2.png';
-import ilona1 from '../image/ilona.png'; // 기존 이미지
-import ilona2 from '../image/ilona2.png'; // 새로운 이미지 1
-import ilona3 from '../image/ilona3.png'; // 새로운 이미지 2
+import ilona1 from '../image/ilona.png';
+import ilona2 from '../image/ilona2.png';
+import ilona3 from '../image/ilona3.png';
 import enter from '../image/enter.png';
 import chat from '../image/chat.png';
 import store from '../image/cashstore.png';
@@ -21,12 +21,12 @@ import activeneckbutton from '../image/neckandhuributton/목컬러.png';
 import noactiveneckbutton from '../image/neckandhuributton/목흑백.png';
 import activehuributton from '../image/neckandhuributton/허리컬러.png';
 import noactivehuributton from '../image/neckandhuributton/허리흑백.png';
-import Timer from './Timer'; // Timer를 별도의 파일에서 가져옵니다.
+import Timer from './Timer';
 import ironaicon from '../image/ironaicon.png';
 import '../Timer.css';
 import '../profile.css';
-import EditButton from './EditButton'; // EditButton을 임포트합니다.
-import moreInfoImage from '../image/moreInfoImage.png'; // 추가: 더보기 이미지
+import EditButton from './EditButton';
+import moreInfoImage from '../image/moreInfoImage.png';
 
 export default function Profile() {
   const [neckActive, setNeckActive] = useState(true);
@@ -36,14 +36,41 @@ export default function Profile() {
   const [showModal, setShowModal] = useState(false);
   const [fadeOutModal, setFadeOutModal] = useState(false);
   const [fadeInModal, setFadeInModal] = useState(false);
-  const [modalType, setModalType] = useState(null); // modalType 상태 추가
-  const [showMoreInfoImage, setShowMoreInfoImage] = useState(false); // 추가: 더보기 이미지 상태
-  const [fadeOutMoreInfoImage, setFadeOutMoreInfoImage] = useState(false); // 추가: 더보기 이미지 애니메이션 상태
-  const [clickCount, setClickCount] = useState(0); // 추가: 확인 버튼 클릭 횟수 상태
+  const [modalType, setModalType] = useState(null);
+  const [showMoreInfoImage, setShowMoreInfoImage] = useState(false);
+  const [fadeOutMoreInfoImage, setFadeOutMoreInfoImage] = useState(false);
+  const [clickCount, setClickCount] = useState(0);
 
   const location = useLocation();
   const { state } = location;
-  const nickname = state?.nickname || ''; // 전달된 nickname을 받아옵니다.
+  const nickname = state?.nickname || '';
+
+  const [cxp, setCxp] = useState(0); // 현재 경험치
+  const [level, setLevel] = useState(1); // 현재 레벨
+
+  // 레벨에 따른 필요 경험치
+  const levelUpRequirements = [0, 10, 20, 30, 40, 50]; // 레벨 0은 사용하지 않음
+
+  useEffect(() => {
+    let newLevel = level;
+    let remainingCxp = cxp;
+
+    // 레벨업 로직
+    for (let i = level; i < levelUpRequirements.length; i++) {
+      if (remainingCxp >= levelUpRequirements[i]) {
+        newLevel = i;
+        remainingCxp -= levelUpRequirements[i];
+      } else {
+        break;
+      }
+    }
+
+    setLevel(newLevel);
+    setCxp(remainingCxp); // 남은 경험치 설정
+  }, [cxp]);
+
+  const totalXPRequired = levelUpRequirements[level];
+  const xpBarWidth = (cxp / totalXPRequired) * 100;
 
   const handleButtonClick = (button) => {
     if (button === 'neck') {
@@ -95,12 +122,10 @@ export default function Profile() {
     }, 500);
   };
 
-  // 추가: 더보기 버튼 클릭 핸들러
   const handleMoreInfoClick = () => {
     setShowMoreInfoImage(true);
   };
 
-  // 추가: 더보기 이미지 닫기 핸들러
   const closeMoreInfoImage = () => {
     setFadeOutMoreInfoImage(true);
     setTimeout(() => {
@@ -109,18 +134,16 @@ export default function Profile() {
     }, 500);
   };
 
-  // 추가: 타이머에서 클릭 횟수 증가 함수
   const incrementClickCount = () => {
     setClickCount((prevCount) => prevCount + 1);
+    setCxp((prevCxp) => prevCxp + 4); // 경험치 4 증가
   };
 
-  // 이미지 변경을 위한 조건
-    const getIlonaImage = () => {
-      if (clickCount >= 2) return ilona3; // 2번 클릭 시 ilona3
-      if (clickCount >= 1) return ilona2; // 1번 클릭 시 ilona2
-      return ilona1; // 그 외에는 ilona1
-    };
-
+  const getIlonaImage = () => {
+    if (clickCount >= 2) return ilona3;
+    if (clickCount >= 1) return ilona2;
+    return ilona1;
+  };
 
   return (
     <div className="container">
@@ -138,7 +161,7 @@ export default function Profile() {
             {modalType === 'Health' && (
               <HealthModal neckActive={neckActive} huriActive={huriActive} handleButtonClick={handleButtonClick} />
             )}
-            {modalType === 'Ring' && <RingModal onClose={closeModal} />} {/* onClose prop 전달 */}
+            {modalType === 'Ring' && <RingModal onClose={closeModal} />}
             {modalType === 'Setting' && <SettingModal />}
             <div className="modal-footer">
               {modalType === 'Health' && <button onClick={handleMoreInfoClick}>더보기</button>}
@@ -183,10 +206,13 @@ export default function Profile() {
             <div className="info-container">
               <div className="name-level-box">
                 <span className="username">{nickname}</span>
-                <span className="level">Level.1</span>
+                <span className="level">Level.{level}</span> {/* 레벨 표시 */}
               </div>
-              <div className="xp-box">
-                <div className="xp-bar" style={{ width: '70%' }}></div>
+              <div className="xp-box" title={`현재 경험치: ${cxp} / 필요 경험치: ${totalXPRequired}`}>
+                <div 
+                  className="xp-bar" 
+                  style={{ width: `${xpBarWidth}%` }} 
+                ></div> {/* 경험치 바와 호버 텍스트 */}
               </div>
             </div>
           </div>
