@@ -29,6 +29,7 @@ import Timer from './Timer';
 import ironaicon from '../image/ironaicon.png';
 import '../Timer.css';
 import '../profile.css';
+import '../GoalProgress.css';
 import EditButton from './EditButton';
 import moreInfoImage from '../image/moreInfoImage.png';
 
@@ -49,6 +50,17 @@ export default function Profile() {
   const [settingClicked, setSettingClicked] = useState(false);
   
   const navigate = useNavigate();
+
+  const [rewardMessage, setRewardMessage] = useState('');
+  const [rewardReceived, setRewardReceived] = useState(false);
+  const [challengeCount, setChallengeCount] = useState(0);
+
+  const handleRewardClick = () => {
+    setCxp((prevCxp) => prevCxp + 10);
+    setRewardReceived(true);
+    setRewardMessage('보상받기 완료✔');
+  };
+  
 
   const location = useLocation();
   const { state } = location;
@@ -103,16 +115,36 @@ export default function Profile() {
   };
 
   const GoalProgress = () => {
+    const goalchallengeCount = 10;
+    const progressPercentage = (challengeCount / goalchallengeCount) * 100;
+    const isChallengeComplete = challengeCount >= goalchallengeCount;
+  
     return (
       <div className="goal-progress">
-        <div className="stress-level">어제 보다 5회 더 스트레칭했어요!</div>
-        <div className="progress-bar">
-          <div className="progress" style={{ width: '60%' }}></div>
-        </div>
-        <div className="goal">목표에 60% 달성했어요 (30/50회)</div>
+        <h1>{isChallengeComplete ? "✨도전과제 성공✨" : "✨도전 과제✨"}</h1>
+        <br></br>
+        {!isChallengeComplete && (
+          <>
+            <div className="goal">
+              <h2 className="goal-text">현재 자세 고친 횟수: {challengeCount} / 목표 횟수: {goalchallengeCount}</h2>
+            </div>
+            <div className="goalprogress-bar">
+              <div 
+                className="goalprogress-fill" 
+                style={{ width: `${progressPercentage}%` }}
+              ></div>
+            </div>
+          </>
+        )}
+        {isChallengeComplete && !rewardReceived && (
+          <button className="reward-button" onClick={handleRewardClick}>보상받기🎁</button>
+        )}
+        {rewardReceived && <div className="reward-message">{rewardMessage}</div>}
       </div>
     );
   };
+  
+  
 
   const handleAlertClose = () => {
     setFadeOut(true);
@@ -135,6 +167,7 @@ export default function Profile() {
   };
 
   const incrementClickCount = () => {
+    setChallengeCount((prevCount) => prevCount + 1); // challengeCount 증가
     setClickCount((prevCount) => prevCount + 1);
     setCxp((prevCxp) => prevCxp + 4);
   };

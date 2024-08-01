@@ -1,0 +1,63 @@
+.goal-progress {
+    text-align: center;
+  }
+  
+  .goal-title {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  .goal-text {
+    font-size: 18px;
+    color: #555;
+  }
+  
+  .goalprogress-bar {
+    width: 100%;
+    background-color: #e0e0e0;
+    border-radius: 8px;
+    overflow: hidden;
+    height: 30px; /* 원하는 높이로 설정 */
+    margin-top: 10px;
+    border:1px solid rgb(170, 167, 167);
+  }
+  
+  .goalprogress-fill {
+    height: 100%;
+    background: linear-gradient(to right, #ffb347, #ffcc00); /* 왼쪽에서 오른쪽으로 주황색이 짙어지는 그라데이션 */
+    transition: width 0.5s ease-in-out;
+    border-radius: 8px 0 0 8px; /* 좌측 끝부분 둥글게 */
+  }
+  
+  .goal-progress h1,
+  .goal-progress h2 {
+    margin: 0;
+  }
+  
+  .reward-button {
+    background-color: #ffcc00;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 10px 2px;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .reward-button:hover {
+    background-color: #ff9900;
+  }
+  
+  .reward-message {
+    margin-top: 10px;
+    color: green;
+    font-size: 18px;
+    font-weight: bold;
+  }
+  
