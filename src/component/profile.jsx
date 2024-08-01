@@ -33,7 +33,7 @@ import EditButton from './EditButton';
 import moreInfoImage from '../image/moreInfoImage.png';
 
 export default function Profile() {
-  const { clickCount, setClickCount } = useContext(ClickContext); // 변경
+  const { clickCount, setClickCount, cxp, setCxp, level, setLevel, timerState, setTimerState } = useContext(ClickContext);
   const [neckActive, setNeckActive] = useState(true);
   const [huriActive, setHuriActive] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
@@ -54,9 +54,6 @@ export default function Profile() {
   const { state } = location;
   const nickname = state?.nickname || '';
 
-  const [cxp, setCxp] = useState(0);
-  const [level, setLevel] = useState(1);
-
   const levelUpRequirements = [0, 10, 20, 30, 40, 50];
 
   useEffect(() => {
@@ -71,7 +68,7 @@ export default function Profile() {
     setLevel(currentLevel);
     setCxp(currentCxp);
   }, [cxp]);
-  
+
   const totalXPRequired = levelUpRequirements[level];
   const xpBarWidth = (cxp / totalXPRequired) * 100;
 

@@ -1,53 +1,37 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import '../Timer.css';
+import { ClickContext } from './ClickContext'; // Import context
 
 const Timer = ({ onConfirm }) => {
   const defaultTime = 20 * 60; // 기본값 20분
   const stretchTime = 60; // 스트레칭 타이머 1분
-  const autoCloseTime = 10*60*1000; // 자동 닫힘 타이머 10분 (밀리초)
-  const [initialTime, setInitialTime] = useState(defaultTime);
-  const [time, setTime] = useState(defaultTime);
-  const [minutes, setMinutes] = useState(Math.floor(defaultTime / 60));
-  const [seconds, setSeconds] = useState(defaultTime % 60);
+  const autoCloseTime = 10 * 60 * 1000; // 자동 닫힘 타이머 10분 (밀리초)
+
+  const { timerState, setTimerState } = useContext(ClickContext); // Destructure context state
   const [inputMinutes, setInputMinutes] = useState('');
   const [inputSeconds, setInputSeconds] = useState('');
   const [showAlert, setShowAlert] = useState(false);
   const [fadeOut, setFadeOut] = useState(false);
-  const [isTimerActive, setIsTimerActive] = useState(false);
-  const [isStretching, setIsStretching] = useState(false);
   const [showVideo, setShowVideo] = useState(false);
   const [autoCloseTimer, setAutoCloseTimer] = useState(null);
   const [autoCloseTriggered, setAutoCloseTriggered] = useState(false);
 
-  // 레벨 및 총 경험치량 상태 추가
-  const [level, setLevel] = useState(1);
-  const [totalExperience, setTotalExperience] = useState(10);
-
   useEffect(() => {
     let timer;
-    if (isTimerActive) {
+    if (timerState.isTimerActive) {
       timer = setInterval(() => {
-        setTime(prevTime => {
-          if (prevTime > 0) {
-            return prevTime - 1;
+        setTimerState(prevState => {
+          const newTime = prevState.time - 1;
+          if (newTime > 0) {
+            return { ...prevState, time: newTime };
           } else {
             clearInterval(timer);
-            if (isStretching) {
-              // 스트레칭 타이머가 끝나면 원래 타이머로 돌아감
-              setIsStretching(false);
-              setShowAlert(false);
-              setTime(initialTime);
-              setIsTimerActive(true);
+            if (prevState.isStretching) {
+              return { ...prevState, time: defaultTime, isStretching: false };
             } else {
-              // 원래 타이머가 끝났을 때 알림 표시
               setShowAlert(true);
-              setIsTimerActive(false);
-              // 레벨업 로직 추가
-              levelUp();
-              // 알림 자동 닫힘 타이머 시작
-              startAutoCloseTimer();
+              return { ...prevState, isTimerActive: false };
             }
-            return 0;
           }
         });
       }, 1000);
@@ -55,12 +39,7 @@ const Timer = ({ onConfirm }) => {
       clearInterval(timer);
     }
     return () => clearInterval(timer);
-  }, [isTimerActive, isStretching]);
-
-  useEffect(() => {
-    setMinutes(Math.floor(time / 60));
-    setSeconds(time % 60);
-  }, [time]);
+  }, [timerState.isTimerActive]);
 
   useEffect(() => {
     if (showAlert && autoCloseTimer === null) {
@@ -79,10 +58,8 @@ const Timer = ({ onConfirm }) => {
   const handleSetTime = () => {
     const totalSeconds = parseInt(inputMinutes) * 60 + parseInt(inputSeconds);
     const newInitialTime = isNaN(totalSeconds) || totalSeconds <= 0 ? defaultTime : totalSeconds;
-    setInitialTime(newInitialTime);
-    setTime(newInitialTime);
+    setTimerState({ ...timerState, time: newInitialTime, isTimerActive: true });
     setShowAlert(false);
-    setIsTimerActive(true);
   };
 
   const handleAlertClose = () => {
@@ -90,37 +67,27 @@ const Timer = ({ onConfirm }) => {
     setTimeout(() => {
       setShowAlert(false);
       setFadeOut(false);
-      setIsStretching(true);
-      setTime(stretchTime);
-      setIsTimerActive(true);
-      // 확인 버튼 클릭 시 호출
-      if (!autoCloseTriggered) {
-        if (typeof onConfirm === 'function') {
-          onConfirm();
-        }
+      setTimerState({ ...timerState, time: stretchTime, isStretching: true, isTimerActive: true });
+      if (!autoCloseTriggered && typeof onConfirm === 'function') {
+        onConfirm();
       }
-      setAutoCloseTriggered(false); // 상태 초기화
+      setAutoCloseTriggered(false);
     }, 500);
   };
 
-  // 자동 닫힘 타이머 시작
   const startAutoCloseTimer = () => {
     setAutoCloseTimer(setTimeout(() => {
       handleAutoClose();
-      setAutoCloseTimer(null); // 타이머가 완료되었으므로 상태를 초기화
+      setAutoCloseTimer(null);
     }, autoCloseTime));
   };
 
-  // 자동 닫힘 처리
   const handleAutoClose = () => {
     setAutoCloseTriggered(true);
     setShowAlert(false);
-    setIsStretching(true);
-    setTime(stretchTime);
-    setIsTimerActive(true);
+    setTimerState({ ...timerState, time: stretchTime, isStretching: true, isTimerActive: true });
   };
 
-  // 컴포넌트 언마운트 시 자동 닫힘 타이머 클리어
   useEffect(() => {
     return () => {
       if (autoCloseTimer) {
@@ -129,36 +96,22 @@ const Timer = ({ onConfirm }) => {
     };
   }, [autoCloseTimer]);
 
-  // 레벨업 함수
-  const levelUp = () => {
-    if (level < 5) { // 최대 레벨 5
-      setLevel(prevLevel => {
-        const newLevel = prevLevel + 1;
-        setTotalExperience(newLevel * 10); // 레벨에 따라 총 경험치량 증가
-        return newLevel;
-      });
-    }
-  };
+  const progressBarWidth = (timerState.time / (timerState.isStretching ? stretchTime : defaultTime)) * 100;
+  const progressBarColor = timerState.isStretching ? '#808480' : '#60b1bf';
 
-  const progressBarWidth = (time / (isStretching ? stretchTime : initialTime)) * 100;
-  const progressBarColor = isStretching ? '#808480' : '#60b1bf';
-
-  // 비디오 클릭 핸들러
   const handleVideoClick = () => {
     setShowVideo(true);
   };
 
-  // 비디오 닫기 핸들러
   const handleVideoClose = () => {
     setShowVideo(false);
   };
 
   return (
     <div className="timer-container">
-      <h1>{isStretching ? '휴식 시간' : '알람'}</h1>
+      <h1>{timerState.isStretching ? '휴식 시간' : '알람'}</h1>
       <div className="timer-display">
-        {minutes < 10 ? `0${minutes}` : minutes}:
-        {seconds < 10 ? `0${seconds}` : seconds}
+        {Math.floor(timerState.time / 60)}:{(timerState.time % 60).toString().padStart(2, '0')}
       </div>
       <div className="progress-bar">
         <div
@@ -172,18 +125,18 @@ const Timer = ({ onConfirm }) => {
           value={inputMinutes}
           onChange={handleInputMinutesChange}
           placeholder="분"
-          disabled={isStretching}
+          disabled={timerState.isStretching}
         />
         <input
           type="number"
           value={inputSeconds}
           onChange={handleInputSecondsChange}
           placeholder="초"
-          disabled={isStretching}
+          disabled={timerState.isStretching}
         />
-        <button onClick={handleSetTime} disabled={isStretching}>설정하기</button>
+        <button onClick={handleSetTime} disabled={timerState.isStretching}>설정하기</button>
       </div>
-      {showAlert && !isStretching && (
+      {showAlert && !timerState.isStretching && (
         <div className={`alert-overlay ${fadeOut ? 'fade-out' : ''}`}>
           <div className="alert">
             <p>스트레칭하세요!!</p>

@@ -1162,3 +1162,34 @@ body {
   margin-left: 250px;
 }
 
+
+.store-nickname-container {
+  position: absolute; /* Position the nickname container absolutely within the container */
+  top: 20px; /* Adjust top positioning as needed */
+  left: 50%; /* Center the container horizontally */
+  transform: translateX(-50%); /* Center the container */
+  display: flex;
+  align-items: center; /* Center items vertically */
+}
+
+.store-icon {
+  width: 40px; /* Adjust the size of the icon as needed */
+  height: 40px;
+  margin-right: 10px; /* Space between the icon and the nickname box */
+}
+
+.store-nickname-box {
+  background: linear-gradient(to bottom, #a8d5ba, #4caf50); /* 그라디언트 색상 */
+  border-radius: 10px;
+  padding: 10px 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  font-family: Arial, sans-serif;
+  font-weight: bold;
+}
+
+.store-nickname-box p {
+  margin: 0;
+  font-size: 20px;
+  color: #333;
+  text-align: center;
+}
