@@ -1,16 +1,15 @@
-import React, { useContext, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useContext, useState, useEffect } from 'react';
+import { ClickContext } from './ClickContext';
 import '../index.css';
 import background from '../image/background.png';
 import ilona1 from '../image/ilona.png';
 import ilona2 from '../image/ilona2.png';
 import ilona3 from '../image/ilona3.png';
-import ironaIcon from '../image/ironaicon.png'; // Import the icon
+import ironaIcon from '../image/ironaicon.png';
 import eyeIcon from '../image/눈.png';
 import mouthIcon from '../image/입.png';
 import hairIcon from '../image/헤어.png';
 import clothesIcon from '../image/옷.png';
-import { ClickContext } from './ClickContext';
 
 const getIlonaImage = (clickCount) => {
   if (clickCount >= 2) return ilona3;
@@ -18,13 +17,20 @@ const getIlonaImage = (clickCount) => {
   return ilona1;
 };
 
-const Store = () => {
-  const { clickCount, nickname } = useContext(ClickContext);
-  const navigate = useNavigate();
+const StoreModal = ({ onClose }) => {
+  const { clickCount, nickname } = useContext(ClickContext); // clickCount 추가
   const [activeCategory, setActiveCategory] = useState('눈');
+  const [fadeType, setFadeType] = useState('in');
 
-  const handleGoHome = () => {
-    navigate('/profile');
+  useEffect(() => {
+    setFadeType('in');
+  }, []);
+
+  const handleClose = () => {
+    setFadeType('out');
+    setTimeout(() => {
+      onClose();
+    }, 500);
   };
 
   const categories = [
@@ -35,50 +41,52 @@ const Store = () => {
   ];
 
   return (
-    <div className="store-container" style={{ backgroundImage: `url(${background})`, backgroundSize: 'cover' }}>
-      <div className="store-header">
-        <button className="home-button" onClick={handleGoHome}>
-          홈으로
-        </button>
-      </div>
-      <div className="store-nickname-container">
-        <img src={ironaIcon} alt="irona icon" className='store-icon'/>
-        <div className="store-nickname-box">
-          <p>{nickname}의 상점</p>
+    <div className={`store-modal-overlay fade-${fadeType}`}>
+      <div className="store-modal-content store-container" style={{ backgroundImage: `url(${background})` }}>
+        <div className="store-header">
+          <button className="home-button" onClick={handleClose}>
+            상점 나가기
+          </button>
         </div>
-      </div>
-      <div className="store-left-half">
-        <div className="store-image-container">
-          <img src={getIlonaImage(clickCount)} alt="ilona" className='store-imagecenter'/>
-        </div>
-      </div>
-      <div className="store-right-half">
-        <div className="store-sidebar">
-          {categories.map(category => (
-            <button
-              key={category.name}
-              className={`category-button ${activeCategory === category.name ? 'active' : ''}`}
-              onClick={() => setActiveCategory(category.name)}
-            >
-              <img src={category.icon} alt={`${category.name} 아이콘`} className="category-icon" />
-              {category.name}
-            </button>
-          ))}
-        </div>
-        <div className="store-layout">
-          <div className="store-search-container">
-            <input type="text" className="store-search-input" placeholder="검색..." />
+        <div className="store-nickname-container">
+          <img src={ironaIcon} alt="irona icon" className="store-icon" />
+          <div className="store-nickname-box">
+            <p>{nickname}의 상점</p>
           </div>
-          <div className="store-content">
-            {[...Array(3)].map((_, rowIndex) => (
-              <div key={rowIndex} className="store-row">
-                {[...Array(2)].map((_, colIndex) => (
-                  <button key={colIndex} className="store-section">
-                    {activeCategory} 아이템 {rowIndex * 2 + colIndex + 1}
-                  </button>
-                ))}
-              </div>
+        </div>
+        <div className="store-left-half">
+          <div className="store-image-container">
+            <img src={getIlonaImage(clickCount)} alt="ilona" className="store-imagecenter" />
+          </div>
+        </div>
+        <div className="store-right-half">
+          <div className="store-sidebar">
+            {categories.map(category => (
+              <button
+                key={category.name}
+                className={`category-button ${activeCategory === category.name ? 'active' : ''}`}
+                onClick={() => setActiveCategory(category.name)}
+              >
+                <img src={category.icon} alt={`${category.name} 아이콘`} className="category-icon" />
+                {category.name}
+              </button>
             ))}
+          </div>
+          <div className="store-layout">
+            <div className="store-search-container">
+              <input type="text" className="store-search-input" placeholder="검색..." />
+            </div>
+            <div className="store-content">
+              {[...Array(3)].map((_, rowIndex) => (
+                <div key={rowIndex} className="store-row">
+                  {[...Array(2)].map((_, colIndex) => (
+                    <button key={colIndex} className="store-section">
+                      {activeCategory} 아이템 {rowIndex * 2 + colIndex + 1}
+                    </button>
+                  ))}
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
@@ -86,4 +94,4 @@ const Store = () => {
   );
 };
 
-export default Store;
+export default StoreModal;

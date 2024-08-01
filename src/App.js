@@ -7,7 +7,6 @@ import Signfind from './component/signfind';
 import Unsignup from './component/unsignup';
 import Main from './component/main';
 import Profile from './component/profile';
-import Store from './component/StoreModal'; // Store 컴포넌트를 추가
 import { ClickProvider } from './component/ClickContext'; // ClickProvider 추가
 
 function AnimatedRoutes() {
@@ -23,7 +22,6 @@ function AnimatedRoutes() {
           <Route path="/signfind" element={<Signfind />} />
           <Route path="/unsignup" element={<Unsignup />} />
           <Route path="/profile" element={<Profile />} />
-          <Route path="/store" element={<Store />} /> {/* Store 경로 추가 */}
         </Routes>
       </CSSTransition>
     </TransitionGroup>
