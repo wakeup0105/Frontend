@@ -26,6 +26,7 @@ import noactiveneckbutton from '../image/neckandhuributton/목흑백.png';
 import activehuributton from '../image/neckandhuributton/허리컬러.png';
 import noactivehuributton from '../image/neckandhuributton/허리흑백.png';
 import Timer from './Timer';
+import Chat from './Chat/Chatapp';
 import ironaicon from '../image/ironaicon.png';
 import '../Timer.css';
 import '../profile.css';
@@ -292,7 +293,7 @@ export default function Profile() {
             <button className="icon-button">
               <img src={enter} alt="enter" />
             </button>
-            <button className="icon-button">
+            <button className="icon-button" onClick={() => navigate('/chat')}>
               <img src={chat} alt="chat" />
             </button>
             <button className="icon-button" onClick={() => navigate('/store')}>
