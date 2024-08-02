@@ -2,14 +2,14 @@ body {
   background-color: #96C720;
   margin: 0;
   padding: 0;
-  overflow: hidden;
+  overflow: auto; /* 변경됨: hidden -> auto */
 }
 
 .container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  overflow: hidden;
+  overflow: auto; /* 변경됨: hidden -> auto */
 }
 
 .top {
@@ -626,9 +626,7 @@ body {
   cursor: pointer;
 }
 
-
-/* profile modal */
-
+/* HealthModal.css */
 .modal {
   display: flex;
   justify-content: center;
@@ -638,58 +636,54 @@ body {
   left: 0;
   top: 0;
   width: 100%;
-  height: 110%;
+  height: 100%;
   overflow: auto;
 }
 
+
 .modal-content {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 80%;
-  flex-grow: 1;
-  background: linear-gradient(to bottom, #015E2F, #223C07);
-  margin-left: 10%;
-  margin-right: 10%;
-  margin-top: 1%;
-}
-.modal-content-custom {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  height: 70%; 
+  width: 80%;
+  height: 100%;
   background: linear-gradient(to bottom, #015E2F, #223C07);
   border-radius: 20px;
   padding: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  box-sizing: border-box; /* 패딩을 포함한 크기 계산 */
+  overflow: hidden; /* 내부 요소가 밖으로 빠져나가지 않도록 설정 */
+  border: none; /* 테두리 제거 */
+}
+
+.modal-header,
+.modal-footer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px 0; /* 상하 여백 */
 }
 
 .modal-header {
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  margin:20px;
-  color:white;
+  color: white;
   font-size: 20px;
 }
 
-
 .modal-body {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
+  flex: 1; /* 남은 공간을 모두 차지 */
+  width: 100%; /* 가로로 꽉 채움 */
   overflow-y: auto;
-  max-height: 500px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-/* index.css 파일에서 기존 .modal-footer 스타일 수정 */
 .modal-footer {
   display: flex;
-  justify-content: center; /* 중앙 정렬 */
+  justify-content: center;
   width: 100%;
-  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 .modal-footer button {
@@ -705,30 +699,28 @@ body {
   color: rgb(253, 191, 191);
 }
 
-
-
-/* Health modal */
-
 .card-container {
   display: flex;
-  flex-wrap: nowrap;
+  flex-wrap: nowrap; /* 화면 크기에 따라 카드 줄바꿈 */
   justify-content: space-between;
-  width:100%;
   gap: 10px;
+  width: 100%;
+  overflow-y: auto; /* 카드 컨테이너 내부 스크롤 가능 */
 }
 
 .card {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 32%;
-  background-color: rgba(255, 255, 255, 0.8); /* 반투명 배경 설정 */
+  flex: 1 1 calc(33.333% - 20px); /* 카드 크기를 3열로 배치하고, 간격 조정 */
+  background-color: rgba(255, 255, 255, 0.8);
   border-radius: 10px;
-  padding: 45px;
+  padding: 60px;
   margin: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   text-align: center;
   transition: transform 0.3s;
+  box-sizing: border-box; /* 패딩을 포함한 크기 계산 */
 }
 
 .card:hover {
@@ -736,21 +728,17 @@ body {
 }
 
 .card-image {
-  width: 400px;
-  height: 330px; /* 카드 내 이미지의 고정 높이 설정 */
-  object-fit: cover; /* 이미지가 카드 크기에 맞도록 조정됨 */
+  width: 100%;
+  height: auto; /* 높이를 자동으로 조정 */
+  max-height: 250px; /* 최대 높이를 설정 */
+  object-fit: cover;
   border-radius: 10px;
   margin-bottom: 10px;
 }
 
 .card p {
   margin-top: 10px;
-  font-size: 18px; /* 글자 크기 설정 */
-}
-
-.card a {
-  font-size: 18px; /* 글자 크기 설정 */
-  color: #007BFF; /* 링크 색상 */
+  font-size: 18px;
 }
 
 
@@ -850,37 +838,14 @@ body {
 
 
 /* 알림 모달창 */
-
-.notification-modal {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 400px;
-  height: 700px;
-  background: none;
-  padding: 10px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.notification-header {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: none;
-}
-
 .notification-content {
-  width: 400%;
-  max-height: 500px;
-  overflow: hidden;
+  width: 100%;
+  max-height: 100%;
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 10px 0;
+  margin: 30px 0;
   background: none;
 }
 
@@ -910,7 +875,7 @@ body {
 }
 
 .notification-message {
-  margin: 10px 0;
+  margin: 15px 0;
 }
 
 .notification-time {
@@ -931,16 +896,17 @@ body {
 
 .scroll-buttons {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
 }
+
 .scroll-up, .scroll-down {
   background: none;
   border: none;
   font-size: 18px;
+  margin-bottom: 15px;
   cursor: pointer;
   color: white;
-  margin: 5px 0;
   transition: transform 0.3s ease-in-out; /* 클릭 효과 */
 }
 
@@ -952,11 +918,10 @@ body {
   background: rgba(255, 255, 255, 0.5);
   border: none;
   color: black;
-  padding: 10px 20px;
+  padding: 10px 10px;
   font-size: 16px;
   cursor: pointer;
   border-radius: 5px;
-  margin-top: 20px;
 }
 
 .details-modal {
@@ -1135,12 +1100,56 @@ body {
   transform: scale(1.05); /* 확대 효과 */
   background: linear-gradient(to bottom, #8abf9f, #388e3c); /* hover 시 색상 변화 */
 }
+/* Fade 애니메이션 */
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
 
-/* 상점 */
+@keyframes fade-out {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+.fade-in {
+  animation: fade-in 0.5s forwards;
+}
+
+.fade-out {
+  animation: fade-out 0.5s forwards;
+}
+
+/* 모달 오버레이 스타일 */
+.store-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* 모달 콘텐츠 스타일 */
+.store-modal-content {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  width: 90%;
+  height: 90%;
+  overflow-y: auto;
+  position: relative;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
 .store-container {
   display: flex;
   width: 100%;
-  height: 100vh;
+  height: 100%;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -1149,8 +1158,8 @@ body {
 
 .store-header {
   position: absolute;
-  top: 10px;
-  left: 10px;
+  top: 40px;
+  left: 20px;
 }
 
 .home-button {
@@ -1171,31 +1180,36 @@ body {
 }
 
 .store-image-container {
-  position: relative; /* Add relative positioning to the container */
+  position: relative;
+}
+
+.store-eye {
+  width: 140px; /* Adjust size as needed */
+  height: auto;
 }
 
 .store-imagecenter {
-  width: 700px; /* 이미지 사이즈를 키웁니다 */
+  width: 700px;
   height: auto;
 }
 
 .store-nickname-container {
-  position: absolute; /* Position the nickname container absolutely within the container */
-  top: 10px; /* Adjust top positioning as needed */
-  left: 50%; /* Center the container horizontally */
-  transform: translateX(-50%); /* Center the container */
+  position: absolute;
+  top: 30px;
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
-  align-items: center; /* Center items vertically */
+  align-items: center;
 }
 
 .store-icon {
-  width: 40px; /* Adjust the size of the icon as needed */
+  width: 40px;
   height: 40px;
-  margin-right: 10px; /* Space between the icon and the nickname box */
+  margin-right: 10px;
 }
 
 .store-nickname-box {
-  background-color: rgba(255, 255, 255, 0.8); /* Add background with some opacity */
+  background-color: rgba(255, 255, 255, 0.8);
   border-radius: 10px;
   padding: 10px 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -1232,7 +1246,7 @@ body {
   height: 100%;
   padding: 10px;
   position: absolute;
-  left: -130px; /* Adjust the position to be next to the store-layout */
+  left: -130px;
   top: 50%;
   transform: translateY(-50%);
 }
@@ -1258,18 +1272,18 @@ body {
 }
 
 .category-button:hover {
-  background-color: #dcedc1; /* 버튼 호버 시 색상 */
-  transform: scale(1.05); /* 버튼 호버 시 확대 */
+  background-color: #dcedc1;
+  transform: scale(1.05);
 }
 
 .category-icon {
-  width: 40px; /* 아이콘 크기 조정 */
+  width: 40px;
   height: 40px;
   margin-bottom: 5px;
 }
 
 .store-layout {
-  background-color: #a8e6cf; /* 연두색 배경 */
+  background-color: #29ce91;
   border-radius: 10px;
   width: 80%;
   height: 90%;
@@ -1282,7 +1296,7 @@ body {
 }
 
 .store-search-container {
-  width: 100%;
+  width: 90%;
   margin-bottom: 20px;
 }
 
@@ -1294,36 +1308,45 @@ body {
   font-size: 16px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
-
 .store-content {
   width: 100%;
   flex-grow: 1;
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap; /* Allows wrapping */
+  justify-content: space-between; /* Creates space between items */
   align-items: center;
   overflow-y: auto;
 }
 
-.store-row {
+.store-item {
+  width: 48%; /* Adjusted to fit two items per row with minimal spacing */
+  margin-bottom: 2%; /* Minimal spacing between rows */
   display: flex;
-  width: 100%;
-  justify-content: space-between;
-  margin-bottom: 20px;
+  justify-content: center;
+  align-items: center;
 }
 
 .store-section {
-  background-color: #fff;
+  background: linear-gradient(to bottom, #a8d5ba, #4caf50); /* 그라디언트 색상 */
   border: none;
-  border-radius: 5px;
-  padding: 50px; /* Increase the padding to make sections larger */
-  font-size: 18px;
+  border-radius: 20px;
+  padding: 20px; /* Fixed padding */
+  height: 300px; /* Fixed height for consistency */
   cursor: pointer;
-  width: 48%; /* 버튼이 두 개씩 배치될 수 있도록 너비 조정 */
+  width: 100%; /* Takes full width of store-item */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: background-color 0.3s, transform 0.3s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.store-section img {
+  max-width: 100%;
+  height: auto;
 }
 
 .store-section:hover {
-  background-color: #dcedc1; /* 버튼 호버 시 색상 */
-  transform: scale(1.05); /* 버튼 호버 시 확대 */
+  background-color: #dcedc1;
+  transform: scale(1.05);
 }

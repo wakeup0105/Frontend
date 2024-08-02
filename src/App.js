@@ -7,8 +7,11 @@ import Signfind from './component/signfind';
 import Unsignup from './component/unsignup';
 import Main from './component/main';
 import Profile from './component/profile';
+<<<<<<< HEAD
 import Store from './component/StoreModal'; // Store 컴포넌트를 추가
 import Chat from './component/Chat/Chatapp';
+=======
+>>>>>>> 5fbd94b88e5fb58a3372a4f6d1db7ba00507799d
 import { ClickProvider } from './component/ClickContext'; // ClickProvider 추가
 
 function AnimatedRoutes() {
@@ -24,8 +27,11 @@ function AnimatedRoutes() {
           <Route path="/signfind" element={<Signfind />} />
           <Route path="/unsignup" element={<Unsignup />} />
           <Route path="/profile" element={<Profile />} />
+<<<<<<< HEAD
           <Route path="/store" element={<Store />} /> {/* Store 경로 추가 */}
           <Route path="/chat" element={<Chat />} /> {/*Chat 경로 추가*/}
+=======
+>>>>>>> 5fbd94b88e5fb58a3372a4f6d1db7ba00507799d
         </Routes>
       </CSSTransition>
     </TransitionGroup>
