@@ -57,23 +57,16 @@ const HealthModal = ({ neckActive, huriActive, handleButtonClick, onClose }) => 
   };
 
   return (
-    <div>
+    <div className="modal">
+    <div className="modal-content">
       <div className="modal-header">
         <h2>이로나님 이 스트레칭은 어때요?</h2>
       </div>
       <div className="modal-header">
-        <button 
-          className="icon-button" 
-          onClick={() => handleButtonClick('neck')}
-          disabled={neckActive}
-        >
+        <button className="icon-button" onClick={() => handleButtonClick('neck')} disabled={neckActive}>
           <img src={neckActive ? activeneckbutton : noactiveneckbutton} alt="neck" />
         </button>
-        <button 
-          className="icon-button" 
-          onClick={() => handleButtonClick('huri')}
-          disabled={huriActive}
-        >
+        <button className="icon-button" onClick={() => handleButtonClick('huri')} disabled={huriActive}>
           <img src={huriActive ? activehuributton : noactivehuributton} alt="huri" />
         </button>
       </div>
@@ -95,6 +88,8 @@ const HealthModal = ({ neckActive, huriActive, handleButtonClick, onClose }) => 
         </div>
       )}
     </div>
+  </div>
+
   );
 };
 

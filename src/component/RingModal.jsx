@@ -56,7 +56,7 @@ export default function RingModal({ onClose }) {
   };
 
   return (
-    <div className="notification-modal">
+    <div className="modal-content">
       <div className="scroll-buttons">
         <button className="scroll-up" onClick={scrollUp}>▲</button>
       </div>
