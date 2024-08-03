@@ -1,5 +1,5 @@
-import React, { useContext, useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useContext, useState, useEffect} from 'react';
+import { Link, useNavigate  } from 'react-router-dom';
 import { ClickContext } from './ClickContext';
 import HealthModal from './HealthModal';
 import RingModal from './RingModal';
@@ -25,11 +25,7 @@ import activeneckbutton from '../image/neckandhuributton/목컬러.png';
 import noactiveneckbutton from '../image/neckandhuributton/목흑백.png';
 import activehuributton from '../image/neckandhuributton/허리컬러.png';
 import noactivehuributton from '../image/neckandhuributton/허리흑백.png';
-<<<<<<< HEAD
-import Timer from './Timer';
 import Chat from './Chat/Chatapp';
-=======
->>>>>>> 5fbd94b88e5fb58a3372a4f6d1db7ba00507799d
 import ironaicon from '../image/ironaicon.png';
 import '../Timer.css';
 import '../profile.css';
@@ -58,7 +54,7 @@ export default function Profile() {
   const [ringClicked, setRingClicked] = useState(false);
   const [settingClicked, setSettingClicked] = useState(false);
   const [fadeInModal, setFadeInModal] = useState(false);
-
+  const navigate = useNavigate();
   const [cxp, setCxp] = useState(0); // 로컬 상태로 관리
   const [level, setLevel] = useState(1); // 로컬 상태로 관리
   const [showStoreModal, setShowStoreModal] = useState(false); // 모달 상태 관리
