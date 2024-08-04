@@ -28,19 +28,6 @@ body {
   box-sizing: border-box;
 }
 
-.sub-box {
-  flex: 1 1 calc(50% - 10px);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 300px;
-  background-color: #fefefe;
-  border: none;
-  box-sizing: border-box;
-  border-radius: 10px;
-  position: relative;
-  padding: 20px;
-}
 
 .Main-Layout {
   display: flex;
@@ -48,12 +35,36 @@ body {
   align-items: center;
   width: 80%;
   flex-grow: 1;
-  background: linear-gradient(to bottom, #015E2F, #223C07);
+  background: linear-gradient(to bottom right, #015E2F, #223C07, #093c03); /* 그라디언트 배경 */
   border-radius: 20px;
   margin-left: 10%;
   margin-right: 10%;
   margin-top: 1%;
-  
+  padding: 20px; /* 패딩 추가 */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4); /* 그림자 추가 */
+  position: relative; /* 포지션 추가 */
+  overflow: hidden; /* 오버플로우 숨김 */
+}
+
+.Main-Layout:before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle at center, rgba(255, 255, 255, 0.2), transparent);
+  animation: rotate 10s linear infinite;
+  z-index: 0; /* 레이어 뒤로 보내기 */
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .Left-Box, .Right-Box {
@@ -61,7 +72,9 @@ body {
   height: 100%;
   background-color: white;
   border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 박스 그림자 */
+  position: relative;
+  z-index: 1; /* 레이어 앞으로 */
 }
 
 .Left-Box {
@@ -69,6 +82,7 @@ body {
   margin-right: 2.5%;
   margin-bottom: 2.5%;
 }
+
 
 .Right-Box {
   margin-top: 2.5%;
@@ -78,11 +92,35 @@ body {
   flex-wrap: wrap;
   gap: 10px;
   background: linear-gradient(to bottom, #015E2F, #223C07);
+  position: relative;
 }
+
+.sub-box {
+  flex: 1 1 calc(50% - 10px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 300px;
+  background-color: #ffffff;
+  border: none;
+  box-sizing: border-box;
+  border-radius: 10px;
+  position: relative;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: box-shadow 0.3s ease; /* transform 제거 */
+}
+
+.sub-box:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4); /* 그림자 확대 */
+  /* transform 속성 제거 */
+}
+
 
 .Main-Layout img {
   max-width: 100%;
   height: auto;
+  border-radius: 10px; /* 이미지 둥근 모서리 */
 }
 
 .icon-image {
@@ -99,6 +137,7 @@ body {
   display: block;
   margin-left: auto;
   margin-right: auto;
+  border-radius: 10px; /* 이미지 둥근 모서리 */
 }
 
 .edit-section {
@@ -169,6 +208,7 @@ body {
 .icon-button:active {
   transform: scale(0.8);
 }
+
 
 .character {
   position: relative;
@@ -625,6 +665,31 @@ body {
   text-decoration: none;
   cursor: pointer;
 }
+
+/* jam버튼 */
+.jam-container {
+  position: relative;
+  display: inline-block;
+  padding-bottom: 5px;
+}
+
+.jam-text {
+  position: absolute;
+  top: 25%;  /* 텍스트를 이미지의 중앙 위쪽에 배치 */
+  left: 55%; /* 텍스트를 이미지의 중앙에 배치 */
+  transform: translate(-50%, 0); /* 텍스트를 중앙으로 이동 */
+  color: white;
+  padding: 2px 5px;
+  border-radius: 5px; /* 약간의 둥근 모서리 */
+  font-size: 24px;
+  font-weight: bold;
+  z-index: 1; /* 이미지 위에 텍스트를 표시하기 위해 z-index 설정 */
+  max-width: 50px; /* 텍스트가 너무 길어지지 않도록 최대 너비 설정 */
+  overflow: hidden; /* 텍스트가 넘칠 경우 숨김 */
+  text-overflow: ellipsis; /* 넘치는 텍스트에 '...'을 표시 */
+  white-space: nowrap; /* 텍스트 줄 바꿈 방지 */
+}
+
 
 /* HealthModal.css */
 .modal {

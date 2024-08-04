@@ -1,5 +1,5 @@
-import React, { useContext, useState, useEffect} from 'react';
-import { Link, useNavigate  } from 'react-router-dom';
+import React, { useContext, useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { ClickContext } from './ClickContext';
 import HealthModal from './HealthModal';
 import RingModal from './RingModal';
@@ -27,6 +27,7 @@ import activehuributton from '../image/neckandhuributton/허리컬러.png';
 import noactivehuributton from '../image/neckandhuributton/허리흑백.png';
 import Chat from './Chat/Chatapp';
 import ironaicon from '../image/ironaicon.png';
+import jam from '../image/jam.png'; // jam 이미지 추가
 import '../Timer.css';
 import '../profile.css';
 import '../GoalProgress.css';
@@ -54,6 +55,7 @@ export default function Profile() {
   const [ringClicked, setRingClicked] = useState(false);
   const [settingClicked, setSettingClicked] = useState(false);
   const [fadeInModal, setFadeInModal] = useState(false);
+  const [jamCount, setJamCount] = useState(300); // 기본 잼 개수 설정
   const navigate = useNavigate();
   const [cxp, setCxp] = useState(0); // 로컬 상태로 관리
   const [level, setLevel] = useState(1); // 로컬 상태로 관리
@@ -68,19 +70,34 @@ export default function Profile() {
   useEffect(() => {
     let currentCxp = cxp;
     let currentLevel = level;
-  
-    const levelUpRequirements = [0, 10, 20, 30, 40, 50];
+    let newJamCount = jamCount;
+
+    // 레벨업 요구 경험치 배열을 50레벨까지 확장
+    const levelUpRequirements = Array.from({ length: 50 }, (_, i) => i * 10);
+    
+    const jamRewards = (level) => {
+      if (level <= 9) return 30;
+      if (level <= 14) return 70;
+      if (level <= 19) return 100;
+      if (level <= 24) return 200;
+      if (level <= 29) return 300;
+      if (level <= 34) return 400;
+      if (level <= 39) return 500;
+      return 700;
+    };
 
     while (currentLevel < levelUpRequirements.length - 1 && currentCxp >= levelUpRequirements[currentLevel]) {
       currentCxp -= levelUpRequirements[currentLevel];
       currentLevel++;
+      newJamCount += jamRewards(currentLevel); // 레벨업할 때마다 잼 추가
     }
-  
+
     setLevel(currentLevel);
     setCxp(currentCxp);
-  }, [cxp, level]);
+    setJamCount(newJamCount); // 잼 개수 업데이트
+  }, [cxp, level, jamCount]);
 
-  const totalXPRequired = [0, 10, 20, 30, 40, 50][level];
+  const totalXPRequired = Array.from({ length: 50 }, (_, i) => i * 10)[level];
   const xpBarWidth = (cxp / totalXPRequired) * 100;
 
   const handleButtonClick = (button) => {
@@ -195,6 +212,12 @@ export default function Profile() {
       <div className="second-top">
         <span></span>
         <div className="icon">
+          <div className="jam-container">
+            <button className="icon-button">
+              <img src={jam} alt="jam" />
+              <div className="jam-text">{jamCount}</div>
+            </button>
+          </div>
           <button
             className="icon-button"
             onClick={() => {
@@ -204,6 +227,12 @@ export default function Profile() {
           >
             <img src={healthClicked ? healthClick : health} alt="health" />
           </button>
+          <div>
+            <div className="dot" />
+            <div className="dot" />
+            <div className="dot" />
+            <div className="dot" />
+          </div>
           <button
             className="icon-button"
             onClick={() => {
