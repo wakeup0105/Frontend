@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import '../Timer.css';
+import alarmsound  from '../audio/alarm.mp3';
 
 const Timer = ({ onConfirm , onCancel}) => {
   const defaultTime = 20 * 60; // 기본값 20분
@@ -68,6 +69,13 @@ const Timer = ({ onConfirm , onCancel}) => {
     setMinutes(Math.floor(time / 60));
     setSeconds(time % 60);
   }, [time]);
+
+  useEffect(() => {
+    if (showAlert && !isStretching) {
+      const audio = new Audio(alarmsound);
+      audio.play();
+    }
+  }, [showAlert, isStretching]);
 
   const handleInputMinutesChange = (e) => {
     setInputMinutes(e.target.value);
