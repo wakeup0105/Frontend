@@ -133,11 +133,17 @@ body {
 }
 
 .imagecenter {
+  position:relative;
   display: block;
-  margin-left: auto;
-  margin-right: auto;
+  margin: 0 auto;
+  width: 80%; /* 부모 요소에 대한 상대적인 크기 */
+  max-width: 400px; /* 최대 너비 설정 */
+  max-height: 380px; /* 최대 높이 설정 */
+  object-fit: contain; /* 이미지 비율을 유지하며 컨테이너에 맞춤 */
   border-radius: 10px; /* 이미지 둥근 모서리 */
 }
+
+
 
 .edit-section {
   display: flex;
@@ -209,25 +215,6 @@ body {
 }
 
 
-.character {
-  position: relative;
-}
-
-.character img:nth-child(1) {
-  position: absolute;
-  top: -20px;
-  left: 0;
-  z-index: 2;
-  width: 100px;
-}
-
-.character img:nth-child(2) {
-  position: absolute;
-  top: 10px;
-  left: 40px;
-  z-index: 1;
-  width: 280px;
-}
 
 .page {
   position: absolute;
@@ -520,6 +507,25 @@ body {
 }
 
 
+/* 기존 애니메이션 키프레임 유지 */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
 @keyframes scaleIn {
   from {
     transform: scale(0.9);
@@ -613,16 +619,7 @@ body {
   animation: fadeIn 0.5s ease-in-out; /* Smooth fade-in animation */
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-20px); /* Slide up effect */
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
+
 
 .signup-modal-content h2 {
   font-size: 24px;

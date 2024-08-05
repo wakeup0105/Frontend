@@ -11,7 +11,6 @@ import mouthIcon from '../image/입.png';
 import hairIcon from '../image/헤어.png';
 import clothesIcon from '../image/옷.png';
 
-// 이미지 경로 설정
 const images = {
   '눈': [
     require('../image/store/눈1.png'),
@@ -56,21 +55,33 @@ const getIlonaImage = (clickCount) => {
 const getEyePosition = (clickCount) => {
   switch (clickCount) {
     case 0:
-      return { top: '280px', left: '558px' }; // Example positions
+      return { top: '290px', left: '560px' }; 
     case 1:
-      return { top: '80px', left: '505px' };
+      return { top: '70px', left: '530px' }; 
     case 2:
-      return { top: '77px', left: '285px' };
+      return { top: '90px', left: '320px' }; 
     default:
-      return { top: '77px', left: '280px'};
+      return { top: '280px', left: '330px'};
   }
 };
 
-const StoreModal = ({ onClose }) => {
+const getMouthPosition = (clickCount) => {
+  switch (clickCount) {
+    case 0:
+      return { top: '340px', left: '600px' }; 
+    case 1:
+      return { top: '150px', left: '570px' }; 
+    case 2:
+      return { top: '150px', left: '350px' }; 
+    default:
+      return { top: '320px', left: '370px'};
+  }
+};
+
+const StoreModal = ({ onClose, selectedEye, selectedMouth, setSelectedEye, setSelectedMouth }) => {
   const { clickCount, nickname } = useContext(ClickContext);
   const [activeCategory, setActiveCategory] = useState('눈');
   const [fadeType, setFadeType] = useState('in');
-  const [selectedEye, setSelectedEye] = useState(null); // Add state for selected eye
 
   useEffect(() => {
     setFadeType('in');
@@ -86,6 +97,8 @@ const StoreModal = ({ onClose }) => {
   const handleEyeClick = (image) => {
     if (activeCategory === '눈') {
       setSelectedEye(image);
+    } else if (activeCategory === '입') {
+      setSelectedMouth(image);
     }
   };
 
@@ -97,6 +110,7 @@ const StoreModal = ({ onClose }) => {
   ];
 
   const eyePosition = getEyePosition(clickCount);
+  const mouthPosition = getMouthPosition(clickCount);
 
   return (
     <div className={`store-modal-overlay fade-${fadeType}`}>
@@ -115,14 +129,8 @@ const StoreModal = ({ onClose }) => {
         <div className="store-left-half">
           <div className="store-image-container">
             <img src={getIlonaImage(clickCount)} alt="ilona" className="store-imagecenter" />
-            {selectedEye && (
-              <img
-                src={selectedEye}
-                alt="selected eye"
-                className="store-eye"
-                style={{ position: 'absolute', top: eyePosition.top, left: eyePosition.left }}
-              />
-            )}
+            <img src={selectedEye} alt="기본 눈" style={{ position: 'absolute', ...eyePosition }} />
+            <img src={selectedMouth} alt="기본 입" style={{ position: 'absolute', ...mouthPosition }} />
           </div>
         </div>
         <div className="store-right-half">

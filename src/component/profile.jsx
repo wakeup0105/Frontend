@@ -5,7 +5,8 @@ import HealthModal from './HealthModal';
 import RingModal from './RingModal';
 import SettingModal from './SettingModal';
 import Timer from './Timer';
-import StoreModal from './StoreModal'; // StoreModal 추가
+import JamModal from './JamModal';
+import StoreModal from './StoreModal'; 
 import memark1 from '../image/15memark.png';
 import memark2 from '../image/15memark2.png';
 import ilona1 from '../image/ilona.png';
@@ -25,12 +26,14 @@ import activeneckbutton from '../image/neckandhuributton/목컬러.png';
 import noactiveneckbutton from '../image/neckandhuributton/목흑백.png';
 import activehuributton from '../image/neckandhuributton/허리컬러.png';
 import noactivehuributton from '../image/neckandhuributton/허리흑백.png';
-import Chat from './Chat/Chatapp';
 import ironaicon from '../image/ironaicon.png';
-import jam from '../image/jam.png'; // jam 이미지 추가
+import jam from '../image/jam.png';
+import 기본눈 from '../image/기본눈.png';
+import 기본입 from '../image/기본입.png';
 import '../Timer.css';
 import '../profile.css';
 import '../GoalProgress.css';
+import '../JamModal.css'; 
 import EditButton from './EditButton';
 
 const getIlonaImage = (clickCount) => {
@@ -39,8 +42,34 @@ const getIlonaImage = (clickCount) => {
   return ilona1;
 };
 
+const getEyePosition = (clickCount) => {
+  switch (clickCount) {
+    case 0:
+      return { top: '470px', left: '545px' }; 
+    case 1:
+      return { top: '280px', left: '480px' }; 
+    case 2:
+      return { top: '280px', left: '340px' }; 
+    default:
+      return { top: '280px', left: '340px'};
+  }
+};
+
+const getMouthPosition = (clickCount) => {
+  switch (clickCount) {
+    case 0:
+      return { top: '500px', left: '590px' }; 
+    case 1:
+      return { top: '310px', left: '515px' }; 
+    case 2:
+      return { top: '320px', left: '380px' }; 
+    default:
+      return { top: '320px', left: '380px'};
+  }
+};
+
 export default function Profile() {
-  const { nickname, setNickname, clickCount, setClickCount } = useContext(ClickContext); // clickCount 추가
+  const { nickname, clickCount, setClickCount, selectedEye, selectedMouth, setSelectedEye, setSelectedMouth } = useContext(ClickContext);
   const [neckActive, setNeckActive] = useState(true);
   const [huriActive, setHuriActive] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
@@ -54,63 +83,62 @@ export default function Profile() {
   const [healthClicked, setHealthClicked] = useState(false);
   const [ringClicked, setRingClicked] = useState(false);
   const [settingClicked, setSettingClicked] = useState(false);
-  const [fadeInModal, setFadeInModal] = useState(false);
-  const [jamCount, setJamCount] = useState(300); // 기본 잼 개수 설정
+  const [jamCount, setJamCount] = useState(300); 
   const navigate = useNavigate();
-  const [cxp, setCxp] = useState(0); // 로컬 상태로 관리
-  const [level, setLevel] = useState(1); // 로컬 상태로 관리
-  const [showStoreModal, setShowStoreModal] = useState(false); // 모달 상태 관리
+  const [cxp, setCxp] = useState(0); 
+  const [level, setLevel] = useState(1); 
+  const [showJamModal, setShowJamModal] = useState(false); 
   const [jamAnimation, setJamAnimation] = useState(false);
-  const [isVisible, setIsVisible] = useState(false);
   const [showProfileCard, setShowProfileCard] = useState(false);
+  const [showStoreModal, setShowStoreModal] = useState(false); 
+  const [eyePosition, setEyePosition] = useState(getEyePosition(clickCount));
+  const [mouthPosition, setMouthPosition] = useState(getMouthPosition(clickCount));
 
   const handleRewardClick = () => {
     setCxp((prevCxp) => prevCxp + 10);
     setRewardReceived(true);
     setRewardMessage('보상받기 완료✔');
   };
- // 잼 개수가 변경될 때 애니메이션 클래스 추가
-useEffect(() => {
-  if (jamAnimation) {
-    const timer = setTimeout(() => {
-      setJamAnimation(false);
-    }, 500); // 애니메이션 지속 시간과 동일하게 설정
 
-    return () => clearTimeout(timer);
-  }
-}, [jamAnimation]);
+  useEffect(() => {
+    if (jamAnimation) {
+      const timer = setTimeout(() => {
+        setJamAnimation(false);
+      }, 500);
 
-// cxp가 변경될 때 잼 개수 업데이트 및 애니메이션 트리거
-useEffect(() => {
-  let currentCxp = cxp;
-  let currentLevel = level;
-  let newJamCount = jamCount;
+      return () => clearTimeout(timer);
+    }
+  }, [jamAnimation]);
 
-  const levelUpRequirements = Array.from({ length: 50 }, (_, i) => i * 10);
-  const jamRewards = (level) => {
-    if (level <= 9) return 30;
-    if (level <= 14) return 70;
-    if (level <= 19) return 100;
-    if (level <= 24) return 200;
-    if (level <= 29) return 300;
-    if (level <= 34) return 400;
-    if (level <= 39) return 500;
-    return 700;
-  };
+  useEffect(() => {
+    let currentCxp = cxp;
+    let currentLevel = level;
+    let newJamCount = jamCount;
 
-  while (currentLevel < levelUpRequirements.length - 1 && currentCxp >= levelUpRequirements[currentLevel]) {
-    currentCxp -= levelUpRequirements[currentLevel];
-    currentLevel++;
-    newJamCount += jamRewards(currentLevel);
-    setJamAnimation(true); // 잼 애니메이션 트리거
-  }
+    const levelUpRequirements = Array.from({ length: 50 }, (_, i) => i * 10);
+    const jamRewards = (level) => {
+      if (level <= 9) return 30;
+      if (level <= 14) return 70;
+      if (level <= 19) return 100;
+      if (level <= 24) return 200;
+      if (level <= 29) return 300;
+      if (level <= 34) return 400;
+      if (level <= 39) return 500;
+      return 700;
+    };
 
-  setLevel(currentLevel);
-  setCxp(currentCxp);
-  setJamCount(newJamCount);
-}, [cxp, level, jamCount]);
-  
-  
+    while (currentLevel < levelUpRequirements.length - 1 && currentCxp >= levelUpRequirements[currentLevel]) {
+      currentCxp -= levelUpRequirements[currentLevel];
+      currentLevel++;
+      newJamCount += jamRewards(currentLevel);
+      setJamAnimation(true);
+    }
+
+    setLevel(currentLevel);
+    setCxp(currentCxp);
+    setJamCount(newJamCount);
+  }, [cxp, level, jamCount]);
+
   const totalXPRequired = Array.from({ length: 50 }, (_, i) => i * 10)[level];
   const xpBarWidth = (cxp / totalXPRequired) * 100;
 
@@ -129,18 +157,11 @@ useEffect(() => {
     setShowModal(true);
   };
 
-  useEffect(() => {
-    if (showModal) {
-      setFadeInModal(true);
-    }
-  }, [showModal]);
-
   const closeModal = () => {
     setFadeOutModal(true);
     setTimeout(() => {
       setShowModal(false);
       setFadeOutModal(false);
-      setFadeInModal(false);
     }, 500);
   };
 
@@ -148,7 +169,7 @@ useEffect(() => {
     const goalchallengeCount = 10;
     const progressPercentage = (challengeCount / goalchallengeCount) * 100;
     const isChallengeComplete = challengeCount >= goalchallengeCount;
-  
+
     return (
       <div className="goal-progress">
         <h1>{isChallengeComplete ? "✨도전과제 성공✨" : "✨도전 과제✨"}</h1>
@@ -159,8 +180,8 @@ useEffect(() => {
               <h2 className="goal-text">현재 자세 고친 횟수: {challengeCount} / 목표 횟수: {goalchallengeCount}</h2>
             </div>
             <div className="goalprogress-bar">
-              <div 
-                className="goalprogress-fill" 
+              <div
+                class="goalprogress-fill"
                 style={{ width: `${progressPercentage}%` }}
               ></div>
             </div>
@@ -188,21 +209,24 @@ useEffect(() => {
       if (prevCount < 2) {
         return prevCount + 1;
       } else {
-        return prevCount; // 2 이상일 경우 증가하지 않음
+        return prevCount;
       }
     });
     setCxp((prevCxp) => prevCxp + 4);
+    setEyePosition(getEyePosition(clickCount + 1));
+    setMouthPosition(getMouthPosition(clickCount + 1));
   };
-  
-  //클릭을 안했을 시 오는 콜백함수 ClickCount를 하나 낮춘다
+
   const decrementClickCount = () => {
     setClickCount((prevCount) => {
-      if (prevCount == 0) { //0일 시 그대로 유지
+      if (prevCount === 0) {
         return prevCount;
       } else {
-        return prevCount - 1; // 0이 아닐 경우 즉 1이나 2일 경우 -1
+        return prevCount - 1;
       }
     });
+    setEyePosition(getEyePosition(clickCount - 1));
+    setMouthPosition(getMouthPosition(clickCount - 1));
   };
 
   const handleClick = (setter) => {
@@ -234,7 +258,19 @@ useEffect(() => {
         </div>
       )}
 
-      {showStoreModal && <StoreModal onClose={() => setShowStoreModal(false)} />}
+      {showJamModal && (
+        <JamModal onClose={() => setShowJamModal(false)} />
+      )}
+
+      {showStoreModal && (
+        <StoreModal 
+          onClose={() => setShowStoreModal(false)} 
+          selectedEye={selectedEye}
+          selectedMouth={selectedMouth}
+          setSelectedEye={setSelectedEye}
+          setSelectedMouth={setSelectedMouth}
+        /> 
+      )}
 
       <div className="top">
         <span><img src={memark2} alt="character1" /><img src={memark1} alt="character2" /></span>
@@ -244,7 +280,7 @@ useEffect(() => {
         <span></span>
         <div className="icon">
           <div className="jam-container">
-            <button className={`icon-button ${jamAnimation ? 'jam-animation' : ''}`}>
+            <button className={`icon-button ${jamAnimation ? 'jam-animation' : ''}`} onClick={() => setShowJamModal(true)}>
               <img src={jam} alt="jam" />
               <div className="jam-text">{jamCount}</div>
             </button>
@@ -296,31 +332,34 @@ useEffect(() => {
                 <span className="level">Level.{level}</span>
               </div>
               <div className="xp-box" title={`현재 경험치: ${cxp} / 필요 경험치: ${totalXPRequired}`}>
-                <div 
-                  className="xp-bar" 
-                  style={{ width: `${xpBarWidth}%` }} 
+                <div
+                  className="xp-bar"
+                  style={{ width: `${xpBarWidth}%` }}
                 ></div>
               </div>
             </div>
           </div>
           <div className="icon">
-            <button 
-              className="icon-button" 
+            <button
+              className="icon-button"
               onClick={() => handleButtonClick('neck')}
               disabled={neckActive}
             >
               <img src={neckActive ? activeneckbutton : noactiveneckbutton} alt="neck" />
             </button>
-            <button 
-              className="icon-button" 
+            <button
+              className="icon-button"
               onClick={() => handleButtonClick('huri')}
               disabled={huriActive}
             >
               <img src={huriActive ? activehuributton : noactivehuributton} alt="huri" />
             </button>
           </div>
+        
+          <img src={getIlonaImage(clickCount)} alt="ilona" className='imagecenter' />
+          <img src={selectedEye || 기본눈} alt="기본 눈" style={{ position: 'absolute', ...eyePosition }} />
+          <img src={selectedMouth || 기본입} alt="기본 입" style={{ position: 'absolute', ...mouthPosition }} />
 
-          <img src={getIlonaImage(clickCount)} alt="ilona" className='imagecenter'/>
           <div className="icon">
             <button className="icon-button">
               <img src={enter} alt="enter" />
@@ -335,10 +374,9 @@ useEffect(() => {
               className="icon-button"
               onClick={() => setShowProfileCard(true)}
             >
-              <img src={userinformation} alt="userinformation" className='icon-image'/>
+              <img src={userinformation} alt="userinformation" className='icon-image' />
             </button>
           </div>
-          
         </div>
         {showProfileCard && (
           <div className="profile-card-popup">
@@ -349,16 +387,15 @@ useEffect(() => {
                 <p><span>닉네임:</span> {nickname}</p>
                 <p><span>레벨:</span> {level}</p>
                 <p><span>경험치:</span> {cxp} / {totalXPRequired}</p>
-                {/* 추가적인 세부정보를 여기에 추가할 수 있습니다 */}
               </div>
             </div>
           </div>
         )}
 
         <div className="Right-Box">
-          <div className="sub-box"><Timer onConfirm={incrementClickCount} onCancel={decrementClickCount}/></div>
-          <div className="sub-box"><GoalProgress/></div>
-          <div className="sub-box"><EditButton/></div>
+          <div className="sub-box"><Timer onConfirm={incrementClickCount} onCancel={decrementClickCount} /></div>
+          <div className="sub-box"><GoalProgress /></div>
+          <div className="sub-box"><EditButton /></div>
         </div>
       </div>
     </div>
