@@ -374,6 +374,17 @@ body {
   transform: scale(0.95);
 }
 
+.input.invalid {
+  border: none;
+  color: red;
+}
+
+.verify:disabled, .bottomButton:disabled {
+  background-color: rgba(255, 0, 0, 0.5); /* 투명한 빨강색 */
+  cursor: not-allowed;
+}
+
+
 @import url('//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css');
 * {
   padding: 0px;
@@ -394,6 +405,7 @@ body {
   width: 60px;
   height: 60px;
   margin: 0px 25px;
+
 }
 
 .social-icon:before {
@@ -674,8 +686,8 @@ body {
 
 .jam-text {
   position: absolute;
-  top: 25%;  /* 텍스트를 이미지의 중앙 위쪽에 배치 */
-  left: 55%; /* 텍스트를 이미지의 중앙에 배치 */
+  top: 23%;  /* 텍스트를 이미지의 중앙 위쪽에 배치 */
+  left: 63%; /* 텍스트를 이미지의 중앙에 배치 */
   transform: translate(-50%, 0); /* 텍스트를 중앙으로 이동 */
   color: white;
   padding: 2px 5px;
@@ -1429,4 +1441,28 @@ body {
 .store-section:hover {
   background-color: #dcedc1;
   transform: scale(1.05);
+}
+
+
+/* 서버연동실패메시지 */
+.message {
+  width:auto;
+  position: fixed;
+  top: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(255, 0, 0, 0.8);
+  color: white;
+  padding: 15px 20px;
+  border-radius: 5px;
+  font-size: 16px;
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.5s, visibility 0.5s;
+}
+
+.message.show {
+  opacity: 1;
+  visibility: visible;
 }
