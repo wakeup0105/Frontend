@@ -520,25 +520,6 @@ body {
 }
 
 
-/* 기존 애니메이션 키프레임 유지 */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes fadeOut {
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
-  }
-}
-
 @keyframes scaleIn {
   from {
     transform: scale(0.9);
