@@ -60,43 +60,55 @@ export default function Profile() {
   const [cxp, setCxp] = useState(0); // 로컬 상태로 관리
   const [level, setLevel] = useState(1); // 로컬 상태로 관리
   const [showStoreModal, setShowStoreModal] = useState(false); // 모달 상태 관리
+  const [jamAnimation, setJamAnimation] = useState(false);
 
   const handleRewardClick = () => {
     setCxp((prevCxp) => prevCxp + 10);
     setRewardReceived(true);
     setRewardMessage('보상받기 완료✔');
   };
+ // 잼 개수가 변경될 때 애니메이션 클래스 추가
+useEffect(() => {
+  if (jamAnimation) {
+    const timer = setTimeout(() => {
+      setJamAnimation(false);
+    }, 500); // 애니메이션 지속 시간과 동일하게 설정
 
-  useEffect(() => {
-    let currentCxp = cxp;
-    let currentLevel = level;
-    let newJamCount = jamCount;
+    return () => clearTimeout(timer);
+  }
+}, [jamAnimation]);
 
-    // 레벨업 요구 경험치 배열을 50레벨까지 확장
-    const levelUpRequirements = Array.from({ length: 50 }, (_, i) => i * 10);
-    
-    const jamRewards = (level) => {
-      if (level <= 9) return 30;
-      if (level <= 14) return 70;
-      if (level <= 19) return 100;
-      if (level <= 24) return 200;
-      if (level <= 29) return 300;
-      if (level <= 34) return 400;
-      if (level <= 39) return 500;
-      return 700;
-    };
+// cxp가 변경될 때 잼 개수 업데이트 및 애니메이션 트리거
+useEffect(() => {
+  let currentCxp = cxp;
+  let currentLevel = level;
+  let newJamCount = jamCount;
 
-    while (currentLevel < levelUpRequirements.length - 1 && currentCxp >= levelUpRequirements[currentLevel]) {
-      currentCxp -= levelUpRequirements[currentLevel];
-      currentLevel++;
-      newJamCount += jamRewards(currentLevel); // 레벨업할 때마다 잼 추가
-    }
+  const levelUpRequirements = Array.from({ length: 50 }, (_, i) => i * 10);
+  const jamRewards = (level) => {
+    if (level <= 9) return 30;
+    if (level <= 14) return 70;
+    if (level <= 19) return 100;
+    if (level <= 24) return 200;
+    if (level <= 29) return 300;
+    if (level <= 34) return 400;
+    if (level <= 39) return 500;
+    return 700;
+  };
 
-    setLevel(currentLevel);
-    setCxp(currentCxp);
-    setJamCount(newJamCount); // 잼 개수 업데이트
-  }, [cxp, level, jamCount]);
+  while (currentLevel < levelUpRequirements.length - 1 && currentCxp >= levelUpRequirements[currentLevel]) {
+    currentCxp -= levelUpRequirements[currentLevel];
+    currentLevel++;
+    newJamCount += jamRewards(currentLevel);
+    setJamAnimation(true); // 잼 애니메이션 트리거
+  }
 
+  setLevel(currentLevel);
+  setCxp(currentCxp);
+  setJamCount(newJamCount);
+}, [cxp, level, jamCount]);
+  
+  
   const totalXPRequired = Array.from({ length: 50 }, (_, i) => i * 10)[level];
   const xpBarWidth = (cxp / totalXPRequired) * 100;
 
@@ -230,7 +242,7 @@ export default function Profile() {
         <span></span>
         <div className="icon">
           <div className="jam-container">
-            <button className="icon-button">
+            <button className={`icon-button ${jamAnimation ? 'jam-animation' : ''}`}>
               <img src={jam} alt="jam" />
               <div className="jam-text">{jamCount}</div>
             </button>

@@ -108,12 +108,11 @@ body {
   position: relative;
   padding: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  transition: box-shadow 0.3s ease; /* transform 제거 */
+  transition: box-shadow 0.3s ease;
 }
 
 .sub-box:hover {
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4); /* 그림자 확대 */
-  /* transform 속성 제거 */
 }
 
 
@@ -690,6 +689,22 @@ body {
   white-space: nowrap; /* 텍스트 줄 바꿈 방지 */
 }
 
+/* 추가할 CSS 코드 */
+.jam-animation {
+  animation: grow 0.5s ease-in-out forwards;
+}
+
+@keyframes grow {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
 
 /* HealthModal.css */
 .modal {
