@@ -61,6 +61,8 @@ export default function Profile() {
   const [level, setLevel] = useState(1); // 로컬 상태로 관리
   const [showStoreModal, setShowStoreModal] = useState(false); // 모달 상태 관리
   const [jamAnimation, setJamAnimation] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
+  const [showProfileCard, setShowProfileCard] = useState(false);
 
   const handleRewardClick = () => {
     setCxp((prevCxp) => prevCxp + 10);
@@ -329,11 +331,30 @@ useEffect(() => {
             <button className="icon-button" onClick={() => setShowStoreModal(true)}>
               <img src={store} alt="store" />
             </button>
-            <button className="icon-button">
+            <button
+              className="icon-button"
+              onClick={() => setShowProfileCard(true)}
+            >
               <img src={userinformation} alt="userinformation" className='icon-image'/>
             </button>
           </div>
+          
         </div>
+        {showProfileCard && (
+          <div className="profile-card-popup">
+            <div className="profile-card-content">
+              <button className="close-button" onClick={() => setShowProfileCard(false)}>X</button>
+              <h2>Profile card</h2>
+              <div className="profile-info">
+                <p><span>닉네임:</span> {nickname}</p>
+                <p><span>레벨:</span> {level}</p>
+                <p><span>경험치:</span> {cxp} / {totalXPRequired}</p>
+                {/* 추가적인 세부정보를 여기에 추가할 수 있습니다 */}
+              </div>
+            </div>
+          </div>
+        )}
+
         <div className="Right-Box">
           <div className="sub-box"><Timer onConfirm={incrementClickCount} onCancel={decrementClickCount}/></div>
           <div className="sub-box"><GoalProgress/></div>
