@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import '../Timer.css';
 
-const Timer = ({ onConfirm }) => {
+const Timer = ({ onConfirm , onCancel}) => {
   const defaultTime = 20 * 60; // 기본값 20분
-  const stretchTime = 1; // 스트레칭 타이머 1분
+  const stretchTime = 60; // 스트레칭 타이머 1분
   const [initialTime, setInitialTime] = useState(defaultTime);
   const [time, setTime] = useState(defaultTime);
   const [minutes, setMinutes] = useState(Math.floor(defaultTime / 60));
@@ -45,6 +45,24 @@ const Timer = ({ onConfirm }) => {
     }
     return () => clearInterval(timer);
   }, [isTimerActive, isStretching, initialTime]);
+
+  useEffect(() => {
+    let autoCloseTimer;
+    if (showAlert && !isStretching) {
+      autoCloseTimer = setTimeout(() => {
+        setFadeOut(true);
+        setTimeout(() => {
+          setShowAlert(false);
+          setFadeOut(false);
+          setIsStretching(false);
+          setTime(initialTime); // 원래 타이머 시간으로 복원
+          setIsTimerActive(true); // 원래 타이머 재시작
+          onCancel(); // 자동 닫힐 때 onCancel 호출
+        }, 500);
+      }, 1 * 60 * 1000); // 10분 후에 팝업 닫기
+    }
+    return () => clearTimeout(autoCloseTimer);
+  }, [showAlert, isStretching, initialTime, onCancel]);
 
   useEffect(() => {
     setMinutes(Math.floor(time / 60));

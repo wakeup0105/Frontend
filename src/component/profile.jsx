@@ -170,8 +170,25 @@ export default function Profile() {
 
   const incrementClickCount = () => {
     setChallengeCount((prevCount) => prevCount + 1);
-    setClickCount((prevCount) => prevCount + 1);
+    setClickCount((prevCount) => {
+      if (prevCount < 2) {
+        return prevCount + 1;
+      } else {
+        return prevCount; // 2 이상일 경우 증가하지 않음
+      }
+    });
     setCxp((prevCxp) => prevCxp + 4);
+  };
+  
+  //클릭을 안했을 시 오는 콜백함수 ClickCount를 하나 낮춘다
+  const decrementClickCount = () => {
+    setClickCount((prevCount) => {
+      if (prevCount == 0) { //0일 시 그대로 유지
+        return prevCount;
+      } else {
+        return prevCount - 1; // 0이 아닐 경우 즉 1이나 2일 경우 -1
+      }
+    });
   };
 
   const handleClick = (setter) => {
@@ -306,7 +323,7 @@ export default function Profile() {
           </div>
         </div>
         <div className="Right-Box">
-          <div className="sub-box"><Timer onConfirm={incrementClickCount} /></div>
+          <div className="sub-box"><Timer onConfirm={incrementClickCount} onCancel={decrementClickCount}/></div>
           <div className="sub-box"><GoalProgress/></div>
           <div className="sub-box"><EditButton/></div>
         </div>
