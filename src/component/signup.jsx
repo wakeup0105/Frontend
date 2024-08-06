@@ -109,10 +109,18 @@ export default function Signup() {
 
         try {
             const response = await apiClient.post('/api/member/signup', {
+                email: emailOrPhone,
+                password: password,
+                checkPassword: confirmPassword,
+                verificationCode: verificationCode
+            },
+            /*{
                 emailOrPhone: emailOrPhone,
                 verificationCode: verificationCode,
                 password: password
-            });
+            }*/ 
+            {"Content-Type": 'application/json'});
+            
             console.log('Signup Response:', response.data);
             const { accessToken, refreshToken } = response.data;
             localStorage.setItem('accessToken', accessToken);

@@ -33,7 +33,7 @@ const JamModal = ({ onClose }) => {
     return () => {
       window.removeEventListener('keydown', handleEscape);
     };
-  }, []);
+  }, );
 
   const handleButtonClick = (button) => {
     setActiveButton(button);

@@ -14,8 +14,8 @@ export default function Main() {
         try {
             const response = await apiClient.post('/api/member/login', { emailOrPhone, password }); // LoginRequestDTO
             const { accessToken, refreshToken, nickname, level } = response.data; // JwtTokenResponseDTO
-            localStorage.setItem('accessToken', accessToken);
-            localStorage.setItem('refreshToken', refreshToken);
+            /*localStorage.setItem('accessToken', accessToken);
+            localStorage.setItem('refreshToken', refreshToken);*/
             navigate('/profile', { state: { nickname, level } });
         } catch (error) {
             console.error('Login error:', error);
