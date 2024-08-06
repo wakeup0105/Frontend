@@ -4,7 +4,7 @@ import alarmsound  from '../audio/alarm.mp3';
 
 const Timer = ({ onConfirm , onCancel}) => {
   const defaultTime = 20 * 60; // 기본값 20분
-  const stretchTime = 1; // 스트레칭 타이머 1분
+  const stretchTime = 60; // 스트레칭 타이머 1분
   const [initialTime, setInitialTime] = useState(defaultTime);
   const [time, setTime] = useState(defaultTime);
   const [minutes, setMinutes] = useState(Math.floor(defaultTime / 60));

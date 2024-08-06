@@ -10,6 +10,8 @@ import eyeIcon from '../image/눈.png';
 import mouthIcon from '../image/입.png';
 import hairIcon from '../image/헤어.png';
 import clothesIcon from '../image/옷.png';
+import 기본눈 from '../image/기본눈.png';
+import 기본입 from '../image/기본입.png';
 
 const images = {
   '눈': [
@@ -123,14 +125,14 @@ const StoreModal = ({ onClose, selectedEye, selectedMouth, setSelectedEye, setSe
         <div className="store-nickname-container">
           <img src={ironaIcon} alt="irona icon" className="store-icon" />
           <div className="store-nickname-box">
-            <p>{nickname}의 상점</p>
+            <p>일오나 상점</p>
           </div>
         </div>
         <div className="store-left-half">
           <div className="store-image-container">
             <img src={getIlonaImage(clickCount)} alt="ilona" className="store-imagecenter" />
-            <img src={selectedEye} alt="기본 눈" style={{ position: 'absolute', ...eyePosition }} />
-            <img src={selectedMouth} alt="기본 입" style={{ position: 'absolute', ...mouthPosition }} />
+            <img src={selectedEye || 기본눈} alt="기본 눈" style={{ position: 'absolute', ...eyePosition }} />
+            <img src={selectedMouth || 기본입} alt="기본 입" style={{ position: 'absolute', ...mouthPosition }} />
           </div>
         </div>
         <div className="store-right-half">
