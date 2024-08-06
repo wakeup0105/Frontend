@@ -1,19 +1,19 @@
-// EditButton.jsx
-import React, { useState, useEffect } from 'react';
-import apiClient from './apiClient'; // Make sure you import your apiClient
+import React, { useState, useEffect, useContext } from 'react';
+import apiClient from './apiClient';
+import { UserContext } from './UserContext';
 
 const EditButton = () => {
+  const { user, setUser } = useContext(UserContext); // Use UserContext to get user data
   const [isEditing, setIsEditing] = useState(false);
-  const [introText, setIntroText] = useState("");
+  const [introText, setIntroText] = useState(user ? user.introduction : ""); // Initialize with user's introduction
   const [message, setMessage] = useState(""); // State to store the response message
 
   useEffect(() => {
-    // 컴포넌트가 마운트될 때 localStorage에서 introText를 불러옵니다.
-    const storedIntroText = localStorage.getItem('introText');
-    if (storedIntroText) {
-      setIntroText(storedIntroText);
+    // Initialize introText with user introduction
+    if (user && user.introduction) {
+      setIntroText(user.introduction);
     }
-  }, []);
+  }, [user]);
 
   const handleEditClick = () => {
     setIsEditing(true);
@@ -21,8 +21,8 @@ const EditButton = () => {
 
   const handleSaveClick = async () => {
     try {
-      const accessToken = localStorage.getItem('accessToken');
-      const response = await apiClient.patch('/api/member-info/introduction', 
+      const accessToken = user.access_token;
+      const response = await apiClient.patch('/api/member-info/set-introduction', 
         { introduction: introText },
         {
           headers: {
@@ -31,8 +31,8 @@ const EditButton = () => {
         }
       );
       setMessage(response.data);
-      // localStorage에 introText를 저장합니다.
-      localStorage.setItem('introText', introText);
+      // Update the introduction in UserContext
+      setUser(prevUser => ({ ...prevUser, introduction: introText }));
       setIsEditing(false);
     } catch (error) {
       console.error('Failed to update introduction', error);
@@ -62,7 +62,6 @@ const EditButton = () => {
           <button className="edit-button" onClick={handleEditClick}>편집하기</button>
         </div>
       )}
-      {message && <div className="introduction-message">{message}</div>}
     </div>
   );
 };

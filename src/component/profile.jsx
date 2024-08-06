@@ -115,7 +115,27 @@ export default function SignProfile() {
   const handleIntroductionChange = (event) => {
     setIntroduction(event.target.value);
   };
-  
+
+  const handleIntroductionSubmit = async () => {
+    try {
+      const accessToken = localStorage.getItem('accessToken');
+      const response = await apiClient.patch('/api/member-info/introduction', 
+        { introduction },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`
+          }
+        }
+      );
+      setMessage(response.data);
+      // Update local storage to keep the introduction in sync
+      localStorage.setItem('introText', introduction);
+    } catch (error) {
+      console.error('Failed to update introduction', error);
+      setMessage('Failed to update introduction');
+    }
+  };
+
   const handleRewardClick = () => {
     setCxp((prevCxp) => prevCxp + 10);
     setRewardReceived(true);

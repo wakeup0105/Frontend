@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import apiClient from './apiClient';
+import { UserContext } from './UserContext'; // Create and use a UserContext
 import '../index.css';
 
 export default function Main() {
@@ -9,6 +10,7 @@ export default function Main() {
     const [message, setMessage] = useState('');
     const [showMessage, setShowMessage] = useState(false);
     const navigate = useNavigate();
+    const { setUser } = useContext(UserContext); // Use UserContext to set user data
 
     const handleLogin = async () => {
         try {
@@ -18,7 +20,7 @@ export default function Main() {
             localStorage.setItem('refreshToken', refresh_token);
             console.log('Access Token:', access_token); // 토큰 확인용 로그
 
-            // 닉네임 정보가 있는지 확인
+            // Fetch the nickname and introduction information
             const infoResponse = await apiClient.get('/api/member-info/info', {
                 headers: {
                     Authorization: `Bearer ${access_token}`
@@ -27,12 +29,15 @@ export default function Main() {
 
             const { nickname, tag, introduction } = infoResponse.data;
 
+            // Store user information in UserContext
+            setUser({ nickname, tag, introduction, access_token });
+
             if (nickname.startsWith('사용자')) {
-                // 닉네임이 '사용자'로 시작하면 닉네임 설정 페이지로 이동
+                // If nickname starts with '사용자', navigate to the nickname setting page
                 navigate('/signnickname');
             } else {
-                // 닉네임 정보가 있으면 바로 프로필로 이동
-                navigate('/signprofile', { state: { nickname, tag, introduction } });
+                // If nickname is set, navigate to the profile page
+                navigate('/profile');
             }
         } catch (error) {
             console.error('Login error:', error);
@@ -58,10 +63,6 @@ export default function Main() {
         navigate('/signup');
     };
 
-    const handleUnsignAccessAccount = () => {
-        navigate('/unsignup');
-    };
-
     return (
         <div className="page">
             <div className="titleWrap">
@@ -69,7 +70,6 @@ export default function Main() {
             </div>
             <br />
             <div className="account">
-                <span className="nologinaccess" onClick={handleUnsignAccessAccount}>로그인 없이 참여할래요</span>
             </div>
             
             <div className="contentWrap">
@@ -93,7 +93,7 @@ export default function Main() {
                     />
                 </div>
                 <br />
-
+    
                 <div className="account">
                     <span className="generate" onClick={handleCreateAccount}>계정생성</span>                
                     <span>&nbsp;</span>
@@ -101,7 +101,6 @@ export default function Main() {
                     <span>&nbsp;</span>
                     <span className="find" onClick={handleFindAccount}>계정찾기</span>
                 </div>
-
             </div>
             <button className='bottomButton' onClick={handleLogin}>
                 로그인

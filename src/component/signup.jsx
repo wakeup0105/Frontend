@@ -243,7 +243,6 @@ export default function Signup() {
                         onClick={handleSendVerification}
                         disabled={!isEmailOrPhoneValid}
                     >
-                        인증번호 발송
                     </button>
                 </div>
 
