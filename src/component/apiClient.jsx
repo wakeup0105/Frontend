@@ -4,7 +4,7 @@ import axios from 'axios';
 
 // Axios 인스턴스 생성
 const apiClient = axios.create({
-    baseURL: 'http://your-api-url.com', // API 기본 URL 설정
+    baseURL: 'http://15.165.207.222:8080', // API 기본 URL 설정
 });
 
 // 요청 인터셉터 추가
