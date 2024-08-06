@@ -99,7 +99,6 @@ export default function Main() {
                     <span>&nbsp;</span>
                     <span>&nbsp;</span>
                     <span>&nbsp;</span>
-                    <span className="find" onClick={handleFindAccount}>계정찾기</span>
                 </div>
             </div>
             <button className='bottomButton' onClick={handleLogin}>
