@@ -214,3 +214,10 @@
 .profile-info p span {
   font-weight: bold;
 }
+
+.relative-position-container {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: auto;
+}

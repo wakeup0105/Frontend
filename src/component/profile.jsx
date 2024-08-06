@@ -5,8 +5,8 @@ import HealthModal from './HealthModal';
 import RingModal from './RingModal';
 import SettingModal from './SettingModal';
 import Timer from './Timer';
-import JamModal from './JamModal';
-import StoreModal from './StoreModal'; 
+import JamModal from './JamModal'; // JamModal 추가
+import StoreModal from './StoreModal'; // StoreModal 추가
 import memark1 from '../image/15memark.png';
 import memark2 from '../image/15memark2.png';
 import ilona1 from '../image/ilona.png';
@@ -27,13 +27,13 @@ import noactiveneckbutton from '../image/neckandhuributton/목흑백.png';
 import activehuributton from '../image/neckandhuributton/허리컬러.png';
 import noactivehuributton from '../image/neckandhuributton/허리흑백.png';
 import ironaicon from '../image/ironaicon.png';
-import jam from '../image/jam.png';
-import 기본눈 from '../image/기본눈.png';
-import 기본입 from '../image/기본입.png';
+import jam from '../image/jam.png'; // jam 이미지 추가
+import 기본눈 from '../image/기본눈.png'; // 기본 눈 이미지 추가
+import 기본입 from '../image/기본입.png'; // 기본 입 이미지 추가
 import '../Timer.css';
 import '../profile.css';
 import '../GoalProgress.css';
-import '../JamModal.css'; 
+import '../JamModal.css'; // JamModal CSS 추가
 import EditButton from './EditButton';
 
 const getIlonaImage = (clickCount) => {
@@ -45,26 +45,26 @@ const getIlonaImage = (clickCount) => {
 const getEyePosition = (clickCount) => {
   switch (clickCount) {
     case 0:
-      return { top: '470px', left: '545px' }; 
+      return { top: '60%', left: '72%',transform: 'translate(-20%, -10%)' }; // 비율로 위치 설정
     case 1:
-      return { top: '280px', left: '480px' }; 
+      return { top: '15%', left: '65%' ,transform: 'translate(-15%, -20%)'};  
     case 2:
-      return { top: '280px', left: '340px' }; 
+      return { top: '10%', left: '44%', transform: 'translate(-15%, -20%)' };
     default:
-      return { top: '280px', left: '340px'};
+      return { top: '10%', left: '44%', transform: 'translate(-15%, -20%)' };
   }
 };
 
 const getMouthPosition = (clickCount) => {
   switch (clickCount) {
     case 0:
-      return { top: '500px', left: '590px' }; 
+      return { top: '70%', left: '77%', transform: 'translate(-20%, -10%)'  }; // 비율로 위치 설정
     case 1:
-      return { top: '310px', left: '515px' }; 
+      return { top: '25%', left: '70%',transform: 'translate(-10%, -50%)' };  
     case 2:
-      return { top: '320px', left: '380px' }; 
+      return { top: '20%', left: '48%' };
     default:
-      return { top: '320px', left: '380px'};
+      return { top: '20%', left: '48%' };
   }
 };
 
@@ -356,9 +356,11 @@ export default function Profile() {
             </button>
           </div>
         
-          <img src={getIlonaImage(clickCount)} alt="ilona" className='imagecenter' />
-          <img src={selectedEye || 기본눈} alt="기본 눈" style={{ position: 'absolute', ...eyePosition }} />
-          <img src={selectedMouth || 기본입} alt="기본 입" style={{ position: 'absolute', ...mouthPosition }} />
+          <div className="relative-position-container"> {/* 추가된 부모 컨테이너 */}
+            <img src={getIlonaImage(clickCount)} alt="ilona" className='imagecenter' />
+            <img src={selectedEye || 기본눈} alt="기본 눈" style={{ position: 'absolute', ...eyePosition }} />
+            <img src={selectedMouth || 기본입} alt="기본 입" style={{ position: 'absolute', ...mouthPosition }} />
+          </div>
 
           <div className="icon">
             <button className="icon-button">
@@ -367,7 +369,7 @@ export default function Profile() {
             <button className="icon-button" onClick={() => navigate('/chat')}>
               <img src={chat} alt="chat" />
             </button>
-            <button className="icon-button" onClick={() => setShowStoreModal(true)}>
+            <button className="icon-button" onClick={() => setShowStoreModal(true)}> {/* StoreModal 열기 */}
               <img src={store} alt="store" />
             </button>
             <button
