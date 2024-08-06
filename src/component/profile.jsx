@@ -35,6 +35,8 @@ import '../profile.css';
 import '../GoalProgress.css';
 import '../JamModal.css'; // JamModal CSS 추가
 import EditButton from './EditButton';
+import EnterModal from './EnterModal';
+
 
 const getIlonaImage = (clickCount) => {
   if (clickCount >= 2) return ilona3;
@@ -93,6 +95,8 @@ export default function Profile() {
   const [showStoreModal, setShowStoreModal] = useState(false); 
   const [eyePosition, setEyePosition] = useState(getEyePosition(clickCount));
   const [mouthPosition, setMouthPosition] = useState(getMouthPosition(clickCount));
+  const [showEnterModal, setShowEnterModal] = useState(false);
+
 
   const handleRewardClick = () => {
     setCxp((prevCxp) => prevCxp + 10);
@@ -272,6 +276,10 @@ export default function Profile() {
         /> 
       )}
 
+      {showEnterModal && (
+        <EnterModal onClose={() => setShowEnterModal(false)} />
+      )}
+
       <div className="top">
         <span><img src={memark2} alt="character1" /><img src={memark1} alt="character2" /></span>
         <Link to="/" className="logout">Log out</Link>
@@ -363,7 +371,7 @@ export default function Profile() {
           </div>
 
           <div className="icon">
-            <button className="icon-button">
+            <button className="icon-button" onClick={() => setShowEnterModal(true)}>
               <img src={enter} alt="enter" />
             </button>
             <button className="icon-button" onClick={() => navigate('/chat')}>
