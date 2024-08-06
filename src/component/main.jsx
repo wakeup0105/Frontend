@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import apiClient from './apiClient'; // 이 파일은 전에 설명한 Axios 설정 파일입니다.
-import '../index.css'; // 추가된 CSS를 포함하도록 import
+import apiClient from './apiClient';
+import '../index.css';
 
 export default function Main() {
-    const [emailOrPhone, setEmailOrPhone] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [message, setMessage] = useState('');
     const [showMessage, setShowMessage] = useState(false);
@@ -12,18 +12,35 @@ export default function Main() {
 
     const handleLogin = async () => {
         try {
-            const response = await apiClient.post('/api/member/login', { emailOrPhone, password }); // LoginRequestDTO
-            const { accessToken, refreshToken, nickname, level } = response.data; // JwtTokenResponseDTO
-            /*localStorage.setItem('accessToken', accessToken);
-            localStorage.setItem('refreshToken', refreshToken);*/
-            navigate('/profile', { state: { nickname, level } });
+            const response = await apiClient.post('/api/member/login', { email, password });
+            const { token_type, access_token, refresh_token } = response.data;
+            localStorage.setItem('accessToken', access_token);
+            localStorage.setItem('refreshToken', refresh_token);
+            console.log('Access Token:', access_token); // 토큰 확인용 로그
+
+            // 닉네임 정보가 있는지 확인
+            const infoResponse = await apiClient.get('/api/member-info/info', {
+                headers: {
+                    Authorization: `Bearer ${access_token}`
+                }
+            });
+
+            const { nickname, tag, introduction } = infoResponse.data;
+
+            if (nickname.startsWith('사용자')) {
+                // 닉네임이 '사용자'로 시작하면 닉네임 설정 페이지로 이동
+                navigate('/signnickname');
+            } else {
+                // 닉네임 정보가 있으면 바로 프로필로 이동
+                navigate('/signprofile', { state: { nickname, tag, introduction } });
+            }
         } catch (error) {
             console.error('Login error:', error);
             setMessage('계정 정보가 올바르지 않습니다.');
             setShowMessage(true);
             setTimeout(() => {
                 setShowMessage(false);
-            }, 3000); // 3초 후에 메시지 숨기기
+            }, 3000);
         }
     };
 
@@ -60,8 +77,8 @@ export default function Main() {
                     <input 
                         className="input" 
                         placeholder='이메일 혹은 전화번호' 
-                        value={emailOrPhone} 
-                        onChange={(e) => setEmailOrPhone(e.target.value)} 
+                        value={email} 
+                        onChange={(e) => setEmail(e.target.value)} 
                         onKeyPress={handleKeyPress} 
                     />
                 </div>
@@ -85,37 +102,6 @@ export default function Main() {
                     <span className="find" onClick={handleFindAccount}>계정찾기</span>
                 </div>
 
-                <div>
-                    <ul className="social-icons">
-                        <li className="social-icon">
-                            <button onClick={() => window.location.href = 'https://google.com'}>
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                                <span className="fa fa-google"></span>
-                            </button>
-                        </li>
-                        <li className="social-icon">
-                            <button onClick={() => window.location.href = 'https://facebook.com'}>
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                                <span className="fa fa-facebook"></span>
-                            </button>
-                        </li>
-                        <li className="social-icon">
-                            <button onClick={() => window.location.href = 'https://apple.com'}>
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                                <span className="fa fa-apple"></span>
-                            </button>
-                        </li>
-                    </ul>
-                </div>
             </div>
             <button className='bottomButton' onClick={handleLogin}>
                 로그인

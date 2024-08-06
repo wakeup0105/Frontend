@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { ClickContext } from './ClickContext';
 import HealthModal from './HealthModal';
 import RingModal from './RingModal';
 import SettingModal from './SettingModal';
@@ -28,7 +29,7 @@ import '../GoalProgress.css';
 import '../JamModal.css';
 import EditButton from './EditButton';
 import EnterModal from './EnterModal';
-import apiClient from './apiClient';
+import apiClient from './apiClient'; // Make sure you import your apiClient
 
 const getIlonaImage = (clickCount) => {
   if (clickCount >= 2) return ilona3;
@@ -39,9 +40,9 @@ const getIlonaImage = (clickCount) => {
 const getEyePosition = (clickCount) => {
   switch (clickCount) {
     case 0:
-      return { top: '60%', left: '72%', transform: 'translate(-20%, -10%)' };
+      return { top: '60%', left: '72%',transform: 'translate(-20%, -10%)' };
     case 1:
-      return { top: '15%', left: '65%', transform: 'translate(-15%, -20%)' };
+      return { top: '15%', left: '65%' ,transform: 'translate(-15%, -20%)'};
     case 2:
       return { top: '10%', left: '44%', transform: 'translate(-15%, -20%)' };
     default:
@@ -52,9 +53,9 @@ const getEyePosition = (clickCount) => {
 const getMouthPosition = (clickCount) => {
   switch (clickCount) {
     case 0:
-      return { top: '70%', left: '77%', transform: 'translate(-20%, -10%)' };
+      return { top: '70%', left: '77%', transform: 'translate(-20%, -10%)'  };
     case 1:
-      return { top: '25%', left: '70%', transform: 'translate(-10%, -50%)' };
+      return { top: '25%', left: '70%',transform: 'translate(-10%, -50%)' };
     case 2:
       return { top: '20%', left: '48%' };
     default:
@@ -63,9 +64,7 @@ const getMouthPosition = (clickCount) => {
 };
 
 export default function SignProfile() {
-  const [clickCount, setClickCount] = useState(0);
-  const [selectedEye, setSelectedEye] = useState(null);
-  const [selectedMouth, setSelectedMouth] = useState(null);
+  const { clickCount, setClickCount, selectedEye, selectedMouth, setSelectedEye, setSelectedMouth } = useContext(ClickContext);
   const [neckActive, setNeckActive] = useState(true);
   const [huriActive, setHuriActive] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
@@ -89,12 +88,10 @@ export default function SignProfile() {
   const [mouthPosition, setMouthPosition] = useState(getMouthPosition(clickCount));
   const [showEnterModal, setShowEnterModal] = useState(false);
   const [nickname, setNickname] = useState(''); // State to store nickname
-  const [introduction, setIntroduction] = useState(''); // State to store introduction
-  const [message, setMessage] = useState(''); // State to store the response message
 
   useEffect(() => {
-    // Function to fetch nickname and introduction from the server
-    const fetchProfileInfo = async () => {
+    // Function to fetch nickname from the server
+    const fetchNickname = async () => {
       try {
         const accessToken = localStorage.getItem('accessToken');
         const response = await apiClient.get('/api/member-info/info', {
@@ -103,19 +100,14 @@ export default function SignProfile() {
           }
         });
         setNickname(response.data.nickname);
-        setIntroduction(response.data.introduction);
       } catch (error) {
-        console.error('Failed to fetch profile info', error);
+        console.error('Failed to fetch nickname', error);
       }
     };
 
-    fetchProfileInfo();
+    fetchNickname();
   }, []);
 
-  const handleIntroductionChange = (event) => {
-    setIntroduction(event.target.value);
-  };
-  
   const handleRewardClick = () => {
     setCxp((prevCxp) => prevCxp + 10);
     setRewardReceived(true);
@@ -203,7 +195,7 @@ export default function SignProfile() {
             </div>
             <div className="goalprogress-bar">
               <div
-                className="goalprogress-fill"
+                class="goalprogress-fill"
                 style={{ width: `${progressPercentage}%` }}
               ></div>
             </div>
@@ -391,17 +383,11 @@ export default function SignProfile() {
             </div>
           </div>
         )}
-        
+
         <div className="Right-Box">
-          <div className="sub-box">
-            <Timer onConfirm={incrementClickCount} onCancel={decrementClickCount} />
-          </div>
-          <div className="sub-box">
-            <GoalProgress />
-          </div>
-          <div className="sub-box">
-            <EditButton />
-          </div>
+          <div className="sub-box"><Timer onConfirm={incrementClickCount} onCancel={decrementClickCount} /></div>
+          <div className="sub-box"><GoalProgress /></div>
+          <div className="sub-box"><EditButton /></div>
         </div>
       </div>
     </div>
