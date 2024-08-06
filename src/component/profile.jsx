@@ -262,9 +262,6 @@ export default function Profile() {
         </div>
       )}
 
-      {showJamModal && (
-        <JamModal onClose={() => setShowJamModal(false)} />
-      )}
 
       {showStoreModal && (
         <StoreModal 
@@ -308,24 +305,7 @@ export default function Profile() {
             <div className="dot" />
             <div className="dot" />
           </div>
-          <button
-            className="icon-button"
-            onClick={() => {
-              handleClick(setRingClicked);
-              handleIconClick('Ring');
-            }}
-          >
-            <img src={ringClicked ? ringClick : ring1} alt="ring1" />
-          </button>
-          <button
-            className="icon-button"
-            onClick={() => {
-              handleClick(setSettingClicked);
-              handleIconClick('Setting');
-            }}
-          >
-            <img src={settingClicked ? settingClick : setting} alt="setting" />
-          </button>
+          
         </div>
       </div>
       <div className="Main-Layout">
@@ -371,12 +351,6 @@ export default function Profile() {
           </div>
 
           <div className="icon">
-            <button className="icon-button" onClick={() => setShowEnterModal(true)}>
-              <img src={enter} alt="enter" />
-            </button>
-            <button className="icon-button" onClick={() => navigate('/chat')}>
-              <img src={chat} alt="chat" />
-            </button>
             <button className="icon-button" onClick={() => setShowStoreModal(true)}> {/* StoreModal 열기 */}
               <img src={store} alt="store" />
             </button>
