@@ -1,12 +1,10 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { ClickContext } from './ClickContext';
 import HealthModal from './HealthModal';
 import RingModal from './RingModal';
 import SettingModal from './SettingModal';
 import Timer from './Timer';
-import JamModal from './JamModal'; // JamModal 추가
-import StoreModal from './StoreModal'; // StoreModal 추가
+import StoreModal from './StoreModal';
 import memark1 from '../image/15memark.png';
 import memark2 from '../image/15memark2.png';
 import ilona1 from '../image/ilona.png';
@@ -14,12 +12,6 @@ import ilona2 from '../image/ilona2.png';
 import ilona3 from '../image/ilona3.png';
 import health from '../image/health.png';
 import healthClick from '../image/healthclick.png';
-import ring1 from '../image/ring1.png';
-import ringClick from '../image/ringclick.png';
-import setting from '../image/setting.png';
-import settingClick from '../image/settingclick.png';
-import enter from '../image/enter.png';
-import chat from '../image/chat.png';
 import store from '../image/cashstore.png';
 import userinformation from '../image/userinformation.png';
 import activeneckbutton from '../image/neckandhuributton/목컬러.png';
@@ -27,14 +19,16 @@ import noactiveneckbutton from '../image/neckandhuributton/목흑백.png';
 import activehuributton from '../image/neckandhuributton/허리컬러.png';
 import noactivehuributton from '../image/neckandhuributton/허리흑백.png';
 import ironaicon from '../image/ironaicon.png';
-import jam from '../image/jam.png'; // jam 이미지 추가
-import 기본눈 from '../image/기본눈.png'; // 기본 눈 이미지 추가
-import 기본입 from '../image/기본입.png'; // 기본 입 이미지 추가
+import jam from '../image/jam.png';
+import 기본눈 from '../image/기본눈.png';
+import 기본입 from '../image/기본입.png';
 import '../Timer.css';
 import '../profile.css';
 import '../GoalProgress.css';
-import '../JamModal.css'; // JamModal CSS 추가
+import '../JamModal.css';
 import EditButton from './EditButton';
+import EnterModal from './EnterModal';
+import apiClient from './apiClient';
 
 const getIlonaImage = (clickCount) => {
   if (clickCount >= 2) return ilona3;
@@ -45,9 +39,9 @@ const getIlonaImage = (clickCount) => {
 const getEyePosition = (clickCount) => {
   switch (clickCount) {
     case 0:
-      return { top: '60%', left: '72%',transform: 'translate(-20%, -10%)' }; // 비율로 위치 설정
+      return { top: '60%', left: '72%', transform: 'translate(-20%, -10%)' };
     case 1:
-      return { top: '15%', left: '65%' ,transform: 'translate(-15%, -20%)'};  
+      return { top: '15%', left: '65%', transform: 'translate(-15%, -20%)' };
     case 2:
       return { top: '10%', left: '44%', transform: 'translate(-15%, -20%)' };
     default:
@@ -58,9 +52,9 @@ const getEyePosition = (clickCount) => {
 const getMouthPosition = (clickCount) => {
   switch (clickCount) {
     case 0:
-      return { top: '70%', left: '77%', transform: 'translate(-20%, -10%)'  }; // 비율로 위치 설정
+      return { top: '70%', left: '77%', transform: 'translate(-20%, -10%)' };
     case 1:
-      return { top: '25%', left: '70%',transform: 'translate(-10%, -50%)' };  
+      return { top: '25%', left: '70%', transform: 'translate(-10%, -50%)' };
     case 2:
       return { top: '20%', left: '48%' };
     default:
@@ -68,8 +62,10 @@ const getMouthPosition = (clickCount) => {
   }
 };
 
-export default function Profile() {
-  const { nickname, clickCount, setClickCount, selectedEye, selectedMouth, setSelectedEye, setSelectedMouth } = useContext(ClickContext);
+export default function SignProfile() {
+  const [clickCount, setClickCount] = useState(0);
+  const [selectedEye, setSelectedEye] = useState(null);
+  const [selectedMouth, setSelectedMouth] = useState(null);
   const [neckActive, setNeckActive] = useState(true);
   const [huriActive, setHuriActive] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
@@ -81,18 +77,64 @@ export default function Profile() {
   const [rewardReceived, setRewardReceived] = useState(false);
   const [challengeCount, setChallengeCount] = useState(0);
   const [healthClicked, setHealthClicked] = useState(false);
-  const [ringClicked, setRingClicked] = useState(false);
-  const [settingClicked, setSettingClicked] = useState(false);
-  const [jamCount, setJamCount] = useState(300); 
+  const [jamCount, setJamCount] = useState(300);
   const navigate = useNavigate();
-  const [cxp, setCxp] = useState(0); 
-  const [level, setLevel] = useState(1); 
-  const [showJamModal, setShowJamModal] = useState(false); 
+  const [cxp, setCxp] = useState(0);
+  const [level, setLevel] = useState(1);
+  const [showJamModal, setShowJamModal] = useState(false);
   const [jamAnimation, setJamAnimation] = useState(false);
   const [showProfileCard, setShowProfileCard] = useState(false);
-  const [showStoreModal, setShowStoreModal] = useState(false); 
+  const [showStoreModal, setShowStoreModal] = useState(false);
   const [eyePosition, setEyePosition] = useState(getEyePosition(clickCount));
   const [mouthPosition, setMouthPosition] = useState(getMouthPosition(clickCount));
+  const [showEnterModal, setShowEnterModal] = useState(false);
+  const [nickname, setNickname] = useState(''); // State to store nickname
+  const [introduction, setIntroduction] = useState(''); // State to store introduction
+  const [message, setMessage] = useState(''); // State to store the response message
+
+  useEffect(() => {
+    // Function to fetch nickname and introduction from the server
+    const fetchProfileInfo = async () => {
+      try {
+        const accessToken = localStorage.getItem('accessToken');
+        const response = await apiClient.get('/api/member-info/info', {
+          headers: {
+            Authorization: `Bearer ${accessToken}`
+          }
+        });
+        setNickname(response.data.nickname);
+        setIntroduction(response.data.introduction);
+      } catch (error) {
+        console.error('Failed to fetch profile info', error);
+      }
+    };
+
+    fetchProfileInfo();
+  }, []);
+
+  const handleIntroductionChange = (event) => {
+    setIntroduction(event.target.value);
+  };
+
+  const handleIntroductionSubmit = async () => {
+    try {
+      const accessToken = localStorage.getItem('accessToken');
+      const response = await apiClient.patch('/api/member-info/introduction', 
+        { introduction },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`
+          }
+        }
+      );
+      setMessage(response.data);
+      // Update local storage to keep the introduction in sync
+      localStorage.setItem('introText', introduction);
+    } catch (error) {
+      console.error('Failed to update introduction', error);
+      setMessage('Failed to update introduction');
+    }
+  };
 
   const handleRewardClick = () => {
     setCxp((prevCxp) => prevCxp + 10);
@@ -181,7 +223,7 @@ export default function Profile() {
             </div>
             <div className="goalprogress-bar">
               <div
-                class="goalprogress-fill"
+                className="goalprogress-fill"
                 style={{ width: `${progressPercentage}%` }}
               ></div>
             </div>
@@ -258,10 +300,6 @@ export default function Profile() {
         </div>
       )}
 
-      {showJamModal && (
-        <JamModal onClose={() => setShowJamModal(false)} />
-      )}
-
       {showStoreModal && (
         <StoreModal 
           onClose={() => setShowStoreModal(false)} 
@@ -269,7 +307,11 @@ export default function Profile() {
           selectedMouth={selectedMouth}
           setSelectedEye={setSelectedEye}
           setSelectedMouth={setSelectedMouth}
-        /> 
+        />
+      )}
+
+      {showEnterModal && (
+        <EnterModal onClose={() => setShowEnterModal(false)} />
       )}
 
       <div className="top">
@@ -300,24 +342,6 @@ export default function Profile() {
             <div className="dot" />
             <div className="dot" />
           </div>
-          <button
-            className="icon-button"
-            onClick={() => {
-              handleClick(setRingClicked);
-              handleIconClick('Ring');
-            }}
-          >
-            <img src={ringClicked ? ringClick : ring1} alt="ring1" />
-          </button>
-          <button
-            className="icon-button"
-            onClick={() => {
-              handleClick(setSettingClicked);
-              handleIconClick('Setting');
-            }}
-          >
-            <img src={settingClicked ? settingClick : setting} alt="setting" />
-          </button>
         </div>
       </div>
       <div className="Main-Layout">
@@ -355,21 +379,15 @@ export default function Profile() {
               <img src={huriActive ? activehuributton : noactivehuributton} alt="huri" />
             </button>
           </div>
-        
-          <div className="relative-position-container"> {/* 추가된 부모 컨테이너 */}
+
+          <div className="relative-position-container">
             <img src={getIlonaImage(clickCount)} alt="ilona" className='imagecenter' />
             <img src={selectedEye || 기본눈} alt="기본 눈" style={{ position: 'absolute', ...eyePosition }} />
             <img src={selectedMouth || 기본입} alt="기본 입" style={{ position: 'absolute', ...mouthPosition }} />
           </div>
 
           <div className="icon">
-            <button className="icon-button">
-              <img src={enter} alt="enter" />
-            </button>
-            <button className="icon-button" onClick={() => navigate('/chat')}>
-              <img src={chat} alt="chat" />
-            </button>
-            <button className="icon-button" onClick={() => setShowStoreModal(true)}> {/* StoreModal 열기 */}
+            <button className="icon-button" onClick={() => setShowStoreModal(true)}>
               <img src={store} alt="store" />
             </button>
             <button
@@ -393,11 +411,17 @@ export default function Profile() {
             </div>
           </div>
         )}
-
+        
         <div className="Right-Box">
-          <div className="sub-box"><Timer onConfirm={incrementClickCount} onCancel={decrementClickCount} /></div>
-          <div className="sub-box"><GoalProgress /></div>
-          <div className="sub-box"><EditButton /></div>
+          <div className="sub-box">
+            <Timer onConfirm={incrementClickCount} onCancel={decrementClickCount} />
+          </div>
+          <div className="sub-box">
+            <GoalProgress />
+          </div>
+          <div className="sub-box">
+            <EditButton />
+          </div>
         </div>
       </div>
     </div>

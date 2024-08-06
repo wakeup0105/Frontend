@@ -1,29 +1,51 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import apiClient from './apiClient'; // 이 파일은 전에 설명한 Axios 설정 파일입니다.
-import '../index.css'; // 추가된 CSS를 포함하도록 import
+import apiClient from './apiClient';
+import { UserContext } from './UserContext'; // Create and use a UserContext
+import '../index.css';
 
 export default function Main() {
-    const [emailOrPhone, setEmailOrPhone] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [message, setMessage] = useState('');
     const [showMessage, setShowMessage] = useState(false);
     const navigate = useNavigate();
+    const { setUser } = useContext(UserContext); // Use UserContext to set user data
 
     const handleLogin = async () => {
         try {
-            const response = await apiClient.post('/api/member/login', { emailOrPhone, password }); // LoginRequestDTO
-            const { accessToken, refreshToken, nickname, level } = response.data; // JwtTokenResponseDTO
-            localStorage.setItem('accessToken', accessToken);
-            localStorage.setItem('refreshToken', refreshToken);
-            navigate('/profile', { state: { nickname, level } });
+            const response = await apiClient.post('/api/member/login', { email, password });
+            const { token_type, access_token, refresh_token } = response.data;
+            localStorage.setItem('accessToken', access_token);
+            localStorage.setItem('refreshToken', refresh_token);
+            console.log('Access Token:', access_token); // 토큰 확인용 로그
+
+            // Fetch the nickname and introduction information
+            const infoResponse = await apiClient.get('/api/member-info/info', {
+                headers: {
+                    Authorization: `Bearer ${access_token}`
+                }
+            });
+
+            const { nickname, tag, introduction } = infoResponse.data;
+
+            // Store user information in UserContext
+            setUser({ nickname, tag, introduction, access_token });
+
+            if (nickname.startsWith('사용자')) {
+                // If nickname starts with '사용자', navigate to the nickname setting page
+                navigate('/signnickname');
+            } else {
+                // If nickname is set, navigate to the profile page
+                navigate('/profile');
+            }
         } catch (error) {
             console.error('Login error:', error);
             setMessage('계정 정보가 올바르지 않습니다.');
             setShowMessage(true);
             setTimeout(() => {
                 setShowMessage(false);
-            }, 3000); // 3초 후에 메시지 숨기기
+            }, 3000);
         }
     };
 
@@ -41,10 +63,6 @@ export default function Main() {
         navigate('/signup');
     };
 
-    const handleUnsignAccessAccount = () => {
-        navigate('/unsignup');
-    };
-
     return (
         <div className="page">
             <div className="titleWrap">
@@ -52,7 +70,6 @@ export default function Main() {
             </div>
             <br />
             <div className="account">
-                <span className="nologinaccess" onClick={handleUnsignAccessAccount}>로그인 없이 참여할래요</span>
             </div>
             
             <div className="contentWrap">
@@ -60,8 +77,8 @@ export default function Main() {
                     <input 
                         className="input" 
                         placeholder='이메일 혹은 전화번호' 
-                        value={emailOrPhone} 
-                        onChange={(e) => setEmailOrPhone(e.target.value)} 
+                        value={email} 
+                        onChange={(e) => setEmail(e.target.value)} 
                         onKeyPress={handleKeyPress} 
                     />
                 </div>
@@ -76,45 +93,13 @@ export default function Main() {
                     />
                 </div>
                 <br />
-
+    
                 <div className="account">
                     <span className="generate" onClick={handleCreateAccount}>계정생성</span>                
                     <span>&nbsp;</span>
                     <span>&nbsp;</span>
                     <span>&nbsp;</span>
                     <span className="find" onClick={handleFindAccount}>계정찾기</span>
-                </div>
-
-                <div>
-                    <ul className="social-icons">
-                        <li className="social-icon">
-                            <button onClick={() => window.location.href = 'https://google.com'}>
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                                <span className="fa fa-google"></span>
-                            </button>
-                        </li>
-                        <li className="social-icon">
-                            <button onClick={() => window.location.href = 'https://facebook.com'}>
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                                <span className="fa fa-facebook"></span>
-                            </button>
-                        </li>
-                        <li className="social-icon">
-                            <button onClick={() => window.location.href = 'https://apple.com'}>
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                                <span className="fa fa-apple"></span>
-                            </button>
-                        </li>
-                    </ul>
                 </div>
             </div>
             <button className='bottomButton' onClick={handleLogin}>

@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import apiClient from './apiClient';
 import '../index.css';
+import axios from 'axios';
 
 export default function Signup() {
     const [emailOrPhone, setEmailOrPhone] = useState('');
@@ -12,6 +14,8 @@ export default function Signup() {
     const [isConfirmPasswordValid, setIsConfirmPasswordValid] = useState(true);
     const [message, setMessage] = useState('');
     const [showMessage, setShowMessage] = useState(false);
+
+    const navigate = useNavigate(); // useNavigate 훅 추가
 
     useEffect(() => {
         const termsModal = document.getElementById('termsModal');
@@ -68,8 +72,10 @@ export default function Signup() {
 
     const handleSendVerification = async () => {
         try {
-            const response = await apiClient.post('/api/member/send-verification', {
-                emailOrPhone: emailOrPhone
+            console.log('Sending verification to:', emailOrPhone);
+            const response = await apiClient.post('/api/member/send-verification', 
+            {
+                email: emailOrPhone
             });
             console.log('Response:', response.data);
             setMessage(response.data.message);
@@ -79,7 +85,8 @@ export default function Signup() {
             console.error('Error sending verification:', error);
             if (error.response) {
                 console.error('Server responded with:', error.response.data);
-                setMessage('서버 오류: ' + (error.response.data.message || '알 수 없는 오류가 발생했습니다.'));
+                const errorMessage = error.response.data.message || '알 수 없는 오류가 발생했습니다.';
+                setMessage(`서버 오류: ${errorMessage}`);
             } else if (error.request) {
                 console.error('No response received:', error.request);
                 setMessage('서버로부터 응답을 받지 못했습니다. 서버가 실행 중인지 확인하세요.');
@@ -108,24 +115,34 @@ export default function Signup() {
         }
 
         try {
-            const response = await apiClient.post('/api/member/signup', {
-                emailOrPhone: emailOrPhone,
-                verificationCode: verificationCode,
-                password: password
-            });
-            console.log('Signup Response:', response.data);
-            const { accessToken, refreshToken } = response.data;
-            localStorage.setItem('accessToken', accessToken);
-            localStorage.setItem('refreshToken', refreshToken);
+            console.log('Signing up with:', { emailOrPhone, verificationCode, password, confirmPassword });
+            const response = await axios.post('http://15.165.207.222:8080/api/member/signup', {
+            email: emailOrPhone,
+            password: password,
+            checkPassword: confirmPassword,
+            verificationCode: verificationCode
+                }, {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+            console.log('Signup Response:', response.data); // 응답 로그 추가
+            const { access_token, refresh_token, token_type, expires_in, refresh_expires_in } = response.data;
+            localStorage.setItem('accessToken', access_token);
+            localStorage.setItem('refreshToken', refresh_token);
             setMessage('회원가입이 성공적으로 완료되었습니다.');
             setShowMessage(true);
-            setTimeout(() => setShowMessage(false), 3000);
+            setTimeout(() => {
+                setShowMessage(false);
+                navigate('/'); // 회원가입 성공 시 /main으로 이동
+            }, 1000);
             // 추가 로직: 회원가입 후 리디렉션 또는 추가 작업
         } catch (error) {
             console.error('Error signing up:', error);
             if (error.response) {
                 console.error('Server responded with:', error.response.data);
-                setMessage('서버 오류: ' + (error.response.data.message || '알 수 없는 오류가 발생했습니다.'));
+                const errorMessage = error.response.data.message || '알 수 없는 오류가 발생했습니다.';
+                setMessage(`서버 오류: ${errorMessage}`);
             } else if (error.request) {
                 console.error('No response received:', error.request);
                 setMessage('서버로부터 응답을 받지 못했습니다. 서버가 실행 중인지 확인하세요.');
